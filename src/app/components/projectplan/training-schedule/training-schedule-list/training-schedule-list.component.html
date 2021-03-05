@@ -1,0 +1,224 @@
+<div class="content-header row">
+  <div class="content-header-left col-md-6 col-12 mb-2">
+    <h3 class="content-header-title mb-0">กำหนดรอบอบรม</h3>
+    <div class="row breadcrumbs-top">
+      <div class="breadcrumb-wrapper col-12">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a [routerLink]="['/home']">หน้าหลัก</a></li>
+          <li class="breadcrumb-item">กำหนดรอบอบรม</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="content-header-right col-md-6 col-12">
+    <!-- <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+      <button type="button" class="btn btn-success" (click)="projectDetail('')">
+        <i class="ft-plus"></i>
+        เพิ่มรอบอบรมใหม่
+      </button>
+    </div> -->
+  </div>
+</div>
+
+<div class="content-body">
+  <section id="basic-form-layouts">
+    <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" id="basic-layout-form">Search</h4>
+            <!-- <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a> -->
+          </div>
+          <div class="card-content collapse show">
+            <div class="card-body">
+              <div class="card-body">
+                <div class="form-body">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label>ปีที่เริ่มโครงการ</label>
+                        <div class="p-md-10 ui-fluid">
+                          <p-dropdown [options]="projectYears" placeholder="-------- ทั้งหมด --------"
+                            [showClear]="true" [filter]='true' [(ngModel)]="projectYear">
+                          </p-dropdown>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label>โครงการ</label>
+                        <div class="p-md-10 ui-fluid">
+                          <p-dropdown [options]="projects" placeholder="-------- ทั้งหมด --------" [showClear]="true"
+                            [filter]='true' [(ngModel)]="project">
+                          </p-dropdown>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label>ชื่อรอบอบรม</label>
+                        <input type="text" autocomplete="off" class="form-control" id="projectName"
+                          placeholder="ทั้งหมด" [(ngModel)]="trainingName">
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label>วันที่อบรม (From)</label>
+                        <div class="p-md-10 ui-fluid">
+                          <p-calendar [(ngModel)]="dateForm" [showIcon]="true" [placeholder]="'dd/mm/yyyy'"
+                            dateFormat="dd/mm/yy" (onSelect)="funcSelectDateFrom($event)">
+                          </p-calendar>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label>วันที่อบรม (To)</label>
+                        <div class="p-md-10 ui-fluid">
+                          <p-calendar [(ngModel)]="dateTo" [showIcon]="true" [placeholder]="'dd/mm/yyyy'"
+                            dateFormat="dd/mm/yy" [minDate]="minDate">
+                          </p-calendar>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label>สถานะใช้งาน</label>
+                        <div class="p-md-10 ui-fluid">
+                          <p-dropdown [options]="status" placeholder="-------- ทั้งหมด --------" [showClear]="true"
+                            [filter]='true' [(ngModel)]="statusValue">
+                          </p-dropdown>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="col-md-12">
+              <div class="form-actions">
+                <button type="button" class="btn btn-primary mr-1" (click)="search(dt)">
+                  <i class="ft-search"></i>
+                  Search
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" id="basic-layout-form">Search results</h4>
+            <div class="heading-elements mt-0">
+              <button type="button" class="btn btn-success" (click)="projectDetail('')">
+                <i class="ft-plus"></i>
+                เพิ่มรอบอบรมใหม่
+              </button>
+            </div>
+          </div>
+          <div class="card-content collapse show">
+            <div class="card-body">
+
+              <p-table #dt [columns]="cols" [value]="datasource" [paginator]="true" [rows]="30"
+                [rowsPerPageOptions]="[30,50,100]" dataKey="id" [resizableColumns]="false" [scrollable]="true"
+                [reorderableColumns]="false" stateStorage="local" stateKey="datasource-local">
+                <!-- <ng-template pTemplate="caption">
+                  <div style="text-align: right">
+                    Search:
+                    <input type="text" autocomplete="off" pInputText size="20" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                      style="width:auto">
+                  </div>
+                </ng-template> -->
+
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th class="text-center" [pSortableColumn]="'number'" pResizableColumn pReorderableColumn>
+                      #
+                      <p-sortIcon [field]="'number'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'trainingName'" pResizableColumn pReorderableColumn>
+                      ชื่อรอบอบรม
+                      <p-sortIcon [field]="'trainingName'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'trainingDateFrom'" pResizableColumn pReorderableColumn>
+                      ระหว่างวันที่
+                      <p-sortIcon [field]="'trainingDateFrom'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'trainingDateTo'" pResizableColumn pReorderableColumn>
+                      ถึงวันที่
+                      <p-sortIcon [field]="'trainingDateTo'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'trainingCourse'" pResizableColumn pReorderableColumn>
+                      จำนวนหลักสูตร
+                      <p-sortIcon [field]="'trainingCourse'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'trainingExpense'" pResizableColumn pReorderableColumn>
+                      ค่าใช้จ่ายรวม
+                      <p-sortIcon [field]="'trainingExpense'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'action'" pResizableColumn pReorderableColumn>
+                      Action
+                      <p-sortIcon [field]="'action'"></p-sortIcon>
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="colgroup" let-columns>
+                  <colgroup>
+                    <col [style.width]="'70px'">
+                    <col [style.width]="'200px'">
+                    <col [style.width]="'150px'">
+                    <col [style.width]="'150px'">
+                    <col [style.width]="'130px'">
+                    <col [style.width]="'120px'">
+                    <col [style.width]="'100px'">
+                  </colgroup>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr [pSelectableRow]="rowData">
+                    <td class="text-center">
+                      {{ rowData['number'] }}
+                    </td>
+                    <td>
+                      {{ rowData['trainingName'] }}
+                    </td>
+                    <td class="text-center">
+                      {{ rowData['trainingDateFrom'] }}
+                    </td>
+                    <td class="text-center">
+                      {{ rowData['trainingDateTo'] }}
+                    </td>
+                    <td class="text-center">
+                      {{ rowData['trainingCourse'] }}
+                    </td>
+                    <td class="text-right">
+                      {{ rowData['trainingExpense'] }}
+                    </td>
+                    <td class="text-center">
+                      <button type="button" class="btn btn-info btn-sm"
+                        (click)="projectDetail(rowData['id'])">รายละเอียด</button>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage" let-columns>
+                  <tr>
+                    <td [attr.colspan]="columns.length" class="text-center">
+                      No data available in table
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

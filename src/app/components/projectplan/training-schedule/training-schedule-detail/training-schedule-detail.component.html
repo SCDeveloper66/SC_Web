@@ -1,0 +1,695 @@
+<div class="content-header row">
+  <div class="content-header-left col-md-6 col-12 mb-2">
+    <h3 class="content-header-title mb-0">รายละเอียดกำหนดรอบอบรม</h3>
+    <div class="row breadcrumbs-top">
+      <div class="breadcrumb-wrapper col-12">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a [routerLink]="['/home']">หน้าหลัก</a></li>
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/projectplan/project-training-schedule']">กำหนดรอบอบรม</a>
+          </li>
+          <li class="breadcrumb-item">รายละเอียดกำหนดรอบอบรม</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="content-body">
+  <section id="basic-form-layouts">
+    <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <!-- <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a> -->
+            <button type="button" class="btn btn-primary float-right" id="TnsdBtnSave" onclick="funcSave()">
+              <i class="ft-save"></i>
+              บันทึก
+            </button>
+          </div>
+          <div class="card-content collapse show">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-xl-12 col-lg-6 col-md-12 mb-1">
+                  <fieldset class="form-group">
+                    <label for="basicInput">ชื่อรอบการอบรม</label>
+                    <input type="text" autocomplete="off" class="form-control" id="TnsdTname">
+                  </fieldset>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                  <fieldset class="form-group">
+                    <label for="basicInput">วันที่เริ่มอบรม</label>
+                    <input type="date" class="form-control" id="TnsdDateFrom" placeholder="dd/mm/yyyy">
+                  </fieldset>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                  <fieldset class="form-group">
+                    <label for="basicInput">วันที่สิ้นสุดอบรม</label>
+                    <input type="date" class="form-control" id="TnsdDateTo" placeholder="dd/mm/yyyy">
+                  </fieldset>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                  <fieldset class="form-group">
+                    <label for="basicInput">สถานะใช้งาน</label>
+                    <select class="custom-select block" id="TnsdTstatus">
+                      <option value="1">ใช้งาน</option>
+                      <option value="0">ยกเลิกใช้งาน</option>
+                    </select>
+                  </fieldset>
+                </div>
+              </div>
+              <div class="card-text">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="row">
+                      <form class="col-sm-12 form">
+                        <div class="form-body">
+                          <h4 class="form-section"><i class="ft-user"></i>
+                            หลักสูตร</h4>
+                        </div>
+                      </form>
+                    </div>
+                    <dl class="row">
+                      <dt class="col-sm-12">
+                        <button type="button" class="btn btn-success float-right" id="TnsdBtnAddCourse"
+                          onclick="funcAddCourse()">
+                          <i class="ft-plus"></i> เพิ่มหลักสูตร
+                        </button>
+                        <table class="table table-striped table-bordered table-hover" id="TnsdMainTable">
+                          <thead>
+                            <tr>
+                              <th class="text-center">
+                                ชื่อหลักสูตร</th>
+                              <th class="text-center">
+                                ประเภท</th>
+                              <th class="text-center">
+                                สถานที่อบรม</th>
+                              <th class="text-center">
+                                วิทยากร</th>
+                              <th class="text-center" style="width:120px">
+                                ค่าใช้จ่าย(บาท)</th>
+                              <th class="text-center" style="width:250px">
+                                action
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+
+                          </tbody>
+                        </table>
+                      </dt>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="modal fade" id="TnscModalExpense" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
+  data-keyboard="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <section class="contact-form">
+        <form id="form-edit-contact" class="contact-input">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">ค่าใช้จ่าย</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered table-hover" id="TnscExpenseTable">
+                <thead>
+                  <tr>
+                    <th class="text-center">ค่าใช้จ่าย</th>
+                    <th class="text-center" style="width:120px">
+                      จำนวนเงิน(บาท)
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <fieldset class="form-group position-relative has-icon-left mb-0">
+              <input type="hidden" id="TnscExpenseId">
+              <button type="button" id="TnscBtnSetExpense" class="btn btn-success edit-contact-item"
+                onclick="funcSetExpense()" data-dismiss="modal"><i class="fa fa-paper-plane-o d-lg-none"></i> <span
+                  class="  d-lg-block"><i class="ft-check"></i> ยืนยัน</span></button>
+            </fieldset>
+          </div>
+        </form>
+      </section>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade text-left" id="TnsdModalEmpScore" tabindex="-1" role="dialog" aria-hidden="true"
+  data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-warning white">
+        <h4 class="modal-title" id="TnsdEmpScordTitle"><i class="ft-plus"></i> บันทึกคะแนนในหลักสูตร xxxxx</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+              <label for="basicInput">วันที่อบรม</label>
+              <input type="date" id="TnsdEmpScoreDate" class="form-control" placeholder="dd/mm/yyyy"
+                onchange="TnsdEmpScordSetData()">
+            </fieldset>
+          </div>
+          <div class="col-xl-2 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+              <label for="basicInput">เวลาเริ่ม</label>
+              <div class="input-group">
+                <select class="form-control" id="TnsdEmpScoreSTimeH" onchange="TnsdEmpScordSetData()"></select>
+                <div class="input-group-append">
+                  <span class="input-group-text"><strong>:</strong></span>
+                </div>
+                <select class="form-control" id="TnsdEmpScoreSTimeM" onchange="TnsdEmpScordSetData()"></select>
+              </div>
+            </fieldset>
+          </div>
+          <div class="col-xl-2 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+              <label for="basicInput">เวลาสิ้นสุด</label>
+              <div class="input-group">
+                <select class="form-control" id="TnsdEmpScoreETimeH" onchange="TnsdEmpScordSetData()"></select>
+                <div class="input-group-append">
+                  <span class="input-group-text"><strong>:</strong></span>
+                </div>
+                <select class="form-control" id="TnsdEmpScoreETimeM" onchange="TnsdEmpScordSetData()"></select>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <dl class="row">
+          <dt class="col-sm-12">
+            <br>
+            <div class="row">
+              <form class="col-sm-12 form">
+                <div class="form-body">
+                  <h4 class="form-section"><i class="ft-user"></i>
+                    พนักงานในหลักสูตร</h4>
+                </div>
+              </form>
+            </div>
+            <div class="table-responsive" style="width:100%;height:350px;display:block;overflow:scroll">
+              <table class="table table-striped table-bordered table-hover" id="TnsdEmpScoreList">
+                <thead>
+                  <tr>
+                    <th class="text-center">พนักงาน</th>
+                    <th class="text-center" style="width:90px">
+                      ตอนที่ 1</th>
+                    <th class="text-center" style="width:90px">
+                      ตอนที่ 2</th>
+                    <th class="text-center" style="width:90px">
+                      ตอนที่ 3</th>
+                    <th class="text-center" style="width:90px">
+                      ตอนที่ 4</th>
+                    <th class="text-center" style="width:90px">
+                      ตอนที่ 5</th>
+                    <th class="text-center" style="width:90px">
+                      รวม</th>
+                    <th class="text-center" style="width:100px">
+                      ผลคะแนน</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+              </table>
+            </div>
+          </dt>
+        </dl>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" id="TnsdEmpScoreIndex">
+        <button type="button" class="btn btn-primary" id="btnReCal" onclick="TnsdReCalScore()">
+          <i class="ft-rotate-cw"></i> คำนวณผลคะนนใหม่
+        </button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+          <i class="ft-x"></i> ปิด
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade text-left" id="TnsdModalEmpInCourse" tabindex="-1" role="dialog" aria-hidden="true"
+  data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-info white">
+        <h4 class="modal-title" id="TnsdEmpInCourseTitle"><i class="ft-plus"></i> พนักงานในหลักสูตร xxxxx</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-sm-6">
+            <ul class="nav nav-tabs no-hover-bg" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="base-tab11" data-toggle="tab" aria-controls="search1" href="#search1"
+                  role="tab" aria-selected="true">ค้นหาแบบเจาะจง</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="base-tab12" data-toggle="tab" aria-controls="search2" href="#search2" role="tab"
+                  aria-selected="false">ค้นหาทั่วไป</a>
+              </li>
+            </ul>
+
+            <div class="tab-content px-1 pt-1">
+
+              <div class="tab-pane active" id="search1" role="tabpanel" aria-labelledby="base-tab11">
+                <div class="card"><input type="text" autocomplete="off" class="form-control"
+                    placeholder="ค้นหา ด้วยการป้อนรหัสพนักงาน แล้วกด Enter" id="TnsdEmpInCourseFixed"
+                    onkeypress="funckeypressEmpInCourseFixed(event)">
+                </div>
+              </div>
+
+              <div class="tab-pane" id="search2" role="tabpanel" aria-labelledby="base-tab12">
+                <div class="card">
+                  <div class="modal-body">
+                    <form class="form form-horizontal">
+                      <div class="form-body">
+                        <div class="form-group row">
+                          <label class="col-md-2 label-control">รหัสพนักงาน</label>
+                          <div class="col-md-4">
+                            <input type="text" autocomplete="off" class="form-control" placeholder=""
+                              id="TnsdEmpInCourseEmpCode">
+                          </div>
+                          <label class="col-md-2 label-control">ชื่อ-นามสกุล</label>
+                          <div class="col-md-4">
+                            <input type="text" autocomplete="off" class="form-control" placeholder=""
+                              id="TnsdEmpInCourseEmpName">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-2 label-control">ฝ่าย</label>
+                          <div class="col-md-4">
+                            <select class="custom-select block" id="TnsdEmpInCourseDept">
+                              <option value="" selected>ทั้งหมด</option>
+                            </select>
+                          </div>
+                          <label class="col-md-2 label-control"></label>
+                          <div class="col-md-4">
+                            <button type="button" class="btn grey btn-primary"
+                              onclick="TnsdSearchEmpInCourse('normal')">
+                              ค้นหา</button>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <div class="col-md-12">
+                            <div class="table-wrapper-scroll-y my-custom-scrollbar"
+                              style="width:100%;height:350px;display:block;overflow:scroll">
+                              <table class="table table-striped table-bordered table-hover"
+                                id="TnsdEmpInCourseTableSearch">
+                                <thead>
+                                  <tr>
+                                    <th class="text-center">แผนก</th>
+                                    <th class="text-center">ชื่อ-นามสกุล</th>
+                                    <th class="text-center">เบอร์ติดต่อ</th>
+                                    <!-- <th class="text-center">อีเมล</th> padding: 0 !important-->
+                                    <th class="text-center" style="width:70px">Action
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          <div class="col-sm-6">
+            <div class="row">
+              <form class="col-sm-12 form">
+                <div class="form-body">
+                  <h4 class="form-section"><i class="ft-user"></i>
+                    พนักงานในหลักสูตรแล้ว</h4>
+                </div>
+              </form>
+            </div>
+            <div class="table-responsive" style="width:100%;height:420px;display:block;overflow:scroll">
+              <table class="table table-striped table-bordered table-hover" id="TnsdEmpInCourseTableSelect">
+                <thead>
+                  <tr>
+                    <!-- <th class="text-center">
+                      หลักสูตร
+                    </th> -->
+                    <th class="text-center">
+                      แผนก
+                    </th>
+                    <th class="text-center">
+                      ชื่อ-นามสกุล</th>
+
+                    <th class="text-center">
+                      เบอร์ติดต่อ</th>
+                    <!-- <th class="text-center">
+                      อีเมล
+                    </th> -->
+                    <th class="text-center"><i class="ft-info"></i>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+        <dl class="row">
+          <dt class="col-sm-12">
+            <br>
+
+          </dt>
+        </dl>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" id="TnsdEmpInCourseIndex">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close"><i class="ft-x"></i>
+          ปิด</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade text-left" id="TnsdModalAddCourse" tabindex="-1" aria-hidden="true" data-backdrop="static"
+  data-keyboard="false">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-success white">
+        <h4 class="modal-title" id="myModalLabel9"><i class="ft-plus"></i> เพิ่มหลักสูตร</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <input type="hidden" id="TnsdModalAddCourseMethod">
+      </div>
+      <div class="modal-body">
+        <form class="form form-horizontal" id="TnsdModalAddCourseFrom">
+          <div class="form-body">
+            <div class="form-group row">
+              <label class="col-md-2 label-control">โครงการ</label>
+              <div class="col-md-9">
+                <select class="custom-select block" id="TnsdPACProject" onchange="TnsdPopSearchCourse()">
+
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-2 label-control">ชื่อหลักสูตร</label>
+              <div class="col-md-8">
+                <input type="text" autocomplete="off" class="form-control" id="TnsdPACCourse">
+              </div>
+              <div class="col-md-2">
+                <button type="button" class="btn grey btn-primary" onclick="TnsdPopSearchCourse()">
+                  ค้นหา</button>
+              </div>
+            </div>
+            <div class="progress" id="TnsdModalAddCourseProgress">
+              <div class="progress-bar progress-bar-striped bg-primary progress-bar-animated active" role="progressbar"
+                style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                ระบบกำลังดึงข้อมูลหลักสูตร
+              </div>
+            </div>
+            <div class="form-group row" id="TnsdModalAddCourseTable">
+              <div class="col-md-12" style="width:100%;height:350px;display:block;overflow:scroll">
+                <table class="table table-striped table-bordered table-hover" id="TnsdAddCourseTable">
+                  <thead>
+                    <tr>
+                      <th class="text-center" style="width: 100px;"><i class="ft-info"></i></th>
+                      <th class="text-center">ชื่อหลักสูตร</th>
+                      <th class="text-center" style="width: 100px;">ประเภท</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" id="TnsdBtnConfirmAddCourse" onclick="funcConfirmAddCourse()">
+          <i class="ft-check"></i> ยืนยัน
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade text-left" id="TnsdModalAddExpert" tabindex="-1" aria-hidden="true" data-backdrop="static"
+  data-keyboard="false">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel9"><i class="ft-plus"></i> เพิ่มวิทยากร</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form form-horizontal" id="TnsdModalAddCourseExpert">
+          <div class="form-body">
+            <div class="form-group row">
+              <label class="col-md-2 label-control">ชื่อวิทยากร</label>
+              <div class="col-md-8">
+                <input type="text" autocomplete="off" class="form-control" id="TnsdPACExpertName">
+              </div>
+              <div class="col-md-2">
+                <button type="button" class="btn grey btn-primary" onclick="TnsdPopSearchExpert()">
+                  ค้นหา</button>
+              </div>
+            </div>
+            <div class="progress" id="TnsdModalAddExpertProgress">
+              <div class="progress-bar progress-bar-striped bg-primary progress-bar-animated active" role="progressbar"
+                style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                ระบบกำลังดึงข้อมูลวิทยากร
+              </div>
+            </div>
+            <div class="form-group row" id="TnsdModalAddExpertTable">
+              <div class="col-md-12" style="width:100%;height:350px;display:block;overflow:scroll">
+                <table class="table table-striped table-bordered table-hover" id="TnsdAddExpertTable">
+                  <thead>
+                    <tr>
+                      <th class="text-center" style="width: 100px;"><i class="ft-info"></i></th>
+                      <th class="text-center">ชื่อวิทยากร</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" id="TnsdAddExpertIndex">
+        <button type="button" class="btn btn-success" id="TnsdBtnConfirmAddExpert" onclick="funcConfirmAddExpert()">
+          <i class="ft-check"></i> ยืนยัน
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade text-left" id="TnsdModalAddDestination" tabindex="-1" aria-hidden="true" data-backdrop="static"
+  data-keyboard="false">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel9"><i class="ft-plus"></i> เพิ่มสถานที่อบรม</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form form-horizontal" id="TnsdModalAddCourseDestination">
+          <div class="form-body">
+            <div class="form-group row">
+              <input type="hidden" id="TnsdAddDestinationIndex">
+              <label class="col-md-2 label-control">ชื่อสถานที่อบรม</label>
+              <div class="col-md-8">
+                <input type="text" autocomplete="off" class="form-control" id="TnsdPACDestinationName">
+              </div>
+              <div class="col-md-2">
+                <button type="button" class="btn grey btn-primary" onclick="TnsdPopSearchDestination()">
+                  ค้นหา</button>
+              </div>
+            </div>
+            <div class="progress" id="TnsdModalAddDestinationProgress">
+              <div class="progress-bar progress-bar-striped bg-primary progress-bar-animated active" role="progressbar"
+                style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                ระบบกำลังดึงข้อมูลสถานที่อบรม
+              </div>
+            </div>
+            <div class="form-group row" id="TnsdModalAddDestinationTable">
+              <div class="col-md-12" style="width:100%;height:350px;display:block;overflow:scroll">
+                <table class="table table-striped table-bordered table-hover" id="TnsdAddDestinationTable">
+                  <thead>
+                    <tr>
+                      <th class="text-center">สถานที่อบรม</th>
+                      <th class="text-center" width="15%"><i class="ft-info"></i></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- <div class="modal-footer">
+        <input type="hidden" id="TnsdAddDestinationIndex">
+        <button type="button" class="btn btn-danger" id="TnsdBtnConfirmAddDestination" data-dismiss="modal"
+          aria-label="Close">
+          <i class="ft-x"></i> ปิด
+        </button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+<!-- fade bd-example-modal-lg -->
+<div class="modal bd-example-modal-lg" id="TnsdModalProgress" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content" style="width: 48px">
+      <span class="fa fa-spinner fa-spin fa-3x"></span> 
+    </div>
+  </div>
+</div>
+
+<!-- <div class="modal"  tabindex="-1" role="dialog" id="TnsdModalProgress" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document" >
+    <div class="modal-content" >
+      <div class="modal-body text-center">
+        <strong id="TnsdProgressTxt">ระบบกำลังบันทึกข้อมูล</strong>
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped bg-info progress-bar-animated active" role="progressbar"
+            style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="modal fade" id="TnsdModalError" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">คำเตือน </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <label id="TnsdErrorTxt"></label>
+      </div>
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-danger" data-dismiss="modal">ออก</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade text-left" id="TnsdModalConfirm" data-backdrop="static" data-keyboard="false" tabindex="-1"
+  aria-hidden="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-info white" style="border: 1px solid #c8c8c8;background-color: #f4f4f4 !important;">
+        <!-- <h4 class="modal-title" id="myModalLabel9"><i class="ft-plus"></i> Confirm</h4> -->
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <input type="hidden" id="TnsdModalConfirmId">
+      </div>
+      <div class="modal-body">
+
+        <strong id="TnsdConfirmTxt">คุณต้องการลบข้อมูล ใช่หรือไม่ ?</strong>
+        <!-- <form class="form form-horizontal" id="TnsdModalAddCourseFrom">
+          <div class="form-body">
+            <div class="form-group row">
+              <label class="col-md-2 label-control">โครงการ</label>
+              <div class="col-md-9">
+                <select class="custom-select block" id="TnsdPACProject" onchange="TnsdPopSearchCourse()">
+
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-2 label-control">ชื่อหลักสูตร</label>
+              <div class="col-md-8">
+                <input type="text" autocomplete="off" class="form-control" id="TnsdPACCourse">
+              </div>
+              <div class="col-md-2">
+                <button type="button" class="btn grey btn-primary" onclick="TnsdPopSearchCourse()">
+                  ค้นหา</button>
+              </div>
+            </div>
+            <div class="progress" id="TnsdModalAddCourseProgress">
+              <div class="progress-bar progress-bar-striped bg-primary progress-bar-animated active" role="progressbar"
+                style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                ระบบกำลังดึงข้อมูลหลักสูตร
+              </div>
+            </div>
+            <div class="form-group row" id="TnsdModalAddCourseTable">
+              <div class="col-md-12">
+                <table class="table table-striped table-bordered table-hover" id="TnsdAddCourseTable">
+                  <thead>
+                    <tr>
+                      <th class="text-center"><i class="ft-info"></i></th>
+                      <th class="text-center">ชื่อหลักสูตร</th>
+                      <th class="text-center">ประเภท</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </form> -->
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" id="TnsdBtnConfirmPopup" onclick="TnsdDeleteMainTableConfirm()">
+          ตกลง
+        </button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+          ยกเลิก
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

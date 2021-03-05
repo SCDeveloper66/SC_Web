@@ -1,0 +1,64 @@
+{
+  "data": [
+    {
+      "employeeId": "10001",
+      "employeeCode": "10001",
+      "employeeTitle": "นาย",
+      "employeeFName": "นิธินัย",
+      "employeeLName": "เหินเวหา",
+      "employeeDep": "ผลิต 1",
+      "employeeSes": "กระป๋องอาหาร",
+      "employeeLevel": "M4"
+    },
+    {
+      "employeeId": "10002",
+      "employeeCode": "10002",
+      "employeeTitle": "นาย",
+      "employeeFName": "บุญศรัทธา",
+      "employeeLName": "มหามงคล",
+      "employeeDep": "ผลิต 1",
+      "employeeSes": "กระป๋องอาหาร",
+      "employeeLevel": "M4"
+    },
+    {
+      "employeeId": "10003",
+      "employeeCode": "10003",
+      "employeeTitle": "นาย",
+      "employeeFName": "บารมี",
+      "employeeLName": "สมาธิปัญญา",
+      "employeeDep": "ผลิต 1",
+      "employeeSes": "กระป๋องอาหาร",
+      "employeeLevel": "M4"
+    },
+    {
+      "employeeId": "10004",
+      "employeeCode": "10004",
+      "employeeTitle": "นาย",
+      "employeeFName": "สายใจ",
+      "employeeLName": "เกาะมหาสนุก",
+      "employeeDep": "ผลิต 1",
+      "employeeSes": "กระป๋องอาหาร",
+      "employeeLevel": "M4"
+    },
+    {
+      "employeeId": "10005",
+      "employeeCode": "10005",
+      "employeeTitle": "นาย",
+      "employeeFName": "บรรจง",
+      "employeeLName": "หนึ่งในยุทธจักร",
+      "employeeDep": "ผลิต 1",
+      "employeeSes": "กระป๋องอาหาร",
+      "employeeLevel": "M4"
+    },
+    {
+      "employeeId": "10006",
+      "employeeCode": "10006",
+      "employeeTitle": "นาย",
+      "employeeFName": "ชะรอย",
+      "employeeLName": "จุติมา",
+      "employeeDep": "ผลิต 1",
+      "employeeSes": "กระป๋องอาหาร",
+      "employeeLevel": "M4"
+    }
+  ]
+}

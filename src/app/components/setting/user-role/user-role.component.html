@@ -1,0 +1,167 @@
+<div class="content-header row">
+  <div class="content-header-left col-md-6 col-12 mb-2">
+    <h3 class="content-header-title mb-0">สิทธิ์การใช้งาน</h3>
+    <div class="row breadcrumbs-top">
+      <div class="breadcrumb-wrapper col-12">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/home']">หน้าหลัก</a>
+          </li>
+          <li class="breadcrumb-item">สิทธิ์การใช้งาน</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="content-header-right col-md-6 col-12">
+  </div>
+</div>
+
+<div class="content-body">
+  <section id="basic-form-layouts">
+
+    <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" id="basic-layout-form">สิทธิ์การใช้งาน</h4>
+            <div class="heading-elements mt-0">
+              <button type="button" class="btn btn-success" (click)="showModalDialogDetail('ADD', '', '', '')">
+                <span class="d-md-block  ">
+                  <i class="ft-plus"></i>
+                  เพิ่มรายการ
+                </span>
+              </button>
+            </div>
+          </div>
+          <div class="card-content collapse show">
+            <div class="card-body">
+
+              <p-table #dt [columns]="cols" [value]="datasource" [paginator]="true" [rows]="30"
+                [rowsPerPageOptions]="[30,50,100]" dataKey="id" [resizableColumns]="false" [scrollable]="true"
+                [reorderableColumns]="false" stateStorage="local" stateKey="datasource-local">
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th class="text-center">
+                      #
+                    </th>
+                    <th class="text-center">
+                      กลุ่มผู้ใช้งาน
+                    </th>
+                    <th class="text-center">
+                      สถานะ
+                    </th>
+                    <th class="text-center">
+                      Action
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="colgroup" let-columns>
+                  <colgroup>
+                    <col [style.width]="'70px'">
+                    <col [style.width]="'200px'">
+                    <col [style.width]="'150px'">
+                    <col [style.width]="'100px'">
+                  </colgroup>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr [pSelectableRow]="rowData">
+                    <td class="text-center">
+                      {{ rowData['number'] }}
+                    </td>
+                    <td>
+                      {{ rowData['userGroup'] }}
+                    </td>
+                    <td style="text-align: center;">
+                      <span class="badge badge-success" *ngIf="rowData.active == 'True'">
+                        Active
+                      </span>
+                      <span class="badge badge-danger" *ngIf="rowData.active == 'False'">
+                        InActive
+                      </span>
+                    </td>
+                    <td class="text-center">
+                      <a class="primary edit mr-1"
+                        (click)="showModalDialogDetail(rowData['group_id'], rowData['userGroup'], rowData['active'], rowData['roleList'])">
+                        <i class="fas fa-pencil-alt"></i>
+                      </a>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage" let-columns>
+                  <tr>
+                    <td [attr.colspan]="4" class="text-center">
+                      No data available in table
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+<p-dialog header="Action" [(visible)]="displayModal" [position]="'top'" [modal]="true"
+  [style]="{width: '45vw',minWidth:'750px'}" [baseZIndex]="50000" [draggable]="false" [resizable]="false">
+  <form [formGroup]="userGroupFormGroup" class="contact-input">
+    <div class="modal-body">
+      <label>กลุ่มผู้ใช้งาน</label>
+      <input type="text" autocomplete="off"
+        [ngClass]="{ 'is-invalid': f.usergroup_Desc.errors && ( f.usergroup_Desc.dirty ||  f.usergroup_Desc.touched) }"
+        class="form-control required" id="usergroup_Desc" formControlName="usergroup_Desc">
+      <div *ngIf="f.usergroup_Desc.errors" class="invalid-feedback">
+        <div *ngIf="f.usergroup_Desc.errors.required">This field is required.</div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <label>สถานะ</label>
+      <div class="col-md-1">
+        <p-inputSwitch formControlName="active"></p-inputSwitch>
+      </div>
+    </div>
+    <div class="modal-body">
+      <label>โปรแกรม</label>
+
+      <p-table [value]="programDatasource" [(selection)]="selectedProgram" dataKey="program_id" [paginator]="true"
+        [rows]="30" [rowsPerPageOptions]="[30,50,100]" stateStorage="local" stateKey="programDatasource-local">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 3rem" class="text-center">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th class="text-center">โปรแกรม</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+          <tr>
+            <td>
+              <p-tableCheckbox [value]="data"></p-tableCheckbox>
+            </td>
+            <td>{{data.program_name}}</td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+          <tr>
+            <td [attr.colspan]="2" class="text-center">
+              No data available in table
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+    </div>
+  </form>
+  <p-footer>
+    <fieldset class="form-group position-relative has-icon-left mb-0">
+      <button type="button" id="edit-contact-item" class="btn btn-info edit-contact-item" data-dismiss="modal"
+        (click)="saveItem()">
+        <i class="fa fa-paper-plane-o d-lg-none"></i>
+        <span class="d-none d-lg-block">บันทึก</span>
+      </button>
+    </fieldset>
+  </p-footer>
+</p-dialog>

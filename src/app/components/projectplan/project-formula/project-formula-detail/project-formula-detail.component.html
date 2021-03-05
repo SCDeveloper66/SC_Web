@@ -1,0 +1,200 @@
+<div class="content-header row">
+  <div class="content-header-left col-md-6 col-12 mb-2">
+    <h3 class="content-header-title mb-0">รายละเอียดสูตรการคำนวณ</h3>
+    <div class="row breadcrumbs-top">
+      <div class="breadcrumb-wrapper col-12">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/home']">หน้าหลัก</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/projectplan/project-formula']">สูตรการคำนวณ</a>
+          </li>
+          <li class="breadcrumb-item">รายละเอียดสูตรการคำนวณ</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="content-body">
+  <section id="basic-form-layouts">
+    <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" id="basic-layout-form">Information</h4>
+            <!-- <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a> -->
+            <button type="button" class="btn btn-primary float-right" (click)="saveData()">
+              <i class="ft-save"></i>
+              บันทึก
+            </button>
+          </div>
+          <div class="card-content collapse show">
+            <div class="card-body">
+              <form [formGroup]="projectDetailFormGroup" class="contact-input">
+                <div class="card-text">
+                  <div class="row">
+                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                      <fieldset class="form-group">
+                        <label for="basicInput">วิธีคำนวณ</label>
+                        <div class="p-md-10 ui-fluid">
+                          <p-dropdown [options]="formulas" placeholder="-------- เลือก --------" [showClear]="true"
+                            [ngClass]="{ 'is-invalid': f.fml_type.errors && ( f.fml_type.dirty ||  f.fml_type.touched) }"
+                            [filter]='true' formControlName="fml_type">
+                          </p-dropdown>
+                          <div *ngIf="fmlTypeErrors" style="color: #ff7588;">
+                            <div>This field is required.</div>
+                          </div>
+                        </div>
+                      </fieldset>
+                    </div>
+                    <div class="col-xl-8 col-lg-6 col-md-12 mb-1">
+                      <fieldset class="form-group">
+                        <label for="basicInput">ชื่อสูตรคำนวณ</label>
+                        <input type="text" autocomplete="off"
+                          [ngClass]="{ 'is-invalid': f.fml_name.errors && ( f.fml_name.dirty ||  f.fml_name.touched) }"
+                          class="form-control" id="fml_name" formControlName="fml_name">
+                        <div *ngIf="f.fml_name.errors" class="invalid-feedback">
+                          <div *ngIf="f.fml_name.errors.required">This field is required.</div>
+                        </div>
+                      </fieldset>
+                    </div>
+                    <div class="col-md-12">
+                      <!-- <br> -->
+                      <div class="row" *ngIf="rageTab">
+                        <div class="form-body">
+                          <h4 class="form-section"><i class="ft-settings"></i>วิธีป้อนคะแนน</h4>
+                        </div>
+                      </div>
+                      <dl class="row" *ngIf="rageTab">
+                        <dt class="col-sm-12">
+                          <div class="input-group">
+                            <div class="d-inline-block custom-control custom-radio mr-1">
+                              <p-radioButton name="fml_input_type" label="ช่องป้อนคะแนน" value="1"
+                                formControlName="fml_input_type" (click)="changeRdo('1')"></p-radioButton>
+                            </div>
+                            <div class="d-inline-block custom-control custom-radio">
+                              <p-radioButton name="fml_input_type" label="ตัวเลือกคะแนน" class="ml-4" value="2"
+                                formControlName="fml_input_type" (click)="changeRdo('2')"></p-radioButton>
+                            </div>
+                          </div>
+                        </dt>
+                      </dl>
+
+                      <dl class="row" *ngIf="rageTab">
+                        <dt class="col-sm-12">
+                          <div class="heading-elements mt-0">
+                            <button type="button" class="btn btn-success float-right" (click)="addRangeRow()">
+                              <i class="ft-plus"></i>
+                              Add
+                            </button>
+                          </div>
+                          <br>
+                          <div class="table-responsive">
+                            <p-table #dtRange [columns]="colsRange" [value]="datasourceRange">
+                              <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                  <th *ngFor="let col of columns" pResizableColumn pReorderableColumn
+                                    class="text-center" [width]="col.width">
+                                    {{col.header}}
+                                  </th>
+                                </tr>
+                              </ng-template>
+                              <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                <tr [pSelectableRow]="rowData">
+                                  <td>
+                                    <input type="text" autocomplete="off" class="form-control" id="score"
+                                      [(ngModel)]="rowData['score']" [ngModelOptions]="{standalone: true}">
+                                  </td>
+                                  <td>
+                                    <input type="text" autocomplete="off" class="form-control" id="display"
+                                      [(ngModel)]="rowData['display']" [ngModelOptions]="{standalone: true}">
+                                  </td>
+                                  <td class="text-center">
+                                    <a class="danger delete mr-1" (click)="deleteRangeRow(rowData['no'])">
+                                      <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                  </td>
+                                </tr>
+                              </ng-template>
+                              <ng-template pTemplate="emptymessage" let-columns>
+                                <tr>
+                                  <td [attr.colspan]="columns.length" class="text-center">
+                                    No data available in table
+                                  </td>
+                                </tr>
+                              </ng-template>
+                            </p-table>
+                          </div>
+                        </dt>
+                      </dl>
+                      <!-- <br> -->
+
+                      <div class="row">
+                        <div class="form-body">
+                          <h4 class="form-section"><i class="ft-settings"></i>เกณฑ์การวัดผล</h4>
+                        </div>
+                      </div>
+                      <dl class="row">
+                        <dt class="col-sm-12">
+                          <div class="heading-elements mt-0">
+                            <button type="button" class="btn btn-success float-right" (click)="addValueRow()">
+                              <i class="ft-plus"></i>
+                              Add
+                            </button>
+                          </div>
+                          <br>
+                          <div class="table-responsive">
+                            <p-table #dtRange [columns]="colsValue" [value]="datasourceValue">
+                              <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                  <th *ngFor="let col of columns" pResizableColumn pReorderableColumn
+                                    class="text-center" [width]="col.width">
+                                    {{col.header}}
+                                  </th>
+                                </tr>
+                              </ng-template>
+                              <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                <tr [pSelectableRow]="rowData">
+                                  <td class="text-center">
+                                    {{rowData['no']}}
+                                  </td>
+                                  <td>
+                                    <input type="text" autocomplete="off" class="form-control" id="value"
+                                      [(ngModel)]="rowData['value']" [ngModelOptions]="{standalone: true}">
+                                  </td>
+                                  <td>
+                                    <input type="text" autocomplete="off" class="form-control" id="text"
+                                      [(ngModel)]="rowData['text']" [ngModelOptions]="{standalone: true}">
+                                  </td>
+                                  <td class="text-center">
+                                    <a class="danger delete mr-1" (click)="deleteValueRow(rowData['no'])">
+                                      <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                  </td>
+                                </tr>
+                              </ng-template>
+                              <ng-template pTemplate="emptymessage" let-columns>
+                                <tr>
+                                  <td [attr.colspan]="columns.length" class="text-center">
+                                    No data available in table
+                                  </td>
+                                </tr>
+                              </ng-template>
+                            </p-table>
+                          </div>
+                        </dt>
+                      </dl>
+
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

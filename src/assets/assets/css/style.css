@@ -1,0 +1,34 @@
+
+body, .brand-text, .navigation, .header-navbar, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, .breadcrumb {
+	font-family: 'Kanit', sans-serif!important;
+}
+
+.nav-logo {
+    height: 32px;
+    width: auto;
+}
+
+.img-profile {
+    width: 170px;
+    height: 170px;
+    object-fit: cover;
+    object-position: center;
+}
+
+
+.modal-backdrop {
+    /* background-color: transparent; */
+    /* opacity:0; */
+    background-color: rgba(0,0,0,.1) !important;
+ }
+.bd-example-modal-lg .modal-dialog{
+    display: table;
+    position: relative;
+    margin: 0 auto;
+    top: calc(50% - 24px);
+  }
+  
+  .bd-example-modal-lg .modal-dialog .modal-content{
+    background-color: transparent;
+    border: none;
+  }

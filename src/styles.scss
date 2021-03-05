@@ -1,0 +1,58 @@
+/* You can add global styles to this file, and also import other style files */
+body .pi {
+  font-size: 0.8em !important;
+}
+body .ui-table .ui-table-caption {
+  background-color: rgba(255, 255, 255, 0.5) !important;
+  border: none !important;
+}
+body .ui-paginator .ui-paginator-pages .ui-paginator-page.ui-state-active {
+  background-color: #00b5b8 !important;
+}
+body .ui-dropdown-panel .ui-dropdown-items .ui-dropdown-item.ui-state-highlight {
+  background-color: #00b5b8 !important;
+}
+body .ui-table .ui-sortable-column.ui-state-highlight {
+  background-color: #f4f4f4 !important;
+  color: #333333 !important;
+}
+body .ui-table .ui-sortable-column.ui-state-highlight .ui-sortable-column-icon {
+  color: #848484 !important;
+}
+body .ui-table .ui-table-tbody > tr.ui-state-highlight {
+  background-color: #f4f4f4 !important;
+  color: #333333 !important;
+}
+body a {
+  color: #009c9f !important;
+}
+.navbar-semi-light .navbar-nav .nav-link {
+  color: #ffffff !important;
+}
+.main-menu.menu-light .navigation li a {
+  color: #404e67 !important;
+}
+.ui-fluid p-dropdown {
+  line-height: 1.9rem !important;
+}
+
+.ui-dropdown .ui-dropdown-clear-icon {
+  right: 4em !important;
+}
+
+// .fc-title {
+//   color: #ffffff !important;
+// }
+// .fc-time {
+//   color: #ffffff !important;
+// }
+
+// body .fc .fc-event {
+//   background-color: #baffe7 !important;
+//   border: 1px solid #007ad9 !important;
+// }
+
+// body .fc .fc-toolbar .fc-button {
+//   background-color: #baffe7 !important;
+//   border: 1px solid #007ad9 !important;
+// }

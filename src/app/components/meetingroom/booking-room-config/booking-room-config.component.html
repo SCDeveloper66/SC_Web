@@ -1,0 +1,62 @@
+<div class="content-header row">
+  <div class="content-header-left col-md-6 col-12 mb-2">
+    <h3 class="content-header-title mb-0">ตั้งค่าสำหรับจองห้อง</h3>
+    <div class="row breadcrumbs-top">
+      <div class="breadcrumb-wrapper col-12">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/home']">หน้าหลัก</a>
+          </li>
+          <li class="breadcrumb-item">ตั้งค่าสำหรับจองห้อง</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="content-header-right col-md-6 col-12">
+    <!-- <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+      <button type="button" class="btn btn-primary" (click)="saveItem()">
+        <i class="ft-save"></i>
+        บันทึก
+      </button>
+    </div> -->
+  </div>
+</div>
+
+<div class="content-body">
+  <section id="basic-form-layouts">
+    <form [formGroup]="itemFormGroup" class="contact-input">
+      <div class="row match-height">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-content collapse show">
+              <div class="card-body">
+                <div class="form-body">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label>ยกเลิกจองห้องอัตโนมัติภายในเวลา(นาที)</label>
+                        <input type="text" autocomplete="off"
+                          [ngClass]="{ 'is-invalid': f.timeconfig.errors && ( f.timeconfig.dirty ||  f.timeconfig.touched) }"
+                          class="form-control required" id="timeconfig" formControlName="timeconfig"
+                          onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="5">
+                        <div *ngIf="f.timeconfig.errors" class="invalid-feedback">
+                          <div *ngIf="f.timeconfig.errors.required">This field is required.</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-8 text-right">
+                      <button type="button" class="btn btn-primary" (click)="saveItem()">
+                        <i class="ft-save"></i>
+                        บันทึก
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </section>
+</div>

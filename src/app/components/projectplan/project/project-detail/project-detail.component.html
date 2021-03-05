@@ -1,0 +1,115 @@
+<div class="content-header row">
+  <div class="content-header-left col-md-6 col-12 mb-2">
+    <h3 class="content-header-title mb-0">รายละเอียดโครงการ</h3>
+    <div class="row breadcrumbs-top">
+      <div class="breadcrumb-wrapper col-12">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a [routerLink]="['/home']">หน้าหลัก</a></li>
+          <li class="breadcrumb-item"><a [routerLink]="['/projectplan/project']">โครงการ</a></li>
+          <li class="breadcrumb-item">รายละเอียดโครงการ</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="content-body">
+  <section id="basic-form-layouts">
+    <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" id="basic-layout-form">Information</h4>
+            <!-- <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a> -->
+            <button type="button" class="btn btn-primary float-right" (click)="saveData()">
+              <i class="ft-save"></i>
+              บันทึก</button>
+          </div>
+          <div class="card-content collapse show">
+            <div class="card-body">
+              <div class="card">
+                <div class="card-content collapse show">
+                  <div class="card-body">
+                    <div class="card-text">
+                      <form [formGroup]="projectDetailFormGroup" class="contact-input">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <dl class="row">
+                              <dt class="col-sm-3 text-right">ชื่อโครงการ</dt>
+                              <dd class="col-sm-9">
+                                <input type="text" autocomplete="off"
+                                  [ngClass]="{ 'is-invalid': f.prj_name.errors && ( f.prj_name.dirty ||  f.prj_name.touched) }"
+                                  class="form-control" id="prj_name" formControlName="prj_name">
+                                <div *ngIf="f.prj_name.errors" class="invalid-feedback">
+                                  <div *ngIf="f.prj_name.errors.required">This field is required.</div>
+                                </div>
+                              </dd>
+                            </dl>
+                            <dl class="row">
+                              <dt class="col-sm-3 text-right">ระยะเวลาโครงการ เริ่ม</dt>
+                              <dd class="col-sm-9">
+                                <div class="p-grid ui-fluid">
+                                  <p-calendar formControlName="start_date"
+                                    [ngClass]="{ 'is-invalid': f.start_date.errors && ( f.start_date.dirty ||  f.start_date.touched) }"
+                                    [showIcon]="true" [placeholder]="'dd/mm/yyyy'" dateFormat="dd/mm/yy" (onSelect)="funcSelectDateFrom($event)">
+                                  </p-calendar>
+                                  <div *ngIf="f.start_date.errors" class="invalid-feedback">
+                                    <div *ngIf="f.start_date.errors.required">This field is required.</div>
+                                  </div>
+                                </div>
+                              </dd>
+                            </dl>
+                            <dl class="row">
+                              <dt class="col-sm-3 text-right">ระยะเวลาโครงการ สิ้นสุด</dt>
+                              <dd class="col-sm-9">
+                                <div class="p-grid ui-fluid">
+                                  <p-calendar formControlName="stop_date"
+                                    [ngClass]="{ 'is-invalid': f.stop_date.errors && ( f.stop_date.dirty ||  f.stop_date.touched) }"
+                                    [showIcon]="true" [placeholder]="'dd/mm/yyyy'" dateFormat="dd/mm/yy" [minDate]="minDate">
+                                  </p-calendar>
+                                  <div *ngIf="f.stop_date.errors" class="invalid-feedback">
+                                    <div *ngIf="f.stop_date.errors.required">This field is required.</div>
+                                  </div>
+                                </div>
+                              </dd>
+                            </dl>
+                            <dl class="row">
+                              <dt class="col-sm-3 text-right">รายละเอียด</dt>
+                              <dd class="col-sm-9">
+                                <textarea [rows]="5" pInputTextarea
+                                  [ngClass]="{ 'is-invalid': f.prj_detail.errors && ( f.prj_detail.dirty ||  f.prj_detail.touched) }"
+                                  class="form-control" id="prj_detail" formControlName="prj_detail"></textarea>
+                                <div *ngIf="f.prj_detail.errors" class="invalid-feedback">
+                                  <div *ngIf="f.prj_detail.errors.required">This field is required.</div>
+                                </div>
+                              </dd>
+                            </dl>
+                            <dl class="row">
+                              <dt class="col-sm-3 text-right">สถานะใช้งาน</dt>
+                              <dd class="col-sm-9">
+                                <div class="p-md-10 ui-fluid">
+                                  <p-dropdown [options]="status" placeholder="-------- เลือก --------"
+                                    [showClear]="true"
+                                    [ngClass]="{ 'is-invalid': f.prj_status.errors && ( f.prj_status.dirty ||  f.prj_status.touched) }"
+                                    [filter]='true' formControlName="prj_status">
+                                  </p-dropdown>
+                                  <div *ngIf="prjStatusErrors" style="color: #ff7588;">
+                                    <div>This field is required.</div>
+                                  </div>
+                                </div>
+                              </dd>
+                            </dl>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

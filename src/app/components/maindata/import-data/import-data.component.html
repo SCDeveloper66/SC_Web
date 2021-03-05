@@ -1,0 +1,77 @@
+<div class="content-header row">
+  <div class="content-header-left col-md-6 col-12 mb-2">
+    <h3 class="content-header-title mb-0">นำเข้าข้อมูลบัตร</h3>
+    <div class="row breadcrumbs-top">
+      <div class="breadcrumb-wrapper col-12">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/home']">หน้าหลัก</a>
+          </li>
+          <li class="breadcrumb-item">นำเข้าข้อมูลบัตร</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="content-header-right col-md-6 col-12"></div>
+</div>
+
+<div class="content-body">
+  <section id="basic-form-layouts">
+    <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" id="basic-layout-form">Import Data</h4>
+            <div class="heading-elements mt-0">
+              <button type="button" class="btn btn-success" (click)="downloadTemplate()">
+                <span class="d-md-block  ">
+                  <i class="ft-download"></i>
+                  Download Template
+                </span>
+              </button>
+            </div>
+          </div>
+          <div class="card-content collapse show">
+            <div class="card-body">
+              <div class="form-body">
+                <div class="row">
+                  <div class="col-md-12">
+                    <p-fileUpload #fileInput name="importFiles[]" maxFileSize="1000000000" accept=".xlsx, .xls"
+                      customUpload="true" (uploadHandler)="upload(fileInput)" showUploadButton="true"
+                      showCancelButton="true">
+                    </p-fileUpload>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="card-footer">
+            <div class="col-md-12">
+              <div class="form-actions">
+                <button type="button" class="btn btn-primary mr-1" (click)="search(dt)">
+                  <i class="ft-search"></i>Search</button>
+              </div>
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" id="basic-layout-form">Results</h4>
+            <div class="heading-elements mt-0">
+            </div>
+          </div>
+          <div class="card-content collapse show">
+            <div class="card-body">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+  </section>
+</div>

@@ -1,0 +1,78 @@
+<div class="content-wrapper" *ngIf="isMobile == false">
+  <div class="content-header row">
+  </div>
+  <div class="content-body">
+    <section class="flexbox-container">
+      <div class="col-12 d-flex align-items-center justify-content-center">
+        <div class="col-lg-4 col-md-8 col-10 box-shadow-2 p-0">
+          <div class="card border-grey border-lighten-3 m-0">
+            <div class="card-header border-0">
+              <div class="card-title text-center">
+                <div class="p-1">
+                  <img src="assets/images/logo.jpg">
+                </div>
+              </div>
+              <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2">
+                <span>Login Standard Can</span>
+              </h6>
+            </div>
+            <div class="card-content">
+              <div class="card-body">
+                <form [formGroup]="loginForm">
+
+                  <fieldset class="form-group position-relative has-icon-left mb-0">
+                    <input type="text" autocomplete="off" class="form-control form-control-lg" formControlName="userName" id="user-name"
+                      autocomplete="off" placeholder="Your Username" required>
+                    <div class="form-control-position">
+                      <i class="ft-user"></i>
+                    </div>
+                  </fieldset>
+                  <br />
+                  <fieldset class="form-group position-relative has-icon-left">
+                    <input type="password" class="form-control form-control-lg" formControlName="password"
+                      id="user-password" placeholder="Enter Password" required (keydown.enter)="onLogin()">
+                    <div class="form-control-position">
+                      <i class="fa fa-key"></i>
+                    </div>
+                  </fieldset>
+                  <button type="button" class="btn btn-primary btn-lg btn-block" (click)="onLogin()">
+                    <i class="ft-unlock"></i>
+                    Login
+                  </button>
+                  <fieldset class="form-group position-relative has-icon-left">
+                    <div class="col-12">
+                      <label *ngIf="error" class="alert alert-danger text-center"
+                        style="width: 100%; margin-bottom: 10px; margin-top: 10px;">
+                        {{error}}
+                      </label>
+                    </div>
+                  </fieldset>
+                </form>
+              </div>
+            </div>
+            <div class="card-footer">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<div class="content-body" *ngIf="isMobile == true">
+  <!-- <section id="basic-form-layouts">
+    <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-content collapse show">
+            <div class="card-body">
+              <p-fullCalendar defaultView="dayGridMonth" [events]="calEvents" [options]="calOptions"></p-fullCalendar>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+</div>

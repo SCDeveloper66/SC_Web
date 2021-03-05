@@ -1,0 +1,226 @@
+<div *ngIf="isMobile==false" class="main-menu menu-fixed menu-light menu-accordion menu-shadow"
+  data-scroll-to-active="true">
+  <div class="main-menu-content" style="height: 100% !important;">
+
+    <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+      <li class=" nav-item">
+        <a [routerLink]="['/home']">
+          <i class="ft-home"></i>
+          <span class="menu-title" data-i18n="">หน้าหลัก</span>
+        </a>
+      </li>
+      <li class=" nav-item has-sub" *ngFor="let prog of roleList | async | filterDistinctProgramGroup">
+        <a href="#">
+          <i class="ft-user" *ngIf="prog.programGroupId == 'Emp'"></i>
+          <i class="ft-check-circle" *ngIf="prog.programGroupId == 'MeetingRoom'"></i>
+          <i class="ft-check-circle" *ngIf="prog.programGroupId == 'Car'"></i>
+          <i class="ft-file-text" *ngIf="prog.programGroupId == 'ProjectPlan'"></i>
+          <i class="ft-grid" *ngIf="prog.programGroupId == 'MainData'"></i>
+          <i class="ft-grid" *ngIf="prog.programGroupId == 'ImportData'"></i>
+          <i class="ft-file-text" *ngIf="prog.programGroupId == 'Report'"></i>
+          <i class="ft-server" *ngIf="prog.programGroupId == 'Interace'"></i>
+          <i class="ft-settings" *ngIf="prog.programGroupId == 'Setting'"></i>
+          <span class="menu-title" data-i18n="">
+            {{ prog.programGroupName }}
+          </span>
+        </a>
+        <ul class="menu-content">
+          <li *ngFor="let prog of roleList | async | filterProgramGroup: prog.programGroupId">
+            <a class="menu-item" [routerLink]="[prog.url]">
+              {{ prog.programName }}
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+
+    <!-- <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+      <li class=" nav-item">
+        <a [routerLink]="['/home']">
+          <i class="ft-home"></i>
+          <span class="menu-title" data-i18n="">หน้าหลัก</span>
+        </a>
+      </li>
+      <li class=" nav-item has-sub">
+        <a href="#">
+          <i class="ft-user"></i>
+          <span class="menu-title" data-i18n="">พนักงาน</span>
+        </a>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/employee/employee']">ข้อมูลพนักงาน</a>
+          </li>
+        </ul>
+      </li>
+      <li class=" nav-item has-sub">
+        <a href="#">
+          <i class="ft-check-circle"></i>
+          <span class="menu-title" data-i18n="">จองห้องประชุม</span>
+        </a>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/meetingroom/bookingroom']">จองห้องประชุม</a>
+          </li>
+        </ul>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/meetingroom/room']">ห้องประชุม</a>
+          </li>
+        </ul>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/meetingroom/hardware']">อุปกรณ์ห้องประชุม</a>
+          </li>
+        </ul>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/meetingroom/bookingroom-config']">กำหนดเวลายกเลิกห้อง</a>
+          </li>
+        </ul>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/meetingroom/config-meeting']">กำหนดเกณฑ์เวลาเข้าห้องประชุม</a>
+          </li>
+        </ul>
+      </li>
+      <li class=" nav-item has-sub">
+        <a href="#">
+          <i class="ft-check-circle"></i>
+          <span class="menu-title" data-i18n="">จองรถ</span>
+        </a>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/bookingcar/bookingcar-list']">จองรถ</a>
+          </li>
+        </ul>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/bookingcar/car']">รถ</a>
+          </li>
+        </ul>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/bookingcar/car-type']">ประเภทรถ</a>
+          </li>
+        </ul>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/bookingcar/car-reason']">เหตุผลที่ใช้รถ</a>
+          </li>
+        </ul>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/bookingcar/destination']">สถานที่เดินทาง</a>
+          </li>
+        </ul>
+      </li>
+      <li class=" nav-item has-sub">
+        <a href="#">
+          <i class="ft-file-text"></i>
+          <span class="menu-title" data-i18n="">โครงการอบรม</span>
+        </a>
+
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/projectplan/project']">โครงการ</a>
+          </li>
+        </ul>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/projectplan/project-course']">หลักสูตร</a>
+          </li>
+        </ul>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/projectplan/project-training-schedule']">กำหนดรอบอบรม</a>
+          </li>
+        </ul>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/projectplan/project-formula']">สูตรการคำนวณ</a>
+          </li>
+        </ul>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/projectplan/expert']">วิทยากร</a>
+          </li>
+        </ul>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/projectplan/expense']">ค่าใช้จ่าย</a>
+          </li>
+        </ul>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/projectplan/traindestination']">สถานที่อบรม</a>
+          </li>
+        </ul>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/projectplan/project-report-config']">ตั้งค่ารายงาน</a>
+          </li>
+        </ul>
+      </li>
+      <li class=" nav-item has-sub">
+        <a href="#">
+          <i class="ft-grid"></i>
+          <span class="menu-title" data-i18n="">ข้อมูลหลัก</span>
+        </a>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/maindata/news']">ข่าวสารกิจกรรม</a>
+          </li>
+        </ul>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/maindata/image-slide']">รูปสไลด์</a>
+          </li>
+        </ul>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/maindata/benefits']">สวัสดิการบริษัท</a>
+          </li>
+        </ul>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/maindata/node']">ข้อมูลจุดลงเวลา</a>
+          </li>
+        </ul>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/maindata/department']">ข้อมูลแผนก</a>
+          </li>
+        </ul>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/maindata/holiday']">วันหยุดประจำปี</a>
+          </li>
+        </ul>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/maindata/emp-checkin-permanent']">เช็คอินนอกสถานที่(ประจำ)</a>
+          </li>
+        </ul>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/maindata/emp-checkin-temporary']">เช็คอินนอกสถานที่(ชั่วคราว)</a>
+          </li>
+        </ul>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/maindata/import-data']">นำเข้าข้อมูลบัตร</a>
+          </li>
+        </ul>
+
+      </li>
+      <li class=" nav-item has-sub" *ngIf="isAcc">
+        <a href="#">
+          <i class="ft-file-text"></i>
+          <span class="menu-title" data-i18n="">รายงาน</span>
+        </a>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/report/time-att-realtime']">ลงเวลา เข้า-ออก</a>
+          </li>
+        </ul>
+      </li>
+      <li class=" nav-item has-sub">
+        <a href="#">
+          <i class="ft-server"></i>
+          <span class="menu-title" data-i18n="">Interface</span>
+        </a>
+        <ul class="menu-content">
+          <li><a class="menu-item" href="#">ประวัตินำเข้าข้อมูล</a>
+          </li>
+        </ul>
+        <ul class="menu-content">
+          <li><a class="menu-item" href="#">ประวัติส่งออกข้อมูล</a>
+          </li>
+        </ul>
+      </li>
+      <li class=" nav-item has-sub">
+        <a href="#">
+          <i class="ft-settings"></i>
+          <span class="menu-title" data-i18n="">ตั้งค่าการใช้งาน</span>
+        </a>
+        <ul class="menu-content">
+          <li><a class="menu-item" [routerLink]="['/setting/user-role']">สิทธิ์การใช้งาน</a>
+          </li>
+        </ul>
+      </li>
+    </ul> -->
+
+  </div>
+</div>

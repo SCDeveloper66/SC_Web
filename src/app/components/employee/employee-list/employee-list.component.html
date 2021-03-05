@@ -1,0 +1,275 @@
+<div class="content-header row">
+  <div class="content-header-left col-md-6 col-12 mb-2">
+    <h3 class="content-header-title mb-0">ข้อมูลพนักงาน</h3>
+    <div *ngIf="isMobile==false" class="row breadcrumbs-top">
+      <div class="breadcrumb-wrapper col-12">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/home']">หน้าหลัก</a>
+          </li>
+          <li class="breadcrumb-item">ข้อมูลพนักงาน</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="content-header-right col-md-6 col-12">
+  </div>
+</div>
+
+<div class="content-body">
+  <section id="basic-form-layouts">
+
+    <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" id="basic-layout-form">Search</h4>
+            <!-- <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a> -->
+          </div>
+          <div class="card-content collapse show">
+            <div class="card-body">
+              <div class="form-body">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>รหัสพนักงาน (From)</label>
+                      <input type="text" autocomplete="off" class="form-control" id="employeeCodeFrom"
+                        placeholder="รหัสพนักงาน" [(ngModel)]="employeeCodeFrom">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>รหัสพนักงาน (To)</label>
+                      <input type="text" autocomplete="off" class="form-control" id="employeeCodeTo"
+                        placeholder="รหัสพนักงาน" [(ngModel)]="employeeCodeTo">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>แผนก (From)</label>
+                      <div class="p-md-10 ui-fluid">
+                        <p-dropdown [options]="departmentFroms" [showClear]="true" [filter]='true'
+                          [(ngModel)]="departmentFrom">
+                        </p-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>แผนก (To)</label>
+                      <div class="p-md-10 ui-fluid">
+                        <p-dropdown [options]="departmentTos" [showClear]="true" [filter]='true'
+                          [(ngModel)]="departmentTo">
+                        </p-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>ฝ่าย (From)</label>
+                      <div class="p-md-10 ui-fluid">
+                        <p-dropdown [options]="sessionFroms" [showClear]="true" [filter]='true'
+                          [(ngModel)]="sessionFrom">
+                        </p-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>ฝ่าย (To)</label>
+                      <div class="p-md-10 ui-fluid">
+                        <p-dropdown [options]="sessionTos" [showClear]="true" [filter]='true' [(ngModel)]="sessionTo">
+                        </p-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>สถานะ (From)</label>
+                      <div class="p-md-10 ui-fluid">
+                        <p-dropdown [options]="statusFroms" [showClear]="true" [filter]='true' [(ngModel)]="statusFrom">
+                        </p-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>สถานะ (To)</label>
+                      <div class="p-md-10 ui-fluid">
+                        <p-dropdown [options]="statusTos" [showClear]="true" [filter]='true' [(ngModel)]="statusTo">
+                        </p-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>ชื่อพนักงาน</label>
+                      <input type="text" autocomplete="off" class="form-control" id="fName" placeholder="ชื่อพนักงาน"
+                        [(ngModel)]="fName">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>นามสกุลพนักงาน</label>
+                      <input type="text" autocomplete="off" class="form-control" id="surNameEmp"
+                        placeholder="นามสกุลพนักงาน" [(ngModel)]="surNameEmp">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>ชื่อผู้บังคับบัญชา</label>
+                      <input type="text" autocomplete="off" class="form-control" id="nameHead"
+                        placeholder="ชื่อผู้บังคับบัญชา" [(ngModel)]="nameHead">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>นามสกุลผู้บังคับบัญชา</label>
+                      <input type="text" autocomplete="off" class="form-control" id="surNameHead"
+                        placeholder="นามสกุลผู้บังคับบัญชา" [(ngModel)]="surNameHead">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="col-md-12">
+              <div class="form-actions">
+                <button type="button" class="btn btn-primary mr-1" (click)="search(dt)">
+                  <i class="ft-search"></i>
+                  Search
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" id="basic-layout-form">search results</h4>
+          </div>
+          <div class="card-content collapse show">
+            <div class="card-body">
+
+              <p-table #dt [columns]="cols" [value]="datasource" [paginator]="true" [rows]="30"
+                [rowsPerPageOptions]="[30,50,100]" dataKey="id" [resizableColumns]="false" [reorderableColumns]="false"
+                [scrollable]="true" stateStorage="local" stateKey="datasource-local">
+                <!-- <ng-template pTemplate="caption">
+                  <div style="text-align: right">
+                    Search:
+                    <input type="text" autocomplete="off" pInputText size="20" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                      style="width:auto">
+                  </div>
+                </ng-template> -->
+
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th class="text-center" [pSortableColumn]="'number'" pResizableColumn pReorderableColumn>
+                      #
+                      <p-sortIcon [field]="'number'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'employeeCode'" pResizableColumn pReorderableColumn>
+                      รหัสพนักงาน
+                      <p-sortIcon [field]="'employeeCode'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'employeeTitle'" pResizableColumn pReorderableColumn>
+                      คำนำหน้า
+                      <p-sortIcon [field]="'employeeTitle'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'employeeFName'" pResizableColumn pReorderableColumn>
+                      ชื่อ
+                      <p-sortIcon [field]="'employeeFName'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'employeeLName'" pResizableColumn pReorderableColumn>
+                      นามสกุล
+                      <p-sortIcon [field]="'employeeLName'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'employeeDep'" pResizableColumn pReorderableColumn>
+                      ฝ่าย
+                      <p-sortIcon [field]="'employeeDep'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'employeeSes'" pResizableColumn pReorderableColumn>
+                      แผนก
+                      <p-sortIcon [field]="'employeeSes'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'employeeLevel'" pResizableColumn pReorderableColumn>
+                      ระดับพนักงาน
+                      <p-sortIcon [field]="'employeeLevel'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'action'" pResizableColumn pReorderableColumn>
+                      Action
+                      <p-sortIcon [field]="'action'"></p-sortIcon>
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="colgroup" let-columns>
+                  <colgroup>
+                    <col [style.width]="'70px'">
+                    <col [style.width]="'120px'">
+                    <col [style.width]="'100px'">
+                    <col [style.width]="'200px'">
+                    <col [style.width]="'150px'">
+                    <col [style.width]="'100px'">
+                    <col [style.width]="'100px'">
+                    <col [style.width]="'120px'">
+                    <col [style.width]="'100px'">
+                  </colgroup>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr [pSelectableRow]="rowData">
+                    <td class="text-center">
+                      {{ rowData['number'] }}
+                    </td>
+                    <td>
+                      {{ rowData['employeeCode'] }}
+                    </td>
+                    <td>
+                      {{ rowData['employeeTitle'] }}
+                    </td>
+                    <td>
+                      {{ rowData['employeeFName'] }}
+                    </td>
+                    <td>
+                      {{ rowData['employeeLName'] }}
+                    </td>
+                    <td>
+                      {{ rowData['employeeDep'] }}
+                    </td>
+                    <td>
+                      {{ rowData['employeeSes'] }}
+                    </td>
+                    <td>
+                      {{ rowData['employeeLevel'] }}
+                    </td>
+                    <td class="text-center">
+                      <button type="button" class="btn btn-info btn-sm"
+                        (click)="empDetail(rowData['id'])">รายละเอียด</button>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage" let-columns>
+                  <tr>
+                    <td [attr.colspan]="columns.length" class="text-center">
+                      No data available in table
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+</div>

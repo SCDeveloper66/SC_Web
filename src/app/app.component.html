@@ -1,0 +1,21 @@
+<div class="wrapper" *ngIf="currentUser">
+  <app-header></app-header>
+  <app-sidebar></app-sidebar>
+
+  <div class="app-content content">
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+      <app-alert></app-alert>
+    </div>
+  </div>
+
+  <!-- <app-footer></app-footer> -->
+</div>
+
+<div class="hold-transition login-page" *ngIf="!currentUser">
+  <app-login></app-login>
+</div>
+
+<ngx-spinner bdColor="rgba(238, 238, 238, 0.2)" size="medium" color="#555555" type="timer" [fullScreen]="true">
+  <p style="color: #555555">Loading...</p>
+</ngx-spinner>

@@ -1,0 +1,224 @@
+<p-dialog [header]="'ยืนยันไม่อนุมัติ'" [(visible)]="modalConfirmReject" [position]="'top'" [modal]="true"
+[style]="{minWidth: '300px'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+  <div class="modal-body">
+    <label>เหตุผล</label>
+    <textarea class="form-control" id="reasonReject" rows="6" placeholder="" [(ngModel)]="reasonReject"></textarea>
+  </div>
+  <p-footer>
+    <fieldset class="form-group position-relative has-icon-left mb-0">
+      <button type="button" id="edit-contact-item" class="btn btn-warning edit-contact-item" data-dismiss="modal"
+      (click)="saveCancelConfirm()">
+        <i class="fa fa-paper-plane-o d-lg-none"></i>
+        <span class="d-lg-block">Reject</span>
+      </button>
+    </fieldset>
+  </p-footer>
+</p-dialog>
+
+
+<!-- <p-dialog [(visible)]="modalConfirmReject" [modal]="true" [width]="500" [responsive]="true">
+  <p>Runs!111</p>
+</p-dialog> -->
+
+<div class="content-body">
+
+
+  <section id="basic-form-layouts">
+    <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" id="basic-layout-form">Work Calendar</h4>
+            <!-- <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a> -->
+          </div>
+          <div class="card-content collapse show">
+            <div class="card-body">
+              <p-fullCalendar defaultView="dayGridMonth" [events]="calEvents" [options]="calOptions"></p-fullCalendar>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="content-body" *ngIf="isAdmin == true || isDP==true">
+  <section id="basic-form-layouts">
+    <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" id="basic-layout-form">Work List</h4>
+            <!-- <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a> -->
+          </div>
+          <div class="card-content collapse show">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3 text-left">
+                  <button type="button" class="btn btn-success" (click)="saveApprove()">
+                    <i class="ft-check"></i>
+                    อนุมัติ
+                  </button>
+                  <label>&nbsp;</label>
+                  <button type="button" class="btn btn-danger" (click)="saveCancel()">
+                    <i class="ft-x"></i>
+                    ยกเลิก
+                  </button>
+
+                </div>
+                <div class="col-sm-9 text-left">
+                  <p-checkbox style="margin-left:20px" label="Wait for Admin" (onChange)="handleFilter($event,'2')"
+                    [value]="2" [(ngModel)]="filter_pending" binary="true">
+                  </p-checkbox>
+                  <p-checkbox style="margin-left:20px" label="Wait for DP" (onChange)="handleFilter($event,'2')"
+                    [value]="2" [(ngModel)]="filter_wait_dp" binary="true">
+                  </p-checkbox>
+                  <p-checkbox style="margin-left:20px" label="Approved" (onChange)="handleFilter($event,'3')"
+                    [value]="3" [(ngModel)]="filter_approved" binary="true">
+                  </p-checkbox>
+                  <p-checkbox style="margin-left:20px" label="Cancel/Rejected" (onChange)="handleFilter($event,'4')"
+                    [value]="4" [(ngModel)]="filter_cancel" binary="true">
+                  </p-checkbox>
+                </div>
+              </div>
+              <br>
+              <p-table #dt [columns]="cols" [value]="datasource" [paginator]="true" [rows]="30"
+                [rowsPerPageOptions]="[30,50,100]" dataKey="id" [resizableColumns]="false" [scrollable]="true"
+                [reorderableColumns]="false" stateStorage="local" stateKey="datasource-local">
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <!-- <th class="text-center" [pSortableColumn]="'no'" pResizableColumn pReorderableColumn>
+                      #
+                      <p-sortIcon [field]="'no'"></p-sortIcon>
+                    </th> -->
+                    <th class="text-center" [pSortableColumn]="'selection_sts'" pResizableColumn pReorderableColumn>
+                      เลือก
+                      <p-sortIcon [field]="'selection_sts'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'booking_status'" pResizableColumn pReorderableColumn>
+                      สถานะ
+                      <p-sortIcon [field]="'booking_status'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'booking_create'" pResizableColumn pReorderableColumn>
+                      วันที่สร้างรายการ
+                      <p-sortIcon [field]="'booking_create'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'booking_type'" pResizableColumn pReorderableColumn>
+                      ประเภท
+                      <p-sortIcon [field]="'booking_type'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'booking_name'" pResizableColumn pReorderableColumn>
+                      รายการ
+                      <p-sortIcon [field]="'booking_name'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'create_by'" pResizableColumn pReorderableColumn>
+                      ผู้ร้องขอ
+                      <p-sortIcon [field]="'create_by'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'department'" pResizableColumn pReorderableColumn>
+                      แผนก
+                      <p-sortIcon [field]="'department'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'booking_date'" pResizableColumn pReorderableColumn>
+                      วันที่ขอ
+                      <p-sortIcon [field]="'booking_date'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'booking_time'" pResizableColumn pReorderableColumn>
+                      เวลาช่วง
+                      <p-sortIcon [field]="'booking_time'"></p-sortIcon>
+                    </th>
+
+                    <th class="text-center" [pSortableColumn]="'approve_by'" pResizableColumn pReorderableColumn>
+                      ผู้อนุมัติ
+                      <p-sortIcon [field]="'approve_by'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'reason'" pResizableColumn pReorderableColumn>
+                      เหตุผลที่ยกเลิก
+                      <p-sortIcon [field]="'reason'"></p-sortIcon>
+                    </th>
+
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="colgroup" let-columns>
+                  <colgroup>
+                    <!-- <col [style.width]="'60px'"> -->
+                    <col [style.width]="'80px'">
+                    <col [style.width]="'160px'">
+                    <col [style.width]="'150px'">
+                    <col [style.width]="'120px'">
+                    <col [style.width]="'200px'">
+                    <col [style.width]="'200px'">
+                    <col [style.width]="'150px'">
+                    <col [style.width]="'150px'">
+                    <col [style.width]="'150px'">
+
+                    <col [style.width]="'180px'">
+                    <col [style.width]="'200px'">
+
+                  </colgroup>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr [pSelectableRow]="rowData">
+                    <!-- <td class="text-center">
+                      {{ rowData['no'] }}
+                    </td> -->
+                    <td class="text-center">
+                      <p-checkbox [value]="rowData.tranId" [(ngModel)]="selectRoomList"
+                        *ngIf="rowData.type == '1' && rowData.selection_sts == '1'">
+                      </p-checkbox>
+                      <p-checkbox [value]="rowData.tranId" [(ngModel)]="selectCarList"
+                        *ngIf="rowData.type == '2' && rowData.selection_sts == '1'">
+                      </p-checkbox>
+                    </td>
+                    <td class="text-center">
+                      <span class="badge" [style.background-color]="rowData.sts_color">
+                        {{ rowData['booking_status'] }}
+                      </span>
+                    </td>
+                    <td>
+                      {{ rowData['booking_create'] }}
+                    </td>
+                    <td>
+                      {{ rowData['booking_type'] }}
+                    </td>
+                    <td>
+                      {{ rowData['booking_name'] }}
+                    </td>
+                    <td>
+                      {{ rowData['create_by'] }}
+                    </td>
+                    <td>
+                      {{ rowData['department'] }}
+                    </td>
+                    <td>
+                      {{ rowData['booking_date'] }}
+                    </td>
+                    <td>
+                      {{ rowData['booking_time'] }}
+                    </td>
+
+                    <td>
+                      {{ rowData['approve_by'] }}
+                    </td>
+                    <td>
+                      {{ rowData['reason'] }}
+                    </td>
+
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage" let-columns>
+                  <tr>
+                    <td [attr.colspan]="columns.length" class="text-center">
+                      No data available in table
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

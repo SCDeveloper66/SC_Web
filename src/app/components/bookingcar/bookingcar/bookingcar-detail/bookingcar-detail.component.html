@@ -1,0 +1,517 @@
+<div class="content-header row">
+  <div class="content-header-left col-md-6 col-12 mb-2">
+    <h3 class="content-header-title mb-0">รายละเอียดการจองรถ</h3>
+    <div *ngIf="isMobile==false" class="row breadcrumbs-top">
+      <div class="breadcrumb-wrapper col-12">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/home']">หน้าหลัก</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/bookingcar/bookingcar-list']">จองรถ</a>
+          </li>
+          <li class="breadcrumb-item">
+            รายละเอียดการจองรถ
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="content-body">
+  <section id="basic-form-layouts">
+    <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-content collapse show">
+            <div class="card-body">
+              <div class="card">
+                <div class="card-header">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <button type="button" class="btn btn-warning" *ngIf="btnReject == true"
+                        (click)="rejectBookignCar()">
+                        <i class="ft-x"></i>
+                        Reject
+                      </button>
+                      <label>&nbsp;</label>
+                      <button type="button" class="btn btn-primary" *ngIf="btnApprove == true"
+                        (click)="approveBookignCar()">
+                        <i class="ft-check"></i>
+                        Approve
+                      </button>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                      <button type="button" class="btn btn-warning" *ngIf="btnCancel == true"
+                        (click)="cancelBookignCar()">
+                        <i class="ft-delete"></i>
+                        ยกเลิกจอง
+                      </button>
+                      <label>&nbsp;</label>
+                      <button type="button" class="btn btn-primary" *ngIf="btnSaveDraft == true" (click)="saveDraft()">
+                        <i class="ft-save"></i>
+                        บันทึกร่าง
+                      </button>
+                      <button type="button" class="btn btn-primary" *ngIf="btnSaveUpdate == true" (click)="saveUpdate()">
+                        <i class="ft-save"></i>
+                        บันทึก
+                      </button>
+                      <label>&nbsp;</label>
+                      <button type="button" class="btn btn-primary" *ngIf="btnSaveSend == true" (click)="saveSend()">
+                        <i class="ft-save"></i>
+                        บันทึก และส่งอนุมัติ
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-content collapse show">
+                  <div class="card-body" style="padding-top:0px">
+                    <div class="card-text">
+
+                      <div class="row">
+                        <form class="col-sm-12 form">
+                          <div class="form-body">
+                            <h4 class="form-section"><i class="ft-info"></i> ข้อมูลการจอง</h4>
+                          </div>
+                        </form>
+                      </div>
+                      <form [formGroup]="bookingCarDetailFormGroup" class="contact-input">
+                        <div class="row">
+                          <!-- <div class="col-xl-12 col-lg-6 col-md-12 mb-1">
+                            <fieldset class="form-group">
+                              <label for="basicInput">หัวเรื่อง</label>
+                              <input type="text" autocomplete="off"
+                                [ngClass]="{ 'is-invalid': f.topic.errors && ( f.topic.dirty ||  f.topic.touched) }"
+                                class="form-control required" id="topic" formControlName="topic">
+                              <div *ngIf="f.topic.errors" class="invalid-feedback">
+                                <div *ngIf="f.topic.errors.required">This field is required.</div>
+                              </div>
+                            </fieldset>
+                          </div> -->
+                          <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                            <fieldset class="form-group">
+                              <label for="helpInputTop">วันที่เริ่ม</label>
+                              <div class="p-grid ui-fluid">
+                                <p-calendar formControlName="start_date"
+                                  [ngClass]="{ 'is-invalid': f.start_date.errors && ( f.start_date.dirty ||  f.start_date.touched) }"
+                                  [showIcon]="true" [placeholder]="'dd/mm/yyyy'" dateFormat="dd/mm/yy"
+                                  (onSelect)="funcSelectDateFrom($event)">
+                                </p-calendar>
+                                <div *ngIf="f.start_date.errors" class="invalid-feedback">
+                                  <div *ngIf="f.start_date.errors.required">This field is required.</div>
+                                </div>
+                              </div>
+                            </fieldset>
+                          </div>
+                          <div class="col-xl-2 col-lg-6 col-md-12 mb-1">
+                            <fieldset class="form-group">
+                              <label for="disabledInput">เวลาเริ่ม</label>
+                              <input type="time" id="start_time" class="form-control" name="start_time"
+                                formControlName="start_time">
+                            </fieldset>
+                          </div>
+                          <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                            <fieldset class="form-group">
+                              <label for="helpInputTop">วันที่สิ้นสุด</label>
+                              <div class="p-grid ui-fluid">
+                                <p-calendar formControlName="stop_date"
+                                  [ngClass]="{ 'is-invalid': f.stop_date.errors && ( f.stop_date.dirty ||  f.stop_date.touched) }"
+                                  [showIcon]="true" [placeholder]="'dd/mm/yyyy'" dateFormat="dd/mm/yy"
+                                  [minDate]="minDate">
+                                </p-calendar>
+                                <div *ngIf="f.stop_date.errors" class="invalid-feedback">
+                                  <div *ngIf="f.stop_date.errors.required">This field is required.</div>
+                                </div>
+                              </div>
+                            </fieldset>
+                          </div>
+                          <div class="col-xl-2 col-lg-6 col-md-12 mb-1">
+                            <fieldset class="form-group">
+                              <label for="disabledInput">เวลาสิ้นสุด</label>
+                              <input type="time" id="stop_time" class="form-control" name="stop_time"
+                                formControlName="stop_time">
+                            </fieldset>
+                          </div>
+                          <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                            <fieldset class="form-group">
+                              <label for="disabledInput">จำนวนผู้ร่วมเดินทาง</label>
+                              <input type="text" autocomplete="off"
+                                [ngClass]="{ 'is-invalid': f.person_total.errors && ( f.person_total.dirty ||  f.person_total.touched) }"
+                                onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="5"
+                                class="form-control required" id="person_total" formControlName="person_total">
+                              <div *ngIf="f.person_total.errors" class="invalid-feedback">
+                                <div *ngIf="f.person_total.errors.required">This field is required.</div>
+                              </div>
+                            </fieldset>
+                          </div>
+                          <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                            <fieldset class="form-group">
+                              <label for="disabledInput">ประเภทรถ</label>
+                              <div class="p-md-10 ui-fluid">
+                                <p-dropdown [options]="types" placeholder="-------- เลือก --------" [showClear]="true"
+                                  [ngClass]="{ 'is-invalid': f.car_type_id.errors && ( f.car_type_id.dirty ||  f.car_type_id.touched) }"
+                                  [filter]='true' formControlName="car_type_id" (onChange)="carTypeChange($event)">
+                                </p-dropdown>
+                                <div *ngIf="carTypeIdErrors" style="color: #ff7588;">
+                                  <div>This field is required.</div>
+                                </div>
+                              </div>
+                            </fieldset>
+                          </div>
+                          <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                            <fieldset class="form-group">
+                              <label for="disabledInput">ทะเบียนรถ</label>
+                              <div class="p-md-10 ui-fluid">
+                                <p-dropdown [options]="numbers" placeholder="-------- เลือก --------" [showClear]="true"
+                                  [ngClass]="{ 'is-invalid': f.car_id.errors && ( f.car_id.dirty ||  f.car_id.touched) }"
+                                  [filter]='true' formControlName="car_id">
+                                </p-dropdown>
+                                <div *ngIf="carIdErrors" style="color: #ff7588;">
+                                  <div>This field is required.</div>
+                                </div>
+                              </div>
+                            </fieldset>
+                          </div>
+                          <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                            <fieldset class="form-group">
+                              <label for="disabledInput">เหตุผลการเดินทาง</label>
+                              <div class="p-md-10 ui-fluid">
+                                <p-dropdown [options]="reasons" placeholder="-------- เลือก --------" [showClear]="true"
+                                  [ngClass]="{ 'is-invalid': f.reason_id.errors && ( f.reason_id.dirty ||  f.reason_id.touched) }"
+                                  [filter]='true' formControlName="reason_id">
+                                </p-dropdown>
+                                <div *ngIf="reasonIdErrors" style="color: #ff7588;">
+                                  <div>This field is required.</div>
+                                </div>
+                              </div>
+                            </fieldset>
+                          </div>
+                          <div class="col-xl-8 col-lg-6 col-md-12 mb-1">
+                            <fieldset class="form-group">
+                              <label for="disabledInput">สถานที่ปลายทาง</label>
+                              <div class="p-md-10 ui-fluid">
+                                <p-dropdown [options]="destinations" placeholder="-------- เลือก --------"
+                                  [showClear]="true"
+                                  [ngClass]="{ 'is-invalid': f.dest_id.errors && ( f.dest_id.dirty ||  f.dest_id.touched) }"
+                                  [filter]='true' formControlName="dest_id">
+                                </p-dropdown>
+                                <div *ngIf="destIdErrors" style="color: #ff7588;">
+                                  <div>This field is required.</div>
+                                </div>
+                              </div>
+                            </fieldset>
+                          </div>
+                          <div class="col-xl-12 col-lg-6 col-md-12 mb-1">
+                            <fieldset class="form-group">
+                              <label for="squareText">หมายเหตุ</label>
+                              <textarea class="form-control" id="remark" rows="3" placeholder=""
+                                formControlName="remark"></textarea>
+                            </fieldset>
+                          </div>
+                          <div class="col-xl-4 col-lg-6 col-md-12">
+                            <fieldset class="form-group">
+                              <label for="basicInput">พนักงานที่แจ้งจองรถ</label>
+                              <button type="button" class="btn btn-success btn-sm float-right"
+                                (click)="addPerson('request')" [disabled]="readOnly == true" *ngIf="isAdmin">
+                                <i class="ft-plus"></i>
+                                Add
+                              </button>
+                              <input type="text" autocomplete="off" class="form-control" [(ngModel)]="personRequestName"
+                                [readOnly]="true" [ngModelOptions]="{standalone: true}">
+                            </fieldset>
+                          </div>
+                        </div>
+                      </form>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="row">
+                            <form class="col-sm-12 form">
+                              <div class="form-body">
+                                <h4 class="form-section"><i class="ft-user"></i> ผู้ร่วมเดินทาง</h4>
+                              </div>
+                            </form>
+                          </div>
+                          <dl class="row">
+                            <dt class="col-sm-12">
+                              <div class="row">
+                                <div class="col-xl-4">
+                                  <input type="text" autocomplete="off" class="form-control" [(ngModel)]="searchDataId"
+                                    (keydown.enter)="searchId($event.target.value)"
+                                    placeholder="ค้นหา ด้วยการป้อนรหัสพนักงาน แล้วกด Enter" id="searchDataId"
+                                    [disabled]="readOnly == true">
+                                </div>
+                                <div class="col-xl-8">
+                                  <button type="button" class="btn btn-success float-right"
+                                    (click)="addPerson('person')" [disabled]="readOnly == true">
+                                    <i class="ft-plus"></i>
+                                    Add
+                                  </button>
+                                </div>
+                              </div>
+                              <br>
+                              <div class="table-responsive">
+                                <p-table #dt [columns]="detailcols" [value]="detailDatasource" [paginator]="true"
+                                  [scrollable]="true" [rows]="30" [rowsPerPageOptions]="[30,50,100]" dataKey="id"
+                                  [resizableColumns]="false" [reorderableColumns]="false" stateStorage="local"
+                                  stateKey="detailDatasource-local">
+                                  <!-- <ng-template pTemplate="caption">
+                                    <div style="text-align: right">
+                                      Search:
+                                      <input type="text" autocomplete="off" pInputText size="20"
+                                        (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                                    </div>
+                                  </ng-template> -->
+
+                                  <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                      <th class="text-center" [pSortableColumn]="'depart'" pResizableColumn
+                                        pReorderableColumn>
+                                        แผนก
+                                        <p-sortIcon [field]="'depart'"></p-sortIcon>
+                                      </th>
+                                      <th class="text-center" [pSortableColumn]="'emp_name'" pResizableColumn
+                                        pReorderableColumn>
+                                        ชื่อ-นามสกุล
+                                        <p-sortIcon [field]="'emp_name'"></p-sortIcon>
+                                      </th>
+                                      <th class="text-center" [pSortableColumn]="'tel'" pResizableColumn
+                                        pReorderableColumn>
+                                        เบอร์ติดต่อ
+                                        <p-sortIcon [field]="'tel'"></p-sortIcon>
+                                      </th>
+                                      <th class="text-center" [pSortableColumn]="'email'" pResizableColumn
+                                        pReorderableColumn>
+                                        อีเมล
+                                        <p-sortIcon [field]="'email'"></p-sortIcon>
+                                      </th>
+                                      <th class="text-center" style="width:60px"><i class="ft-info"></i></th>
+                                    </tr>
+                                  </ng-template>
+                                  <ng-template pTemplate="colgroup" let-columns>
+                                    <colgroup>
+                                      <col [style.width]="'200px'">
+                                      <col [style.width]="'200px'">
+                                      <col [style.width]="'200px'">
+                                      <col [style.width]="'200px'">
+                                      <col [style.width]="'120px'">
+                                    </colgroup>
+                                  </ng-template>
+                                  <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                    <tr [pSelectableRow]="rowData">
+                                      <td>
+                                        {{ rowData['depart'] }}
+                                      </td>
+                                      <td>
+                                        {{ rowData['emp_name'] }}
+                                      </td>
+                                      <td>
+                                        {{ rowData['tel'] }}
+                                      </td>
+                                      <td class="text-center">
+                                        {{ rowData['email'] }}
+                                      </td>
+                                      <td class="text-center">
+                                        <a class="danger delete" (click)="deleteDetailDatasource(rowData.emp_code)"
+                                          *ngIf="readOnly != true">
+                                          <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                      </td>
+                                    </tr>
+                                  </ng-template>
+                                  <ng-template pTemplate="emptymessage" let-columns>
+                                    <tr>
+                                      <td [attr.colspan]="columns.length + 1" class="text-center">
+                                        No data available in table
+                                      </td>
+                                    </tr>
+                                  </ng-template>
+                                </p-table>
+                              </div>
+                            </dt>
+                          </dl>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<p-dialog [header]="'ยืนยันไม่อนุมัติ'" [(visible)]="modalConfirmReject" [position]="'top'" [modal]="true"
+[style]="{minWidth: '300px'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+  <div class="modal-body">
+    <label>เหตุผล</label>
+    <textarea class="form-control" id="reasonReject" rows="6" placeholder="" [(ngModel)]="reasonReject"></textarea>
+  </div>
+  <p-footer>
+    <fieldset class="form-group position-relative has-icon-left mb-0">
+      <button type="button" id="edit-contact-item" class="btn btn-warning edit-contact-item" data-dismiss="modal"
+        (click)="saveRejectBookingCar()">
+        <i class="fa fa-paper-plane-o d-lg-none"></i>
+        <span class="  d-lg-block">Reject</span>
+      </button>
+    </fieldset>
+  </p-footer>
+</p-dialog>
+
+<p-dialog [(visible)]="modalConfirmApprove" [position]="'top'" [modal]="true" [style]="{minWidth: '300px'}"
+  [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+  <p style="text-align: center;">ยืนยันการอนุมัติ</p>
+  <p-footer>
+    <fieldset class="form-group position-relative has-icon-left mb-0">
+      <button type="button" id="edit-contact-item" class="btn btn-success edit-contact-item" data-dismiss="modal"
+        (click)="saveApprove()">
+        <i class="fa fa-paper-plane-o d-lg-none"></i>
+        <span class="  d-lg-block">ตกลง</span>
+      </button>
+    </fieldset>
+  </p-footer>
+</p-dialog>
+
+<p-dialog [header]="'ยืนยันการยกเลิกจอง'" [(visible)]="modalConfirmCancel" [position]="'top'" [modal]="true"
+[style]="{minWidth: '300px'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+  <div class="modal-body">
+    <label>เหตุผล</label>
+    <textarea class="form-control" id="reasonCancel" rows="6" placeholder="" [(ngModel)]="reasonCancel"></textarea>
+  </div>
+  <p-footer>
+    <fieldset class="form-group position-relative has-icon-left mb-0">
+      <button type="button" id="edit-contact-item" class="btn btn-warning edit-contact-item" data-dismiss="modal"
+        (click)="saveCancelBookingCar()">
+        <i class="fa fa-paper-plane-o d-lg-none"></i>
+        <span class="  d-lg-block">ยกเลิกจอง</span>
+      </button>
+    </fieldset>
+  </p-footer>
+</p-dialog>
+
+<p-dialog [header]="'เพิ่มผู้ร่วมเดินทาง'" [(visible)]="modalAddPerson" [position]="'top'" [modal]="true"
+  [style]="{width: '50vw',minWidth: '300px'}"   [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-sm-6">
+        <label>รหัสพนักงาน</label>
+        <input type="text" autocomplete="off" class="form-control" id="searchEmpCode" [(ngModel)]="searchEmpCode">
+      </div>
+      <div class="col-sm-6">
+        <label>ชื่อ-นามสกุล</label>
+        <input type="text" autocomplete="off" class="form-control" id="searchEmpCode" [(ngModel)]="searchFullName">
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-sm-6">
+        <label>แผนก</label>
+        <div class="p-md-10 ui-fluid">
+          <p-dropdown [options]="searchSessions" placeholder="-------- ทั้งหมด --------" [showClear]="true"
+            [filter]='true' [(ngModel)]="searchSession">
+          </p-dropdown>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <label>&nbsp;</label>
+        <div class="p-md-10 ui-fluid">
+          <button type="button" id="edit-contact-item" class="btn grey btn-primary" (click)="serachDataPerson()">
+            <i class="fa fa-paper-plane-o d-lg-none"></i>
+            <span class="  d-lg-block">ค้นหา</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div class="table-responsive">
+      <p-table #dtperson [columns]="searchcols" [value]="searchDatasource" [paginator]="true" [rows]="30"
+        [scrollable]="true" [rowsPerPageOptions]="[30,50,100]" dataKey="id" [resizableColumns]="false"
+        [reorderableColumns]="false" stateStorage="local" stateKey="searchDatasource-local">
+        <!-- <ng-template pTemplate="caption">
+          <div style="text-align: right">
+            Search:
+            <input type="text" autocomplete="off" pInputText size="20" (input)="dtperson.filterGlobal($event.target.value, 'contains')"
+              style="width:auto">
+          </div>
+        </ng-template> -->
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th class="text-center" width="80px">
+              <i class="ft-info"></i>
+            </th>
+            <th class="text-center" [pSortableColumn]="'depart'" pResizableColumn pReorderableColumn>
+              แผนก
+              <p-sortIcon [field]="'depart'"></p-sortIcon>
+            </th>
+            <th class="text-center" [pSortableColumn]="'emp_name'" pResizableColumn pReorderableColumn>
+              ชื่อ-นามสกุล
+              <p-sortIcon [field]="'emp_name'"></p-sortIcon>
+            </th>
+            <th class="text-center" [pSortableColumn]="'emp_tel'" pResizableColumn pReorderableColumn>
+              เบอร์ติดต่อ
+              <p-sortIcon [field]="'emp_tel'"></p-sortIcon>
+            </th>
+            <th class="text-center" [pSortableColumn]="'emp_email'" pResizableColumn pReorderableColumn>
+              อีเมล
+              <p-sortIcon [field]="'emp_email'"></p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="colgroup" let-columns>
+          <colgroup>
+            <col [style.width]="'100px'">
+            <col [style.width]="'150px'">
+            <col [style.width]="'150px'">
+            <col [style.width]="'150px'">
+            <col [style.width]="'150px'">
+          </colgroup>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr [pSelectableRow]="rowData">
+            <td class="text-center">
+              <p-checkbox name="emp_code" [value]="rowData.emp_code" [(ngModel)]="searchSelecteds"
+                [ngModelOptions]="{standalone: true}">
+              </p-checkbox>
+            </td>
+            <td>
+              {{ rowData['depart'] }}
+            </td>
+            <td>
+              {{ rowData['emp_name'] }}
+            </td>
+            <td>
+              {{ rowData['emp_tel'] }}
+            </td>
+            <td class="text-center">
+              {{ rowData['emp_email'] }}
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+          <tr>
+            <td [attr.colspan]="columns.length +1 " class="text-center">
+              No data available in table
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+
+  <p-footer>
+    <fieldset class="form-group position-relative has-icon-left mb-0">
+      <button type="button" id="edit-contact-item" class="btn btn-success edit-contact-item" data-dismiss="modal"
+        (click)="saveAddPerson()">
+        <i class="fa fa-paper-plane-o d-lg-none"></i>
+        <span class="  d-lg-block">ยืนยัน</span>
+      </button>
+    </fieldset>
+  </p-footer>
+</p-dialog>

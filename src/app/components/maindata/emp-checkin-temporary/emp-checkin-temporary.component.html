@@ -1,0 +1,361 @@
+<div class="content-header row">
+  <div class="content-header-left col-md-6 col-12 mb-2">
+    <h3 class="content-header-title mb-0">เช็คอินนอกสถานที่ (ชั่วคราว)</h3>
+    <div class="row breadcrumbs-top">
+      <div class="breadcrumb-wrapper col-12">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a [routerLink]="['/home']">หน้าหลัก</a></li>
+          <li class="breadcrumb-item">เช็คอินนอกสถานที่ (ชั่วคราว)</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="content-header-right col-md-6 col-12">
+  </div>
+</div>
+
+<div class="content-body">
+  <section id="basic-form-layouts">
+    <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" id="basic-layout-form">เงื่อนไขการค้นหา</h4>
+            <!-- <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a> -->
+          </div>
+          <div class="card-content collapse show">
+            <div class="card-body">
+              <div class="form-body">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>วันที่ (From)</label>
+                      <div class="p-grid ui-fluid">
+                        <p-calendar [(ngModel)]="dateFrom" [showIcon]="true" [placeholder]="'dd/mm/yyyy'"
+                          dateFormat="dd/mm/yy" (onSelect)="funcSelectDateFrom($event)">
+                        </p-calendar>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>วันที่ (To)</label>
+                      <div class="p-grid ui-fluid">
+                        <p-calendar [(ngModel)]="dateTo" [showIcon]="true" [placeholder]="'dd/mm/yyyy'"
+                          dateFormat="dd/mm/yy" [minDate]="minDate">
+                        </p-calendar>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>รหัสพนักงาน (From)</label>
+                      <input type="text" autocomplete="off" class="form-control" id="empCodeFrom" placeholder="ทั้งหมด"
+                        [(ngModel)]="empCodeFrom">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>รหัสพนักงาน (To)</label>
+                      <input type="text" autocomplete="off" class="form-control" id="empCodeTo" placeholder="ทั้งหมด"
+                        [(ngModel)]="empCodeTo">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>แผนก</label>
+                      <div class="p-md-10 ui-fluid">
+                        <p-dropdown [options]="deps" placeholder="-------- ทั้งหมด --------" [showClear]="true"
+                          [filter]='true' [(ngModel)]="dep">
+                        </p-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>ชื่อ</label>
+                      <input type="text" autocomplete="off" class="form-control" id="empfname" placeholder="ทั้งหมด"
+                        [(ngModel)]="empfname">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>นามสกุล</label>
+                      <input type="text" autocomplete="off" class="form-control" id="emplname" placeholder="ทั้งหมด"
+                        [(ngModel)]="emplname">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="col-md-12">
+              <div class="form-actions">
+                <button type="button" class="btn btn-primary mr-1" (click)="search(dt)">
+                  <i class="ft-search"></i>Search</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" id="basic-layout-form">ผลการค้นหา</h4>
+            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+          </div>
+          <div class="card-content collapse show">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-xl-4">
+                  <input type="text" autocomplete="off" class="form-control" [(ngModel)]="searchDataId"
+                    (keydown.enter)="searchId($event.target.value)"
+                    placeholder="ค้นหา ด้วยการป้อนรหัสพนักงาน แล้วกด Enter" id="searchDataId">
+                </div>
+                <div class="col-xl-8" style="text-align:right">
+                  <button type="button" class="btn btn-success" (click)="addPerson()">
+                    <i class="ft-plus"></i>
+                    เพิ่มใหม่
+                  </button>
+                  <label>&nbsp;</label>
+                  <button type="button" class="btn btn-primary" (click)="saveData()">
+                    <i class="ft-save"></i>
+                    บันทึก
+                  </button>
+                </div>
+              </div>
+              <br>
+              <div class="table-responsive">
+
+                <p-table #dt [columns]="cols" [value]="datasource" [paginator]="true" [rows]="30"
+                  [rowsPerPageOptions]="[30,50,100]" dataKey="id" [resizableColumns]="false" [scrollable]="true"
+                  [reorderableColumns]="false" stateStorage="local" stateKey="datasource-local">
+                  <!-- <ng-template pTemplate="caption">
+                    <div style="text-align: right">
+                      Search:
+                      <input type="text" autocomplete="off" pInputText size="20" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                        style="width:auto">
+                    </div>
+                  </ng-template> -->
+                  <ng-template pTemplate="header" let-columns>
+                    <tr>
+                      <th class="text-center" [pSortableColumn]="'start_date'" pResizableColumn pReorderableColumn>
+                        วันที่เริ่ม
+                        <p-sortIcon [field]="'start_date'"></p-sortIcon>
+                      </th>
+                      <th class="text-center" [pSortableColumn]="'stop_date'" pResizableColumn pReorderableColumn>
+                        วันที่สิ้นสุด
+                        <p-sortIcon [field]="'stop_date'"></p-sortIcon>
+                      </th>
+                      <th class="text-center" [pSortableColumn]="'depart'" pResizableColumn pReorderableColumn>
+                        แผนก
+                        <p-sortIcon [field]="'depart'"></p-sortIcon>
+                      </th>
+                      <th class="text-center" [pSortableColumn]="'emp_name'" pResizableColumn pReorderableColumn>
+                        พนักงาน
+                        <p-sortIcon [field]="'emp_name'"></p-sortIcon>
+                      </th>
+                      <th class="text-center" [pSortableColumn]="'emp_tel'" pResizableColumn pReorderableColumn>
+                        เบอร์ติดต่อ
+                        <p-sortIcon [field]="'emp_tel'"></p-sortIcon>
+                      </th>
+                      <th class="text-center" [pSortableColumn]="'emp_email'" pResizableColumn pReorderableColumn>
+                        อีเมล
+                        <p-sortIcon [field]="'emp_email'"></p-sortIcon>
+                      </th>
+                      <th class="text-center" [pSortableColumn]="'action'" pResizableColumn pReorderableColumn>
+                        Action
+                        <p-sortIcon [field]="'action'"></p-sortIcon>
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="colgroup" let-columns>
+                    <colgroup>
+                      <col [style.width]="'250px'">
+                      <col [style.width]="'250px'">
+                      <col [style.width]="'150px'">
+                      <col [style.width]="'200px'">
+                      <col [style.width]="'150px'">
+                      <col [style.width]="'150px'">
+                      <col [style.width]="'80px'">
+                    </colgroup>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr [pSelectableRow]="rowData">
+                      <td class="text-center">
+                        <p-calendar [(ngModel)]="rowData['start_date']" [showIcon]="true" [placeholder]="'dd/mm/yyyy'"
+                          appendTo="body" dateFormat="dd/mm/yy">
+                        </p-calendar>
+                        <!-- {{ rowData['start_date'] }} -->
+                      </td>
+                      <td class="text-center">
+                        <p-calendar [(ngModel)]="rowData['stop_date']" [showIcon]="true" [placeholder]="'dd/mm/yyyy'"
+                          appendTo="body" dateFormat="dd/mm/yy">
+                        </p-calendar>
+                        <!-- {{ rowData['stop_date'] }} -->
+                      </td>
+                      <td>
+                        {{ rowData['depart'] }}
+                      </td>
+                      <td>
+                        {{ rowData['emp_name'] }}
+                      </td>
+                      <td>
+                        {{ rowData['emp_tel'] }}
+                      </td>
+                      <td>
+                        {{ rowData['emp_email'] }}
+                      </td>
+                      <td class="text-center">
+                        <a class="danger delete" (click)="deleteDetailDatasource(rowData.emp_code)">
+                          <i class="fas fa-trash-alt"></i>
+                        </a>
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage" let-columns>
+                    <tr>
+                      <td [attr.colspan]="columns.length" class="text-center">
+                        No data available in table
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<p-dialog [header]="'ค้นหาพนักงาน'" [(visible)]="modalAddPerson" [position]="'top'" [modal]="true"
+  [style]="{width: '50vw',minWidth:'300px'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-sm-6">
+        <label>รหัสพนักงาน</label>
+        <input type="text" autocomplete="off" class="form-control" id="searchEmpCode" [(ngModel)]="searchEmpCode">
+      </div>
+      <div class="col-sm-6">
+        <label>ชื่อ-นามสกุล</label>
+        <input type="text" autocomplete="off" class="form-control" id="searchEmpCode" [(ngModel)]="searchFullName">
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-sm-6">
+        <label>แผนก</label>
+        <div class="p-md-10 ui-fluid">
+          <p-dropdown [options]="searchSessions" placeholder="-------- ทั้งหมด --------" [showClear]="true"
+            [filter]='true' [(ngModel)]="searchSession">
+          </p-dropdown>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <label>&nbsp;</label>
+        <div class="p-md-10 ui-fluid">
+          <button type="button" id="edit-contact-item" class="btn grey btn-primary" (click)="serachDataPerson()">
+            <i class="fa fa-paper-plane-o d-lg-none"></i>
+            <span class="  d-lg-block">ค้นหา</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div class="table-responsive">
+      <p-table #dtperson [columns]="searchcols" [value]="searchDatasource" [paginator]="true" [rows]="30"
+        [rowsPerPageOptions]="[30,50,100]" dataKey="id" [resizableColumns]="false" [reorderableColumns]="false"
+        [scrollable]="true" stateStorage="local" stateKey="searchDatasource-local">
+        <!-- <ng-template pTemplate="caption">
+          <div style="text-align: right">
+            Search:
+            <input type="text" autocomplete="off" pInputText size="20" (input)="dtperson.filterGlobal($event.target.value, 'contains')"
+              style="width:auto">
+          </div>
+        </ng-template> -->
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th class="text-center" width="80px">
+              <i class="ft-info"></i>
+            </th>
+            <th class="text-center" [pSortableColumn]="'depart'" pResizableColumn pReorderableColumn>
+              แผนก
+              <p-sortIcon [field]="'depart'"></p-sortIcon>
+            </th>
+            <th class="text-center" [pSortableColumn]="'emp_name'" pResizableColumn pReorderableColumn>
+              ชื่อ-นามสกุล
+              <p-sortIcon [field]="'emp_name'"></p-sortIcon>
+            </th>
+            <th class="text-center" [pSortableColumn]="'emp_tel'" pResizableColumn pReorderableColumn>
+              เบอร์ติดต่อ
+              <p-sortIcon [field]="'emp_tel'"></p-sortIcon>
+            </th>
+            <th class="text-center" [pSortableColumn]="'emp_email'" pResizableColumn pReorderableColumn>
+              อีเมล
+              <p-sortIcon [field]="'emp_email'"></p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="colgroup" let-columns>
+          <colgroup>
+            <col [style.width]="'120px'">
+            <col [style.width]="'150px'">
+            <col [style.width]="'200px'">
+            <col [style.width]="'150px'">
+            <col [style.width]="'150px'">
+          </colgroup>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr [pSelectableRow]="rowData">
+            <td class="text-center">
+              <p-checkbox name="emp_code" [value]="rowData.emp_code" [(ngModel)]="searchSelecteds"
+                [ngModelOptions]="{standalone: true}">
+              </p-checkbox>
+            </td>
+            <td>
+              {{ rowData['depart'] }}
+            </td>
+            <td>
+              {{ rowData['emp_name'] }}
+            </td>
+            <td>
+              {{ rowData['emp_tel'] }}
+            </td>
+            <td class="text-center">
+              {{ rowData['emp_email'] }}
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+          <tr>
+            <td [attr.colspan]="columns.length +1 " class="text-center">
+              No data available in table
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <p-footer>
+    <fieldset class="form-group position-relative has-icon-left mb-0">
+      <button type="button" id="edit-contact-item" class="btn btn-success edit-contact-item" data-dismiss="modal"
+        (click)="saveAddPerson()">
+        <i class="fa fa-paper-plane-o d-lg-none"></i>
+        <span class="  d-lg-block">ยืนยัน</span>
+      </button>
+    </fieldset>
+  </p-footer>
+</p-dialog>

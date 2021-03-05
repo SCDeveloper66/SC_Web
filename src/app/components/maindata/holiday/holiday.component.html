@@ -1,0 +1,127 @@
+<div class="content-header row">
+  <div class="content-header-left col-md-6 col-12 mb-2">
+    <h3 class="content-header-title mb-0">วันหยุดประจำปี</h3>
+    <div class="row breadcrumbs-top">
+      <div class="breadcrumb-wrapper col-12">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/home']">หน้าหลัก</a>
+          </li>
+          <li class="breadcrumb-item">วันหยุดประจำปี</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="content-header-right col-md-6 col-12">
+  </div>
+</div>
+<div class="content-body">
+  <section id="Hldbasic-form-layouts">
+    <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" id="basic-layout-form">Search</h4>
+            <!-- <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a> -->
+          </div>
+          <div class="card-content collapse show">
+            <div class="card-body">
+              <div class="form-body">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>ปี</label>
+                      <div class="p-md-10 ui-fluid">
+                        <p-dropdown [options]="holidays" [filter]='true' [(ngModel)]="holiday">
+                        </p-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="col-md-12">
+              <div class="form-actions">
+                <button type="button" class="btn btn-primary mr-1" (click)="search(dt)">
+                  <i class="ft-search"></i>Search</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" id="Hldbasic-layout-form">Search results</h4>
+            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+          </div>
+          <div class="card-content collapse show">
+            <div class="card-body">
+
+              <p-table #dt [columns]="cols" [value]="datasource" [paginator]="true" [rows]="30"
+                [rowsPerPageOptions]="[30,50,100]" dataKey="id" [resizableColumns]="false" [scrollable]="true"
+                [reorderableColumns]="false" stateStorage="local" stateKey="datasource-local">
+                <!-- <ng-template pTemplate="caption">
+                  <div style="text-align: right">
+                    Search:
+                    <input type="text" autocomplete="off" pInputText size="20" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                      style="width:auto">
+                  </div>
+                </ng-template> -->
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th class="text-center" [pSortableColumn]="'no'" pResizableColumn pReorderableColumn>
+                      #
+                      <p-sortIcon [field]="'no'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'date'" pResizableColumn pReorderableColumn>
+                      วันที่
+                      <p-sortIcon [field]="'date'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'name'" pResizableColumn pReorderableColumn>
+                      วันหยุด
+                      <p-sortIcon [field]="'name'"></p-sortIcon>
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="colgroup" let-columns>
+                  <colgroup>
+                    <col [style.width]="'70px'">
+                    <col [style.width]="'200px'">
+                    <col [style.width]="'200px'">
+                  </colgroup>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr [pSelectableRow]="rowData">
+                    <td class="text-center">
+                      {{ rowData['number'] }}
+                    </td>
+                    <td>
+                      {{ rowData['date'] }}
+                    </td>
+                    <td>
+                      {{ rowData['name'] }}
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage" let-columns>
+                  <tr>
+                    <td [attr.colspan]="columns.length" class="text-center">
+                      No data available in table
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

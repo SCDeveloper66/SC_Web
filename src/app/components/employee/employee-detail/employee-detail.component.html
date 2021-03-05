@@ -1,0 +1,1233 @@
+<div class="content-header row">
+  <div class="content-header-left col-md-6 col-12 mb-2">
+    <h3 class="content-header-title mb-0">รายละเอียดข้อมูลพนักงาน</h3>
+    <div *ngIf="isMobile==false" class="row breadcrumbs-top">
+      <div class="breadcrumb-wrapper col-12">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/home']">
+              หน้าหลัก
+            </a>
+          </li>
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/employee/employee']">
+              ข้อมูลพนักงาน
+            </a>
+          </li>
+          <li class="breadcrumb-item">
+            รายละเอียดข้อมูลพนักงาน
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="content-header-right col-md-6 col-12">
+  </div>
+</div>
+
+<div class="content-body">
+  <section id="basic-form-layouts">
+
+    <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-content collapse show">
+            <div class="card-body">
+              <ul class="nav nav-tabs no-hover-bg" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" id="base-profiletab" data-toggle="tab" aria-controls="profiletab"
+                    href="#profiletab" role="tab" aria-selected="true">ข้อมูลทั่วไป</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="base-inouttab" data-toggle="tab" aria-controls="inouttab" href="#inouttab"
+                    role="tab" aria-selected="false">เวลาเข้า-ออกงาน</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="base-leavetab" data-toggle="tab" aria-controls="leavetab" href="#leavetab"
+                    role="tab" aria-selected="false">ประวัติการลา</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="base-OTtab" data-toggle="tab" aria-controls="OTtab" href="#OTtab" role="tab"
+                    aria-selected="false">&nbsp;&nbsp;&nbsp;OT&nbsp;&nbsp;&nbsp;</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="base-behaviortab" data-toggle="tab" aria-controls="behaviortab"
+                    href="#behaviortab" role="tab" aria-selected="false">ความดี+บทลงโทษ</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="base-gradetab" data-toggle="tab" aria-controls="gradetab" href="#gradetab"
+                    role="tab" aria-selected="false">ระดับผลงาน</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="base-cardtab" data-toggle="tab" aria-controls="cardtab" href="#cardtab"
+                    role="tab" aria-selected="false">บัตรประจำตัว</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="base-notetab" data-toggle="tab" aria-controls="notetab" href="#notetab"
+                    role="tab" aria-selected="false">บันทึกโน๊ต</a>
+                </li>
+              </ul>
+
+              <div class="tab-content ">
+                <!-- px-1 pt-1 -->
+                <div class="tab-pane active" id="profiletab" role="tabpanel" aria-labelledby="base-profiletab">
+                  <div class="card" *ngIf="profileTab">
+                    <div class="card-header" style="padding:0px !important">
+                      <div class="col-md-12 text-center">
+                        <div class="col-md-12 text-center">
+                          <img [src]="'data:image/png;base64,' + imageItem" *ngIf="imageItem"
+                            class="shadow-sm rounded-circle border border-secondary img-profile mb-1" />
+                          <img class="shadow-sm rounded-circle border border-secondary img-profile mb-1"
+                            src="assets/images/sdc-avatar.png" alt="" *ngIf="!imageItem">
+                        </div>
+                        <div class="col-md-12 text-center">
+                          <p-fileUpload #fileItem name="fileItem[]" mode="basic" accept="image/*"
+                            [maxFileSize]="1000000" allowTypes="/(\.|\/)(png|jpeg|JPEG|jpg|JPG)$/"
+                            (uploadHandler)="onUpload(fileItem)" customUpload="true" [auto]="true"
+                            chooseLabel="Upload Image">
+                          </p-fileUpload>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-content collapse show">
+                      <div class="card-body">
+                        <div class="card-text">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="row">
+                                <form class="col-sm-12 form">
+                                  <div class="form-body">
+                                    <h4 class="form-section"><i class="ft-info"></i> ข้อมูลพนักงาน</h4>
+                                  </div>
+                                </form>
+                              </div>
+                              <dl class="row">
+                                <dt class="col-sm-3 text-right">รหัสพนักงาน</dt>
+                                <dd class="col-sm-3">{{profileTab.code}}</dd>
+                                <dt class="col-sm-3 text-right">ชื่อ-นามสกุล</dt>
+                                <dd class="col-sm-3">{{profileTab.name}}</dd>
+                              </dl>
+                              <dl class="row">
+                                <dt class="col-sm-3 text-right">ฝ่าย</dt>
+                                <dd class="col-sm-3">{{profileTab.ds_name}}</dd>
+                                <dt class="col-sm-3 text-right text-truncate">แผนก</dt>
+                                <dd class="col-sm-3">{{profileTab.md_name}}</dd>
+                              </dl>
+                              <dl class="row">
+                                <dt class="col-sm-3 text-right">ระดับพนักงาน</dt>
+                                <dd class="col-sm-3">{{profileTab.level}}</dd>
+                                <dt class="col-sm-3 text-right">กะงาน</dt>
+                                <dd class="col-sm-3">{{profileTab.shift}}</dd>
+                              </dl>
+                              <dl class="row">
+                                <dt class="col-sm-3 text-right">เริ่มงานวันที่</dt>
+                                <dd class="col-sm-3">{{profileTab.start_work}}</dd>
+                                <dt class="col-sm-3 text-right">อายุงาน</dt>
+                                <dd class="col-sm-3">{{profileTab.age_work}}</dd>
+                              </dl>
+                              <dl class="row">
+                                <dt class="col-sm-3 text-right">หนังสืออนุญาตทำงาน</dt>
+                                <dd class="col-sm-3">{{profileTab.book_permit}}</dd>
+                                <dt class="col-sm-3 text-right">วันหมดอายุ </dt>
+                                <dd class="col-sm-3">{{profileTab.book_permit_expire}}</dd>
+                              </dl>
+                              <dl class="row">
+                                <dt class="col-sm-3 text-right">สายตรงผู้บังคับบัญชา + เบอร์โทร</dt>
+                                <dd class="col-sm-3">{{profileTab.boss_name}} {{profileTab.boss_tel}}</dd>
+                                <dt class="col-sm-3 text-right">สถานะการทำงาน</dt>
+                                <dd class="col-sm-3">{{profileTab.emp_status}}</dd>
+                              </dl>
+
+                              <div class="row">
+                                <form class="col-sm-12 form">
+                                  <div class="form-body">
+                                    <h4 class="form-section"><i class="ft-award"></i> ข้อมูลผลงาน/คะแนน</h4>
+                                  </div>
+                                </form>
+                              </div>
+                              <dl class="row">
+                                <dt class="col-sm-3 text-right">คะเเนนความดีสะสม SC Credit</dt>
+                                <dd class="col-sm-3">{{profileTab.sc_credit}}</dd>
+                                <dt class="col-sm-3 text-right">ระดับผลงาน</dt>
+                                <dd class="col-sm-3">{{profileTab.level_work}}</dd>
+                              </dl>
+
+                              <div class="row">
+                                <form class="col-sm-12 form">
+                                  <div class="form-body">
+                                    <h4 class="form-section"><i class="ft-info"></i> ข้อมูลสวัสดิการ</h4>
+                                  </div>
+                                </form>
+                              </div>
+                              <dl class="row">
+                                <dt class="col-sm-3 text-right">สิทธิ์การรักษาพยาบาลประกันสังคม</dt>
+                                <dd class="col-sm-3">{{profileTab.social_security}}</dd>
+                                <dt class="col-sm-3 text-right">สมาชิกกองทุนสำรองฯ</dt>
+                                <dd class="col-sm-3">{{profileTab.fund}}</dd>
+                              </dl>
+
+                              <dl class="row">
+                                <dt class="col-sm-3 text-right">สมาชิกสหกรณ์</dt>
+                                <dd class="col-sm-3">{{profileTab.cooperative}}</dd>
+                                <dt class="col-sm-3 text-right"></dt>
+                                <dd class="col-sm-3"></dd>
+                              </dl>
+
+                              <div class="row">
+                                <form class="col-sm-12 form">
+                                  <div class="form-body">
+                                    <h4 class="form-section"><i class="ft-user"></i> ข้อมูลส่วนตัว</h4>
+                                  </div>
+                                </form>
+                              </div>
+                              <dl class="row">
+                                <dt class="col-sm-3 text-right">เลขบัตรประชาชน / Passport</dt>
+                                <dd class="col-sm-3">{{profileTab.card_id}}</dd>
+                                <dt class="col-sm-3 text-right">วันหมดอายุ บัตรประชาชน / Passport</dt>
+                                <dd class="col-sm-3">{{profileTab.card_id_expire}}</dd>
+                              </dl>
+                              <dl class="row">
+                                <dt class="col-sm-3 text-right">วันเกิด</dt>
+                                <dd class="col-sm-3">{{profileTab.birthday}}</dd>
+                                <dt class="col-sm-3 text-right">อายุ</dt>
+                                <dd class="col-sm-3">{{profileTab.age}}</dd>
+                              </dl>
+                              <dl class="row">
+                                <dt class="col-sm-3 text-right">เพศ</dt>
+                                <dd class="col-sm-3">{{profileTab.sex}}</dd>
+                                <dt class="col-sm-3 text-right">กรุ๊ปเลือด</dt>
+                                <dd class="col-sm-3">{{profileTab.blood_type}}</dd>
+                              </dl>
+                              <dl class="row">
+                                <dt class="col-sm-3 text-right">ศาสนา</dt>
+                                <dd class="col-sm-3">{{profileTab.religion}}</dd>
+                                <dt class="col-sm-3 text-right">บัญชีเงินเดือน</dt>
+                                <dd class="col-sm-3">{{profileTab.salary_account}}</dd>
+                              </dl>
+                              <div class="row">
+                                <form class="col-sm-12 form">
+                                  <div class="form-body">
+                                    <h4 class="form-section"><i class="ft-phone"></i> ข้อมูลการติดต่อ</h4>
+                                  </div>
+                                </form>
+                              </div>
+                              <dl class="row">
+                                <dt class="col-sm-3 text-right">เบอร์โทรศัพท์</dt>
+                                <dd class="col-sm-3">{{profileTab.tel}}</dd>
+                                <dt class="col-sm-3 text-right">อีเมล์</dt>
+                                <dd class="col-sm-3">{{profileTab.email}}</dd>
+                              </dl>
+                              <dl class="row">
+                                <dt class="col-sm-3 text-right">Line ID</dt>
+                                <dd class="col-sm-3">{{profileTab.lineid}}</dd>
+                                <dt class="col-sm-3 text-right">ที่อยู่ปัจจุบัน</dt>
+                                <dd class="col-sm-3">{{profileTab.current_address}}</dd>
+                              </dl>
+
+                              <dl class="row">
+                                <dt class="col-sm-3 text-right">ที่อยู่ตามทะเบียนบ้าน</dt>
+                                <dd class="col-sm-3">{{profileTab.address}}</dd>
+                              </dl>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tab-pane" id="inouttab" role="tabpanel" aria-labelledby="base-inouttab">
+                  <div class="card">
+                    <div class="card-header">
+                      <div class="row ">
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label>ระหว่างวันที่</label>
+                            <div class="p-grid ui-fluid">
+                              <p-calendar [(ngModel)]="inoutDateFrom" [showIcon]="true" [placeholder]="'dd/mm/yyyy'"
+                                dateFormat="dd/mm/yy" (onSelect)="funcSelectDateFrom($event, 'inout')">
+                              </p-calendar>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label>ถึงวันที่</label>
+                            <div class="p-grid ui-fluid">
+                              <p-calendar [(ngModel)]="inoutDateTo" [showIcon]="true" [placeholder]="'dd/mm/yyyy'"
+                                dateFormat="dd/mm/yy" [minDate]="inoutminDate">
+                              </p-calendar>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label>&nbsp;</label>
+                            <button type="button" class="form-control btn btn-primary mr-1"
+                              (click)="serachInout(dtInout)">
+                              <i class="ft-search"></i> Search
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <!-- <div class="col-xl-1 col-lg-6 col-12">
+                          <div class="card">
+                            <div class="card-content">
+                            </div>
+                          </div>
+                        </div> -->
+                        <div class="col-xl-3 col-lg-6 col-12">
+                          <div class="card">
+                            <div class="card-content">
+                              <div class="media align-items-stretch">
+                                <div class="p-2 text-center bg-primary bg-darken-2">
+                                  <i class="icon-camera font-large-2 white"></i>
+                                </div>
+                                <div class="p-2 bg-gradient-x-primary white media-body">
+                                  <h5>มาปกติ</h5>
+                                  <h2 class="text-bold-400 mb-0">{{inoutNormal}}</h2>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-12">
+                          <div class="card">
+                            <div class="card-content">
+                              <div class="media align-items-stretch">
+                                <div class="p-2 text-center bg-danger bg-darken-2">
+                                  <i class="icon-user font-large-2 white"></i>
+                                </div>
+                                <div class="p-2 bg-gradient-x-danger white media-body">
+                                  <h5>ขาดงาน</h5>
+                                  <h2 class="text-bold-400 mb-0">{{inoutAbsence}}</h2>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-12">
+                          <div class="card">
+                            <div class="card-content">
+                              <div class="media align-items-stretch">
+                                <div class="p-2 text-center bg-warning bg-darken-2">
+                                  <i class="icon-basket-loaded font-large-2 white"></i>
+                                </div>
+                                <div class="p-2 bg-gradient-x-warning white media-body">
+                                  <h5>มาสาย</h5>
+                                  <h2 class="text-bold-400 mb-0">{{inoutLate}}</h2>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- <div class="col-xl-1 col-lg-6 col-12">
+                          <div class="card">
+                            <div class="card-content">
+                            </div>
+                          </div>
+                        </div> -->
+                      </div>
+                    </div>
+                    <div class="card-content collapse show">
+                      <div class="card-body" style="padding-top: 0px; ">
+                        <p-table #dtInout [columns]="inoutcols" [value]="inoutDatasource" [paginator]="true" [rows]="30"
+                          [rowsPerPageOptions]="[30,50,100]" dataKey="id" [resizableColumns]="false" [scrollable]="true"
+                          [reorderableColumns]="false" stateStorage="local" stateKey="inoutDatasource-local">
+                          <!-- <ng-template pTemplate="caption">
+                              <div style="text-align: right">
+                                Search:
+                                <input type="text" autocomplete="off" pInputText size="20"
+                                  (input)="dtInout.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                              </div>
+                            </ng-template> -->
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th class="text-center" [pSortableColumn]="'date'" pResizableColumn pReorderableColumn>
+                                วันที่
+                                <p-sortIcon [field]="'date'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'shift'" pResizableColumn pReorderableColumn>
+                                กะงาน
+                                <p-sortIcon [field]="'shift'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'time_in'" pResizableColumn pReorderableColumn>
+                                เวลาเข้างาน
+                                <p-sortIcon [field]="'time_in'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'time_in_status'" pResizableColumn
+                                pReorderableColumn>
+                                สถานะการเข้างาน
+                                <p-sortIcon [field]="'time_in_status'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'time_out'" pResizableColumn
+                                pReorderableColumn>
+                                เวลาออกงาน
+                                <p-sortIcon [field]="'time_out'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'time_out_status'" pResizableColumn
+                                pReorderableColumn>
+                                สถานะการออกงาน
+                                <p-sortIcon [field]="'time_out_status'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'type'" pResizableColumn pReorderableColumn>
+                                ประเภทการลงเวลา
+                                <p-sortIcon [field]="'type'"></p-sortIcon>
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="colgroup" let-columns>
+                            <colgroup>
+                              <col [style.width]="'150px'">
+                              <col [style.width]="'150px'">
+                              <col [style.width]="'150px'">
+                              <col [style.width]="'250px'">
+                              <col [style.width]="'150px'">
+                              <col [style.width]="'150px'">
+                              <col [style.width]="'150px'">
+                            </colgroup>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-columns="columns">
+                            <tr [pSelectableRow]="rowData">
+                              <td>
+                                {{ rowData['date'] }}
+                              </td>
+                              <td>
+                                {{ rowData['shift'] }}
+                              </td>
+                              <td>
+                                {{ rowData['time_in'] }}
+                              </td>
+                              <td>
+                                {{ rowData['time_in_status'] }}
+                              </td>
+                              <td>
+                                {{ rowData['time_out'] }}
+                              </td>
+                              <td class="text-center">
+                                {{ rowData['time_out_status'] }}
+                              </td>
+                              <td class="text-center">
+                                {{ rowData['type'] }}
+                              </td>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="emptymessage" let-columns>
+                            <tr>
+                              <td [attr.colspan]="columns.length" class="text-center">
+                                No data available in table
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tab-pane" id="leavetab" role="tabpanel" aria-labelledby="base-leavetab">
+                  <div class="card">
+                    <div class="card-header text-center">
+                      <div class="row ">
+                        <div class="col-md-12">
+                          <div class="table-responsive">
+                            <table id="recent-orders" class="table table-hover mb-0 ps-container ps-theme-default">
+                              <thead>
+                                <tr>
+                                  <th>ประเภทสิทธิ์</th>
+                                  <th>สิทธิ์สะสม</th>
+                                  <th>สิทธิ์ปัจจุบัน</th>
+                                  <th>ใช้ไป</th>
+                                  <th>คงเหลือ</th>
+                                </tr>
+                              </thead>
+                              <tbody *ngIf="leavetab">
+                                <tr *ngFor="let item of leavetab.quota">
+                                  <td class="text-truncate"><a>{{item.type_name}}</a></td>
+                                  <td class="text-truncate">{{item.cumulative}}</td>
+                                  <td class="text-truncate">{{item.present}}</td>
+                                  <td class="text-truncate">{{item.use}}</td>
+                                  <td class="text-truncate">
+                                    <span class="badge badge-success">{{item.net}}</span>
+                                  </td>
+                                </tr>
+                                <tr *ngIf="leavetab.quota.length <= 0">
+                                  <td colspan="5">No data available</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-content collapse show">
+                      <div class="card-body">
+                        <div class="row ">
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label>ระหว่างวันที่</label>
+                              <div class="p-grid ui-fluid">
+                                <p-calendar [(ngModel)]="leaveDateFrom" [showIcon]="true" [placeholder]="'dd/mm/yyyy'"
+                                  dateFormat="dd/mm/yy" (onSelect)="funcSelectDateFrom($event, 'leave')">
+                                </p-calendar>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label>ถึงวันที่</label>
+                              <div class="p-grid ui-fluid">
+                                <p-calendar [(ngModel)]="leaveDateTo" [showIcon]="true" [placeholder]="'dd/mm/yyyy'"
+                                  dateFormat="dd/mm/yy" [minDate]="leaveminDate">
+                                </p-calendar>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <div class="form-group">
+                              <label>&nbsp;</label>
+                              <button type="button" class="form-control btn btn-primary mr-1"
+                                (click)="serachLeave(dtLeave)">
+                                <i class="ft-search"></i> Search
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        <p-table #dtLeave [columns]="leavecols" [value]="leaveDatasource" [paginator]="true" [rows]="30"
+                          [rowsPerPageOptions]="[30,50,100]" dataKey="id" [resizableColumns]="false" [scrollable]="true"
+                          [reorderableColumns]="false" stateStorage="local" stateKey="leaveDatasource-local">
+                          <!-- <ng-template pTemplate="caption">
+                              <div style="text-align: right">
+                                Search:
+                                <input type="text" autocomplete="off" pInputText size="20"
+                                  (input)="dtLeave.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                              </div>
+                            </ng-template> -->
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th class="text-center" [pSortableColumn]="'start_date'" pResizableColumn
+                                pReorderableColumn>
+                                วันที่เริ่มต้น
+                                <p-sortIcon [field]="'start_date'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'stop_date'" pResizableColumn
+                                pReorderableColumn>
+                                วันที่สิ้นสุด
+                                <p-sortIcon [field]="'stop_date'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'total_day'" pResizableColumn
+                                pReorderableColumn>
+                                จำนวนวัน
+                                <p-sortIcon [field]="'total_day'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'type'" pResizableColumn pReorderableColumn>
+                                ประเภทการลา
+                                <p-sortIcon [field]="'type'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'reason'" pResizableColumn pReorderableColumn>
+                                เหตุผลการลา
+                                <p-sortIcon [field]="'reason'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'create_date'" pResizableColumn
+                                pReorderableColumn>
+                                วันที่ทำรายการ
+                                <p-sortIcon [field]="'create_date'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'appr_status'" pResizableColumn
+                                pReorderableColumn>
+                                สถานะการลา
+                                <p-sortIcon [field]="'appr_status'"></p-sortIcon>
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="colgroup" let-columns>
+                            <colgroup>
+                              <col [style.width]="'150px'">
+                              <col [style.width]="'150px'">
+                              <col [style.width]="'150px'">
+                              <col [style.width]="'150px'">
+                              <col [style.width]="'150px'">
+                              <col [style.width]="'150px'">
+                              <col [style.width]="'150px'">
+                            </colgroup>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-columns="columns">
+                            <tr [pSelectableRow]="rowData">
+                              <td class="text-center">
+                                {{ rowData['start_date'] }}
+                              </td>
+                              <td class="text-center">
+                                {{ rowData['stop_date'] }}
+                              </td>
+                              <td class="text-center">
+                                {{ rowData['total_day'] }}
+                              </td>
+                              <td class="text-center">
+                                {{ rowData['type'] }}
+                              </td>
+                              <td class="text-center">
+                                {{ rowData['reason'] }}
+                              </td>
+                              <td class="text-center">
+                                {{ rowData['create_date'] }}
+                              </td>
+                              <td class="text-center">
+                                {{ rowData['appr_status'] }}
+                              </td>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="emptymessage" let-columns>
+                            <tr>
+                              <td [attr.colspan]="columns.length" class="text-center">
+                                No data available in table
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tab-pane" id="OTtab" role="tabpanel" aria-labelledby="base-OTtab">
+                  <div class="card">
+                    <div class="card-header">
+                      <div class="row ">
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label>ระหว่างวันที่</label>
+                            <div class="p-grid ui-fluid">
+                              <p-calendar [(ngModel)]="OTDateFrom" [showIcon]="true" [placeholder]="'dd/mm/yyyy'"
+                                dateFormat="dd/mm/yy" (onSelect)="funcSelectDateFrom($event, 'OT')">
+                              </p-calendar>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label>ถึงวันที่</label>
+                            <div class="p-grid ui-fluid">
+                              <p-calendar [(ngModel)]="OTDateTo" [showIcon]="true" [placeholder]="'dd/mm/yyyy'"
+                                dateFormat="dd/mm/yy" [minDate]="OTminDate">
+                              </p-calendar>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label>&nbsp;</label>
+                            <button type="button" class="form-control btn btn-primary mr-1" (click)="serachOT(dtOT)">
+                              <i class="ft-search"></i> Search
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xl-3 col-lg-6 col-12">
+                          <div class="card" (click)="OTTypeClicked(1)">
+                            <div class="card-content">
+                              <div class="media align-items-stretch">
+                                <div class="p-2 text-center bg-primary bg-darken-2">
+                                  <i class="icon-camera font-large-2 white"></i>
+                                </div>
+                                <div class="p-2 bg-gradient-x-primary white media-body">
+                                  <h5>ชั่วโมงโควต้า</h5>
+                                  <h2 class="text-bold-400 mb-0">{{OTQuota}}</h2>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-12">
+                          <div class="card" (click)="OTTypeClicked(2)">
+                            <div class="card-content">
+                              <div class="media align-items-stretch">
+                                <div class="p-2 text-center bg-danger bg-darken-2">
+                                  <i class="icon-user font-large-2 white"></i>
+                                </div>
+                                <div class="p-2 bg-gradient-x-danger white media-body">
+                                  <h5>ชั่วโมงที่ทำ OT</h5>
+                                  <h2 class="text-bold-400 mb-0">{{OTUse}}</h2>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- <div class="col-xl-1 col-lg-6 col-12">
+                          <div class="card">
+                            <div class="card-content">
+                            </div>
+                          </div>
+                        </div> -->
+                      </div>
+                    </div>
+                    <div class="card-content collapse show">
+                      <!-- *ngIf="OTShowDetail" -->
+                      <div class="card-body" style="padding-top: 0px;">
+                        <p-table #dtOT [columns]="OTcols" [value]="OTDatasource" [paginator]="true" [rows]="30"
+                          [rowsPerPageOptions]="[30,50,100]" dataKey="id" [resizableColumns]="false" [scrollable]="true"
+                          [reorderableColumns]="false" stateStorage="local" stateKey="OTDatasource-local">
+                          <!-- <ng-template pTemplate="caption">
+                              <div style="text-align: right">
+                                Search:
+                                <input type="text" autocomplete="off" pInputText size="20"
+                                  (input)="dtInout.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                              </div>
+                            </ng-template> -->
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th class="text-center" [pSortableColumn]="'ot_date'" pResizableColumn pReorderableColumn>
+                                วันที่
+                                <p-sortIcon [field]="'ot_date'"></p-sortIcon>
+                              </th>
+                              <!-- <th class="text-center" [pSortableColumn]="'ot_time'" pResizableColumn pReorderableColumn>
+                                เวลา
+                                <p-sortIcon [field]="'ot_time'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'ot_detail'" pResizableColumn
+                                pReorderableColumn>
+                                รายละเอียด
+                                <p-sortIcon [field]="'ot_detail'"></p-sortIcon>
+                              </th> -->
+                              <th class="text-center" [pSortableColumn]="'ot_hh_mm'" pResizableColumn
+                                pReorderableColumn>
+                                ชั่วโมง : นาที
+                                <p-sortIcon [field]="'ot_hh_mm'"></p-sortIcon>
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="colgroup" let-columns>
+                            <colgroup>
+                              <col [style.width]="'200px'">
+                              <!-- <col [style.width]="'200px'">
+                              <col> -->
+                              <col [style.width]="'250px'">
+                            </colgroup>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-columns="columns">
+                            <tr [pSelectableRow]="rowData">
+                              <td>
+                                {{ rowData['ot_date'] }}
+                              </td>
+                              <!-- <td>
+                                {{ rowData['ot_time'] }}
+                              </td>
+                              <td>
+                                {{ rowData['ot_detail'] }}
+                              </td> -->
+                              <td>
+                                {{ rowData['ot_hh_mm'] }}
+                              </td>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="emptymessage" let-columns>
+                            <tr>
+                              <td [attr.colspan]="columns.length" class="text-center">
+                                No data available in table
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tab-pane" id="behaviortab" role="tabpanel" aria-labelledby="base-behaviortab">
+                  <div class="card">
+                    <div class="card-header text-center">
+                      <div class="heading-elements mt-0">
+                        <button class="btn btn-success" type="button" (click)="exportBehavior()">
+                          <span class="d-md-block  "> <i class="ft-download"></i> Export</span>
+                        </button>
+                        <label>&nbsp;</label>
+                        <button class="btn btn-success" type="button" (click)="behaviorTabEdit('ADD', '', '', '', '')">
+                          <span class="d-md-block  "> <i class="ft-plus"></i> เพิ่มรายการ</span>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-content collapse show">
+                      <div class="card-body">
+                        <p-table #dtBehavior [columns]="behaviorcols" [value]="behaviorDatasource" [paginator]="true"
+                          [rows]="30" [rowsPerPageOptions]="[30,50,100]" dataKey="id" [resizableColumns]="false"
+                          [scrollable]="true" [reorderableColumns]="false" stateStorage="local"
+                          stateKey="behaviorDatasource-local">
+                          <!-- <ng-template pTemplate="caption">
+                              <div style="text-align: right">
+                                Search:
+                                <input type="text" autocomplete="off" pInputText size="20"
+                                  (input)="dtBehavior.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                              </div>
+                            </ng-template> -->
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th class="text-center" [pSortableColumn]="'no'" pResizableColumn pReorderableColumn>
+                                ลำดับ
+                                <p-sortIcon [field]="'no'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'year'" pResizableColumn pReorderableColumn>
+                                ปี
+                                <p-sortIcon [field]="'year'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'date'" pResizableColumn pReorderableColumn>
+                                วันที่
+                                <p-sortIcon [field]="'date'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'detail'" pResizableColumn pReorderableColumn>
+                                รายละเอียด
+                                <p-sortIcon [field]="'detail'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'score'" pResizableColumn pReorderableColumn>
+                                คะแนน
+                                <p-sortIcon [field]="'score'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'action'" pResizableColumn pReorderableColumn>
+                                Action
+                                <p-sortIcon [field]="'action'"></p-sortIcon>
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="colgroup" let-columns>
+                            <colgroup>
+                              <col [style.width]="'70px'">
+                              <col [style.width]="'120px'">
+                              <col [style.width]="'150px'">
+                              <col [style.width]="'200px'">
+                              <col [style.width]="'150px'">
+                              <col [style.width]="'100px'">
+                            </colgroup>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-columns="columns">
+                            <tr [pSelectableRow]="rowData">
+                              <td class="text-center">
+                                {{ rowData['no'] }}
+                              </td>
+                              <td>
+                                {{ rowData['year'] }}
+                              </td>
+                              <td>
+                                {{ rowData['date'] }}
+                              </td>
+                              <td>
+                                {{ rowData['detail'] }}
+                              </td>
+                              <td class="text-center">
+                                {{ rowData['score'] }}
+                              </td>
+                              <td class="text-center">
+                                <a class="primary edit mr-1"
+                                  (click)="behaviorTabEdit(rowData['id'], rowData['year'], rowData['date'], rowData['detail'], rowData['score'])">
+                                  <i class="fas fa-pencil-alt"></i>
+                                </a>
+                                <a class="danger delete mr-1"
+                                  (click)="showModalDialogConfirmDeleteBehavior(rowData['id'])">
+                                  <i class="fas fa-trash-alt"></i>
+                                </a>
+                              </td>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="emptymessage" let-columns>
+                            <tr>
+                              <td [attr.colspan]="columns.length" class="text-center">
+                                No data available in table
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tab-pane" id="gradetab" role="tabpanel" aria-labelledby="base-gradetab">
+                  <div class="card">
+                    <div class="card-header text-center">
+                      <div class="heading-elements mt-0">
+                        <button type="button" class="btn btn-success" (click)="gradeTabEdit('ADD', '', '', '')">
+                          <span class="d-md-block  "> <i class="ft-plus"></i> เพิ่มรายการ</span></button>
+                      </div>
+                    </div>
+                    <div class="card-content collapse show">
+                      <div class="card-body">
+                        <p-table #dtGrade [columns]="gradecols" [value]="gradeDatasource" [paginator]="true" [rows]="30"
+                          [rowsPerPageOptions]="[30,50,100]" dataKey="id" [resizableColumns]="false" [scrollable]="true"
+                          [reorderableColumns]="false" stateStorage="local" stateKey="gradeDatasource-local">
+                          <!-- <ng-template pTemplate="caption">
+                              <div style="text-align: right">
+                                Search:
+                                <input type="text" autocomplete="off" pInputText size="20"
+                                  (input)="dtGrade.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                              </div>
+                            </ng-template> -->
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th class="text-center" [pSortableColumn]="'no'" pResizableColumn pReorderableColumn>
+                                ลำดับ
+                                <p-sortIcon [field]="'no'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'no2'" pResizableColumn pReorderableColumn>
+                                ครั้งที่
+                                <p-sortIcon [field]="'no2'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'date'" pResizableColumn pReorderableColumn>
+                                วันที่มีผล
+                                <p-sortIcon [field]="'date'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'grade'" pResizableColumn pReorderableColumn>
+                                เกรด
+                                <p-sortIcon [field]="'grade'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'action'" pResizableColumn pReorderableColumn>
+                                Action
+                                <p-sortIcon [field]="'action'"></p-sortIcon>
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="colgroup" let-columns>
+                            <colgroup>
+                              <col [style.width]="'70px'">
+                              <col [style.width]="'100px'">
+                              <col [style.width]="'100px'">
+                              <col [style.width]="'100px'">
+                              <col [style.width]="'100px'">
+                            </colgroup>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-columns="columns">
+                            <tr [pSelectableRow]="rowData">
+                              <td class="text-center">
+                                {{ rowData['no'] }}
+                              </td>
+                              <td class="text-center">
+                                {{ rowData['no2'] }}
+                              </td>
+                              <td>
+                                {{ rowData['date'] }}
+                              </td>
+                              <td class="text-center">
+                                {{ rowData['grade'] }}
+                              </td>
+                              <td class="text-center">
+                                <a class="primary edit mr-1"
+                                  (click)="gradeTabEdit(rowData['id'], rowData['no2'], rowData['date'], rowData['grade'])">
+                                  <i class="fas fa-pencil-alt"></i>
+                                </a>
+                                <a class="danger delete mr-1" (click)="showModalDialogConfirmDelete(rowData['id'])">
+                                  <i class="fas fa-trash-alt"></i>
+                                </a>
+                              </td>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="emptymessage" let-columns>
+                            <tr>
+                              <td [attr.colspan]="columns.length" class="text-center">
+                                No data available in table
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tab-pane" id="cardtab" role="tabpanel" aria-labelledby="base-cardtab">
+                  <div class="card">
+                    <div class="card-header text-center">
+                      <div class="heading-elements mt-0">
+                        <button class="btn btn-primary" (click)="cardTabEdit('ADD','','','')">
+                          <span class="d-md-block "> <i class="ft-plus"></i> เปลี่ยนบัตร</span>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-content collapse show">
+                      <div class="card-body">
+                        <p-table #dtCard [columns]="cardcols" [value]="cardDatasource" [paginator]="true" [rows]="30"
+                          [rowsPerPageOptions]="[30,50,100]" dataKey="id" [resizableColumns]="false" [scrollable]="true"
+                          [reorderableColumns]="false" stateStorage="local" stateKey="cardDatasource-local">
+                          <!-- <ng-template pTemplate="caption">
+                              <div style="text-align: right">
+                                Search:
+                                <input type="text" autocomplete="off" pInputText size="20"
+                                  (input)="dtCard.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                              </div>
+                            </ng-template> -->
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th class="text-center" [pSortableColumn]="'no'" pResizableColumn pReorderableColumn>
+                                ลำดับ
+                                <p-sortIcon [field]="'no'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'date'" pResizableColumn pReorderableColumn>
+                                วันที่
+                                <p-sortIcon [field]="'date'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'card_no'" pResizableColumn pReorderableColumn>
+                                รหัสบัตร
+                                <p-sortIcon [field]="'card_no'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'status'" pResizableColumn pReorderableColumn>
+                                สถานะ
+                                <p-sortIcon [field]="'status'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'action'" pResizableColumn pReorderableColumn>
+                                Action
+                                <p-sortIcon [field]="'action'"></p-sortIcon>
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="colgroup" let-columns>
+                            <colgroup>
+                              <col [style.width]="'70px'">
+                              <col [style.width]="'100px'">
+                              <col [style.width]="'120px'">
+                              <col [style.width]="'100px'">
+                              <col [style.width]="'100px'">
+                            </colgroup>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-columns="columns">
+                            <tr [pSelectableRow]="rowData">
+                              <td class="text-center">
+                                {{ rowData['no'] }}
+                              </td>
+                              <td>
+                                {{ rowData['date'] }}
+                              </td>
+                              <td>
+                                {{ rowData['card_no'] }}
+                              </td>
+                              <td class="text-center">
+                                <span class="badge badge-success" *ngIf="rowData.status == '1'">ใช้งาน</span>
+                                <span class="badge badge-danger" *ngIf="rowData.status == '0'">ระงับใช้งาน</span>
+                              </td>
+                              <td class="text-center">
+                                <a class="primary edit mr-1"
+                                  (click)="cardTabEdit(rowData['id'], rowData['date'], rowData['card_no'], rowData['status'])">
+                                  <i class="fas fa-pencil-alt"></i>
+                                </a>
+                              </td>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="emptymessage" let-columns>
+                            <tr>
+                              <td [attr.colspan]="columns.length" class="text-center">
+                                No data available in table
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tab-pane" id="notetab" role="tabpanel" aria-labelledby="base-notetab">
+                  <div class="card">
+                    <div class="card-header">
+                      <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+                        <button type="button" class="btn btn-primary" (click)="saveNoteData()">
+                          <i class="ft-save"></i> บันทึก
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-content collapse show">
+                      <div class="card-body" style="padding-top: 0px;">
+                        <fieldset class="form-group">
+                          <textarea class="form-control" id="txtNote" rows="6" placeholder=""
+                            [(ngModel)]="txtNote"></textarea>
+                        </fieldset>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+<p-dialog header="รายการ" [(visible)]="displayBehaviorModal" [position]="'top'" [modal]="true" [style]="{minWidth: '300px'}"
+  [baseZIndex]="50000" [draggable]="false" [resizable]="false" [contentStyle]="{minHeight: '450px'}">
+  <form [formGroup]="behavioritemFormGroup" class="contact-input">
+    <div class="modal-body">
+      <label>วันที่</label>
+      <div class="p-grid ui-fluid">
+        <p-calendar formControlName="date"
+          [ngClass]="{ 'is-invalid': fBehavior.date.errors && ( fBehavior.date.dirty ||  fBehavior.date.touched) }"
+          [showIcon]="true" [placeholder]="'dd/mm/yyyy'" dateFormat="dd/mm/yy">
+        </p-calendar>
+        <div *ngIf="fBehavior.date.errors" class="invalid-feedback">
+          <div *ngIf="fBehavior.date.errors.required">This field is required.</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <label>รายละเอียด</label>
+      <input type="text" autocomplete="off"
+        [ngClass]="{ 'is-invalid': fBehavior.detail.errors && ( fBehavior.detail.dirty ||  fBehavior.detail.touched) }"
+        class="form-control required" id="detail" formControlName="detail">
+      <div *ngIf="fBehavior.detail.errors" class="invalid-feedback">
+        <div *ngIf="fBehavior.detail.errors.required">This field is required.</div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <label>คะแนน</label>
+      <input type="text" autocomplete="off"
+        [ngClass]="{ 'is-invalid': fBehavior.score.errors && ( fBehavior.score.dirty ||  fBehavior.score.touched) }"
+        class="form-control required" id="score" formControlName="score" maxlength="5">
+      <div *ngIf="fBehavior.score.errors" class="invalid-feedback">
+        <div *ngIf="fBehavior.score.errors.required">This field is required.</div>
+      </div>
+    </div>
+  </form>
+  <p-footer>
+    <fieldset class="form-group position-relative has-icon-left mb-0">
+      <button type="button" id="edit-contact-item" class="btn btn-info edit-contact-item" data-dismiss="modal"
+        (click)="saveItemBehavior()">
+        <i class="fa fa-paper-plane-o d-lg-none"></i>
+        <span class=" d-lg-block">บันทึก</span>
+      </button>
+    </fieldset>
+  </p-footer>
+</p-dialog>
+
+<p-dialog header="รายการ" [(visible)]="displayGradeModal" [position]="'top'" [modal]="true" [style]="{minWidth: '300px'}"
+  [baseZIndex]="50000" [draggable]="false" [resizable]="false" [contentStyle]="{minHeight: '550px'}">
+  <form [formGroup]="gradeitemFormGroup" class="contact-input">
+    <div class="modal-body">
+      <label>ครั้งที่</label>
+      <input type="text" autocomplete="off"
+        [ngClass]="{ 'is-invalid': fGrade.no.errors && ( fGrade.no.dirty ||  fGrade.no.touched) }"
+        class="form-control required" id="no" formControlName="no">
+      <div *ngIf="fGrade.no.errors" class="invalid-feedback">
+        <div *ngIf="fGrade.no.errors.required">This field is required.</div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <label>วันที่</label>
+      <div class="p-grid ui-fluid">
+        <p-calendar formControlName="date"
+          [ngClass]="{ 'is-invalid': fGrade.date.errors && ( fGrade.date.dirty ||  fGrade.date.touched) }"
+          [showIcon]="true" [placeholder]="'dd/mm/yyyy'" dateFormat="dd/mm/yy">
+        </p-calendar>
+        <div *ngIf="fGrade.date.errors" class="invalid-feedback">
+          <div *ngIf="fGrade.date.errors.required">This field is required.</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <label>เกรด</label>
+      <div class="p-md-10 ui-fluid">
+        <p-dropdown [options]="gradesSave" placeholder="-------- เลือก --------" [showClear]="true"
+          [ngClass]="{ 'is-invalid': fGrade.grade.errors && ( fGrade.grade.dirty ||  fGrade.grade.touched) }"
+          [filter]='true' formControlName="grade">
+        </p-dropdown>
+        <div *ngIf="fGrade.grade.errors" class="invalid-feedback">
+          <div *ngIf="fGrade.grade.errors.required">This field is required.</div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <p-footer>
+    <fieldset class="form-group position-relative has-icon-left mb-0">
+      <button type="button" id="edit-contact-item" class="btn btn-info edit-contact-item" data-dismiss="modal"
+        (click)="saveItemGrade()">
+        <i class="fa fa-paper-plane-o d-lg-none"></i>
+        <span class=" d-lg-block">บันทึก</span>
+      </button>
+    </fieldset>
+  </p-footer>
+</p-dialog>
+
+<p-dialog header="บัตร" [(visible)]="displayCardModal" [position]="'top'" [modal]="true" [style]="{minWidth: '300px'}"
+  [baseZIndex]="50000" [draggable]="false" [resizable]="false" [contentStyle]="{minHeight: '450px'}">
+  <form [formGroup]="carditemFormGroup" class="contact-input">
+    <div class="modal-body">
+      <label>วันที่</label>
+      <div class="p-grid ui-fluid">
+        <p-calendar formControlName="date"
+          [ngClass]="{ 'is-invalid': fCard.date.errors && ( fCard.date.dirty ||  fCard.date.touched) }"
+          [showIcon]="true" [placeholder]="'dd/mm/yyyy'" dateFormat="dd/mm/yy">
+        </p-calendar>
+        <div *ngIf="fCard.date.errors" class="invalid-feedback">
+          <div *ngIf="fCard.date.errors.required">This field is required.</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <label>รหัสบัตร</label>
+      <input type="text" autocomplete="off"
+        [ngClass]="{ 'is-invalid': fCard.card_no.errors && ( fCard.card_no.dirty ||  fCard.card_no.touched) }"
+        class="form-control required" id="card_no" formControlName="card_no">
+      <div *ngIf="fCard.card_no.errors" class="invalid-feedback">
+        <div *ngIf="fCard.card_no.errors.required">This field is required.</div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <label>สถานะ</label>
+      <div class="p-md-10 ui-fluid">
+        <p-dropdown [options]="cardsSave" placeholder="-------- เลือก --------" [showClear]="true"
+          [ngClass]="{ 'is-invalid': fCard.status.errors && ( fCard.status.dirty ||  fCard.status.touched) }"
+          [filter]='true' formControlName="status">
+        </p-dropdown>
+        <div *ngIf="fCard.status.errors" class="invalid-feedback">
+          <div *ngIf="fCard.status.errors.required">This field is required.</div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <p-footer>
+    <fieldset class="form-group position-relative has-icon-left mb-0">
+      <button type="button" id="edit-contact-item" class="btn btn-info edit-contact-item" data-dismiss="modal"
+        (click)="saveItemCard()">
+        <i class="fa fa-paper-plane-o d-lg-none"></i>
+        <span class=" d-lg-block">บันทึก</span>
+      </button>
+    </fieldset>
+  </p-footer>
+</p-dialog>
+
+<p-dialog [(visible)]="modalConfirmDelete" [position]="'top'" [modal]="true" [style]="{minWidth: '300px'}"
+  [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+  <p style="text-align: center;">คุณแน่ใจหรือไม่ว่าต้องการลบข้อมูลนี้?</p>
+  <p-footer>
+    <fieldset class="form-group position-relative has-icon-left mb-0">
+      <button type="button" id="edit-contact-item" class="btn btn-success edit-contact-item" data-dismiss="modal"
+        (click)="deleteGradeItem()">
+        <i class="fa fa-paper-plane-o d-lg-none"></i>
+        <span class=" d-lg-block">ตกลง</span>
+      </button>
+      <button type="button" id="edit-contact-item" class="btn btn-danger edit-contact-item" data-dismiss="modal"
+        (click)="modalConfirmDelete = false">
+        <i class="fa fa-paper-plane-o d-lg-none"></i>
+        <span class=" d-lg-block">ยกเลิก</span>
+      </button>
+    </fieldset>
+  </p-footer>
+</p-dialog>
+
+<p-dialog [(visible)]="modalConfirmDeleteBehavior" [position]="'top'" [modal]="true" [style]="{minWidth: '300px'}"
+  [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+  <p style="text-align: center;">คุณแน่ใจหรือไม่ว่าต้องการลบข้อมูลนี้?</p>
+  <p-footer>
+    <fieldset class="form-group position-relative has-icon-left mb-0">
+      <button type="button" id="edit-contact-item" class="btn btn-success edit-contact-item" data-dismiss="modal"
+        (click)="deleteBehaviorItem()">
+        <i class="fa fa-paper-plane-o d-lg-none"></i>
+        <span class=" d-lg-block">ตกลง</span>
+      </button>
+      <button type="button" id="edit-contact-item" class="btn btn-danger edit-contact-item" data-dismiss="modal"
+        (click)="modalConfirmDeleteBehavior = false">
+        <i class="fa fa-paper-plane-o d-lg-none"></i>
+        <span class=" d-lg-block">ยกเลิก</span>
+      </button>
+    </fieldset>
+  </p-footer>
+</p-dialog>

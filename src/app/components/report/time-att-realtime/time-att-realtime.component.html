@@ -1,0 +1,293 @@
+<div class="content-header row">
+  <div class="content-header-left col-md-6 col-12 mb-2">
+    <h3 class="content-header-title mb-0">ลงเวลา เข้า-ออก (REAL-TIME)</h3>
+    <div class="row breadcrumbs-top">
+      <div class="breadcrumb-wrapper col-12">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/home']">หน้าหลัก</a>
+            <a [routerLink]="['/home']">หน้าหลัก</a>
+          </li>
+          <li class="breadcrumb-item">ลงเวลา เข้า-ออก (REAL-TIME)</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="content-header-right col-md-6 col-12">
+  </div>
+</div>
+
+<div class="content-body">
+  <section id="basic-form-layouts">
+    <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" id="basic-layout-form">เงื่อนไขการค้นหา</h4>
+            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+          </div>
+          <div class="card-content collapse show">
+            <div class="card-body">
+              <div class="form-body">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>วันที่ (From)</label>
+                      <div class="p-grid ui-fluid">
+                        <p-calendar [(ngModel)]="dateFrom" [showIcon]="true" [placeholder]="'dd/mm/yyyy'"
+                          dateFormat="dd/mm/yy">
+                        </p-calendar>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>วันที่ (To)</label>
+                      <div class="p-grid ui-fluid">
+                        <p-calendar [(ngModel)]="dateTo" [showIcon]="true" [placeholder]="'dd/mm/yyyy'"
+                          dateFormat="dd/mm/yy">
+                        </p-calendar>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>รหัสพนักงาน</label>
+                      <input type="text" autocomplete="off" class="form-control" id="empCodeFrom" placeholder="ทั้งหมด"
+                        [(ngModel)]="empCode">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>แผนก</label>
+                      <div class="p-md-10 ui-fluid">
+                        <p-dropdown [options]="deps" placeholder="-------- ทั้งหมด --------" [showClear]="true"
+                          [filter]='true' [(ngModel)]="dep">
+                        </p-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>ชื่อ</label>
+                      <input type="text" autocomplete="off" class="form-control" id="empfname" placeholder="ทั้งหมด"
+                        [(ngModel)]="empfname">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>นามสกุล</label>
+                      <input type="text" autocomplete="off" class="form-control" id="emplname" placeholder="ทั้งหมด"
+                        [(ngModel)]="emplname">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>จุดลงเวลา</label>
+                      <div class="p-md-10 ui-fluid">
+                        <p-dropdown [options]="times" placeholder="-------- ทั้งหมด --------" [showClear]="true"
+                          [filter]='true' [(ngModel)]="time">
+                        </p-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="col-md-12">
+              <div class="form-actions">
+                <button type="button" class="btn btn-primary mr-1" (click)="search(dt)">
+                  <i class="ft-search"></i>
+                  Search
+                </button>
+                <label>&nbsp;</label>
+                <button type="button" class="btn btn-success mr-1" (click)="export()">
+                  <i class="ft-download"></i>
+                  Export
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" id="basic-layout-form">ผลการค้นหา</h4>
+            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+          </div>
+          <div class="card-content collapse show">
+            <div class="card-body">
+              <p-table #dt [columns]="cols" [value]="datasource" [paginator]="true" [rows]="30"
+                [rowsPerPageOptions]="[30,50,100]" dataKey="id" [resizableColumns]="false" [scrollable]="true"
+                [reorderableColumns]="false" stateStorage="local" stateKey="datasource-local">
+                <!-- <ng-template pTemplate="caption">
+                  <div style="text-align: right">
+                    Search:
+                    <input type="text" autocomplete="off" pInputText size="20" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                      style="width:auto">
+                  </div>
+                </ng-template> -->
+
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th class="text-center" [pSortableColumn]="'no'" pResizableColumn pReorderableColumn>
+                      #
+                      <p-sortIcon [field]="'no'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'date'" pResizableColumn pReorderableColumn>
+                      วันที่
+                      <p-sortIcon [field]="'date'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'time'" pResizableColumn pReorderableColumn>
+                      เวลา
+                      <p-sortIcon [field]="'time'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'emp_name'" pResizableColumn pReorderableColumn>
+                      พนักงาน
+                      <p-sortIcon [field]="'emp_name'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'depart_name'" pResizableColumn pReorderableColumn>
+                      แผนก
+                      <p-sortIcon [field]="'depart_name'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'node_name'" pResizableColumn pReorderableColumn>
+                      จุดลงเวลา
+                      <p-sortIcon [field]="'node_name'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'url'" pResizableColumn pReorderableColumn>
+                      Map
+                      <p-sortIcon [field]="'url'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'remark'" pResizableColumn pReorderableColumn>
+                      Remark
+                      <p-sortIcon [field]="'remark'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'tar_type'" pResizableColumn pReorderableColumn>
+                      รายละเอียด
+                      <p-sortIcon [field]="'tar_type'"></p-sortIcon>
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="colgroup" let-columns>
+                  <colgroup>
+                    <col [style.width]="'60px'">
+                    <col [style.width]="'120px'">
+                    <col [style.width]="'100px'">
+                    <col [style.width]="'150px'">
+                    <col [style.width]="'150px'">
+                    <col [style.width]="'150px'">
+                    <col [style.width]="'80px'">
+                    <col >
+                    <col [style.width]="'100px'">
+                  </colgroup>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr [pSelectableRow]="rowData">
+                    <td class="text-center">
+                      {{ rowData['no'] }}
+                    </td>
+                    <td>
+                      {{ rowData['date'] }}
+                    </td>
+                    <td>
+                      {{ rowData['time'] }}
+                    </td>
+                    <td>
+                      {{ rowData['emp_name'] }}
+                    </td>
+                    <td>
+                      {{ rowData['depart_name'] }}
+                    </td>
+                    <td>
+                      {{ rowData['node_name'] }}
+                    </td>
+                    <td class="text-center">
+                      <a class="primary mr-1" [href]="rowData['url']" target="_blank" *ngIf="rowData['tar_type'] == 2">
+                        <i class="fas fa-map-marked-alt"></i>
+                      </a>
+                      <!-- {{ rowData['url'] }} -->
+                    </td>
+                    <td>
+                      {{ rowData['remark'] }}
+                    </td>
+                    <td class="text-center">
+                      <button pButton type="button" class="ui-button" icon="fa fa-search"
+                        (click)="showMapPopup(rowData['id'], rowData['m_lat'], rowData['m_long'])"
+                        *ngIf="rowData['tar_type'] == 2"></button>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage" let-columns>
+                  <tr>
+                    <td [attr.colspan]="columns.length" class="text-center">
+                      No data available in table
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+<p-dialog header="รายละเอียด" [(visible)]="displayDialog" [position]="'top'" [modal]="true" [style]="{width: '50vw'}"
+  [baseZIndex]="50000" [draggable]="false" [resizable]="false">
+  <div class="box">
+    <div class="box-body">
+      <div class="p-grid mt-2">
+        <div class="p-col-12 p-md-10">
+
+          <p-table [columns]="colsImg" [value]="datasourceImg" [paginator]="true" [rows]="30"
+            [rowsPerPageOptions]="[30,50,100]" dataKey="id" [resizableColumns]="false" [scrollable]="true"
+            [reorderableColumns]="false" stateStorage="local" stateKey="datasourceImg-local">
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th class="text-center" [pSortableColumn]="false" pResizableColumn pReorderableColumn>
+                  รูป
+                </th>
+                <!-- <th class="text-center" [pSortableColumn]="false" pResizableColumn pReorderableColumn>
+                  Map
+                </th> -->
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="colgroup" let-columns>
+              <colgroup>
+                <col [style.width]="'200px'">
+                <!-- <col [style.width]="'200px'"> -->
+              </colgroup>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+              <tr [pSelectableRow]="rowData">
+                <td class="text-center">
+                  <img [src]="'data:image/png;base64,' + rowData['base64']" width="50%" height="140"
+                    *ngIf="rowData['base64']" />
+                </td>
+                <!-- <td>
+                  <a class="primary mr-1" [href]="rowData['url']" target="_blank">{{rowData['url']}}</a>
+                </td> -->
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+              <tr>
+                <td [attr.colspan]="columns.length" class="text-center">
+                  No data available in table
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>

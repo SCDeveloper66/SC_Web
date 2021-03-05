@@ -1,0 +1,248 @@
+<div class="content-header row">
+  <div class="content-header-left col-md-6 col-12 mb-2">
+    <h3 class="content-header-title mb-0">
+      รายละเอียดหลักสูตร
+    </h3>
+    <div class="row breadcrumbs-top">
+      <div class="breadcrumb-wrapper col-12">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/home']">หน้าหลัก</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/projectplan/project-course']">หลักสูตร</a>
+          </li>
+          <li class="breadcrumb-item">
+            รายละเอียดหลักสูตร
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="content-body">
+  <section id="basic-form-layouts">
+    <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <!-- <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a> -->
+            <button type="button" class="btn btn-primary float-right" (click)="saveData()">
+              <i class="ft-save"></i>
+              บันทึก
+            </button>
+          </div>
+          <div class="card-content collapse show">
+            <div class="card-body">
+              <div class="card-content collapse show">
+                <div class="card-body">
+                  <div class="card-text">
+                    <form [formGroup]="projectDetailFormGroup" class="contact-input">
+                      <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                          <fieldset class="form-group">
+                            <label for="basicInput">โครงการ</label>
+                            <div class="p-md-10 ui-fluid">
+                              <p-dropdown [options]="projects" placeholder="-------- เลือก --------" [showClear]="true"
+                                [ngClass]="{ 'is-invalid': f.project_id.errors && ( f.project_id.dirty ||  f.project_id.touched) }"
+                                [filter]='true' formControlName="project_id">
+                              </p-dropdown>
+                              <div *ngIf="projectIdErrors" style="color: #ff7588;">
+                                <div>This field is required.</div>
+                              </div>
+                            </div>
+                          </fieldset>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                          <fieldset class="form-group">
+                            <label for="basicInput">ชื่อหลักสูตร</label>
+                            <input type="text" autocomplete="off"
+                              [ngClass]="{ 'is-invalid': f.course_name.errors && ( f.course_name.dirty ||  f.course_name.touched) }"
+                              class="form-control" id="course_name" formControlName="course_name">
+                            <div *ngIf="f.course_name.errors" class="invalid-feedback">
+                              <div *ngIf="f.course_name.errors.required">This field is required.</div>
+                            </div>
+                          </fieldset>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                          <fieldset class="form-group">
+                            <label for="basicInput">ประเภทหลักสูตร</label>
+                            <div class="p-md-10 ui-fluid">
+                              <p-dropdown [options]="formulaTypes" placeholder="-------- เลือก --------"
+                                [showClear]="true"
+                                [ngClass]="{ 'is-invalid': f.course_id.errors && ( f.course_id.dirty ||  f.course_id.touched) }"
+                                [filter]='true' formControlName="course_id">
+                              </p-dropdown>
+                              <div *ngIf="courseIdErrors" style="color: #ff7588;">
+                                <div>This field is required.</div>
+                              </div>
+                            </div>
+                          </fieldset>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                          <fieldset class="form-group">
+                            <label for="basicInput">สูตรคำนวณ</label>
+                            <div class="p-md-10 ui-fluid">
+                              <p-dropdown [options]="formulas" placeholder="-------- เลือก --------" [showClear]="true"
+                                [ngClass]="{ 'is-invalid': f.formula_id.errors && ( f.formula_id.dirty ||  f.formula_id.touched) }"
+                                [filter]='true' formControlName="formula_id">
+                              </p-dropdown>
+                              <div *ngIf="formulaIdErrors" style="color: #ff7588;">
+                                <div>This field is required.</div>
+                              </div>
+                            </div>
+                          </fieldset>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                          <fieldset class="form-group">
+                            <label for="basicInput">สถานที่</label>
+                            <div class="p-md-10 ui-fluid">
+                              <p-dropdown [options]="locations" placeholder="-------- เลือก --------" [showClear]="true"
+                                [ngClass]="{ 'is-invalid': f.location_id.errors && ( f.location_id.dirty ||  f.location_id.touched) }"
+                                [filter]='true' formControlName="location_id">
+                              </p-dropdown>
+                              <div *ngIf="locationIdErrors" style="color: #ff7588;">
+                                <div>This field is required.</div>
+                              </div>
+                            </div>
+                          </fieldset>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                          <fieldset class="form-group">
+                            <label for="basicInput">วิทยากร</label>
+                            <div class="p-md-10 ui-fluid">
+                              <p-dropdown [options]="experts" placeholder="-------- เลือก --------" [showClear]="true"
+                                [ngClass]="{ 'is-invalid': f.expert_id.errors && ( f.expert_id.dirty ||  f.expert_id.touched) }"
+                                [filter]='true' formControlName="expert_id">
+                              </p-dropdown>
+                              <div *ngIf="expertIdErrors" style="color: #ff7588;">
+                                <div>This field is required.</div>
+                              </div>
+                            </div>
+                          </fieldset>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                          <fieldset class="form-group">
+                            <label for="squareText">แนบไฟล์คู่มืออบรม</label>
+                            <input class="form-control" type="file" id="psdFile" name="psdFile" [(ngModel)]="psdFile"
+                              accept="application/pdf" [ngModelOptions]="{standalone: true}"
+                              (change)="changeListener($event)">
+
+                            <diV style="margin-top:5px" *ngIf="displayUrl == true && dataUrl">
+                              <a class="primary mr-1" [href]="dataUrl" target="_blank">เปิดไฟล์</a>
+                              <!-- {{fileName}} -->
+                              <a class="danger delete mr-1" (click)="deleteFile()"><i class="fas fa-trash-alt"></i></a>
+                            </diV>
+                          </fieldset>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                          <fieldset class="form-group" *ngIf="displayUrl == true && dataUrl">
+                            <label>สถานะ</label>
+                            <div class="p-md-10 ui-fluid">
+                              <p-dropdown [options]="status" placeholder="-------- เลือก --------" [showClear]="true"
+                                [ngClass]="{ 'is-invalid': f.status_id.errors && ( f.status_id.dirty ||  f.status_id.touched) }"
+                                [filter]='true' formControlName="status_id">
+                              </p-dropdown>
+                              <div *ngIf="statusError" style="color: #ff7588;">
+                                <div>This field is required.</div>
+                              </div>
+                            </div>
+                          </fieldset>
+                        </div>
+                        <div class="col-xl-12 col-lg-6 col-md-12 mb-1">
+                          <fieldset class="form-group">
+                            <label for="squareText">หมายเหตุ</label>
+                            <textarea [rows]="5" pInputTextarea
+                              [ngClass]="{ 'is-invalid': f.remark.errors && ( f.remark.dirty ||  f.remark.touched) }"
+                              class="form-control" id="remark" formControlName="remark"></textarea>
+                            <div *ngIf="f.remark.errors" class="invalid-feedback">
+                              <div *ngIf="f.remark.errors.required">This field is required.</div>
+                            </div>
+                          </fieldset>
+                        </div>
+                        <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                          <fieldset class="form-group">
+                            <label for="roundText">จำนวนตอน</label>
+                            <div class="table-responsive">
+                              <table class="table table-bordered mb-0">
+                                <thead>
+                                  <tr>
+                                    <th>ตอนที่</th>
+                                    <th>คะแนนเต็ม</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th scope="row">1</th>
+                                    <td>
+                                      <input type="text" autocomplete="off"
+                                        [ngClass]="{ 'is-invalid': f.score1.errors && ( f.score1.dirty ||  f.score1.touched) }"
+                                        class="form-control" id="score1" formControlName="score1">
+                                      <div *ngIf="f.score1.errors" class="invalid-feedback">
+                                        <div *ngIf="f.score1.errors.required">This field is required.</div>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">2</th>
+                                    <td>
+                                      <input type="text" autocomplete="off"
+                                        [ngClass]="{ 'is-invalid': f.score2.errors && ( f.score2.dirty ||  f.score2.touched) }"
+                                        class="form-control" id="score2" formControlName="score2">
+                                      <div *ngIf="f.score2.errors" class="invalid-feedback">
+                                        <div *ngIf="f.score2.errors.required">This field is required.</div>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">3</th>
+                                    <td>
+                                      <input type="text" autocomplete="off"
+                                        [ngClass]="{ 'is-invalid': f.score3.errors && ( f.score3.dirty ||  f.score3.touched) }"
+                                        class="form-control" id="score3" formControlName="score3">
+                                      <div *ngIf="f.score3.errors" class="invalid-feedback">
+                                        <div *ngIf="f.score3.errors.required">This field is required.</div>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">4</th>
+                                    <td>
+                                      <input type="text" autocomplete="off"
+                                        [ngClass]="{ 'is-invalid': f.score4.errors && ( f.score4.dirty ||  f.score4.touched) }"
+                                        class="form-control" id="score4" formControlName="score4">
+                                      <div *ngIf="f.score4.errors" class="invalid-feedback">
+                                        <div *ngIf="f.score4.errors.required">This field is required.</div>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">5</th>
+                                    <td>
+                                      <input type="text" autocomplete="off"
+                                        [ngClass]="{ 'is-invalid': f.score5.errors && ( f.score5.dirty ||  f.score5.touched) }"
+                                        class="form-control" id="score5" formControlName="score5">
+                                      <div *ngIf="f.score5.errors" class="invalid-feedback">
+                                        <div *ngIf="f.score5.errors.required">This field is required.</div>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </fieldset>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
