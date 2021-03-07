@@ -38,6 +38,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
 import { UserRoleService } from './services/user-role/user-role.service';
 import { FilterDistinctProgramGroupPipe, FilterProgramGroupPipe } from './components/shared/layout/sidebar/filter-program-group.pipe';
+import { CalendarMeetingComponent } from './components/calendar-meeting/calendar-meeting.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { FilterDistinctProgramGroupPipe, FilterProgramGroupPipe } from './compon
     CalendarHolidayComponent,
     FilterProgramGroupPipe,
     FilterDistinctProgramGroupPipe,
+    CalendarMeetingComponent,
   ],
   imports: [
     BrowserModule,

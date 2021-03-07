@@ -11,11 +11,21 @@ import { AuthorizationService } from './services/authorization/authorization.ser
 export class AppComponent {
   title = 'standard-can';
   currentUser: User;
+  calendarMetting = false;
+
   constructor(
     private authorizationService: AuthorizationService,
   ) {
     if (this.authorizationService.currentUserValue) {
       this.currentUser = this.authorizationService.currentUserValue;
+    }
+    const url = window.location.href;
+    if (url.includes('calendar-metting/')) {
+      let stringData = url.split('calendar-metting/');
+      if (stringData.length > 1) {
+        localStorage.setItem('calendar-metting', stringData[1]);
+        this.calendarMetting = true;
+      }
     }
   }
 }

@@ -6,17 +6,22 @@ import { PagenotfoundComponent } from './components/shared/pagenotfound/pagenotf
 import { AuthGuard } from './helpers/auth.guard';
 import { RouteGuard } from './helpers/route.guard';
 import { CalendarHolidayComponent } from './components/shared/layout/calendar-holiday/calendar-holiday.component';
+import { CalendarMeetingComponent } from './components/calendar-meeting/calendar-meeting.component';
 
 
 const routes: Routes = [
   {
-    path: 'calendarHoliday',
-    component: CalendarHolidayComponent
-  },
-  {
     path: '',
     canActivate: [AuthGuard, RouteGuard],
     component: HomeComponent,
+  },
+  // {
+  //   path: 'calendarHoliday',
+  //   component: CalendarHolidayComponent
+  // },
+  {
+    path: 'calendar-metting/:id',
+    component: CalendarMeetingComponent
   },
   {
     path: 'home',
@@ -27,10 +32,10 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent
   },
-  {
-    path: 'login/:id',
-    component: LoginComponent
-  },
+  // {
+  //   path: 'login/:id',
+  //   component: LoginComponent
+  // },
   {
     path: 'employee',
     loadChildren: () => import('./components/employee/employee.module').then(m => m.EmployeeModule)

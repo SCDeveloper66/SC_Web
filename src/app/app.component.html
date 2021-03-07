@@ -1,4 +1,4 @@
-<div class="wrapper" *ngIf="currentUser">
+<div class="wrapper" *ngIf="currentUser && calendarMetting == false">
   <app-header></app-header>
   <app-sidebar></app-sidebar>
 
@@ -12,7 +12,11 @@
   <!-- <app-footer></app-footer> -->
 </div>
 
-<div class="hold-transition login-page" *ngIf="!currentUser">
+<div class="wrapper" *ngIf="!currentUser && calendarMetting">
+  <app-calendar-meeting></app-calendar-meeting>
+</div>
+
+<div class="hold-transition login-page" *ngIf="!currentUser && calendarMetting == false">
   <app-login></app-login>
 </div>
 
