@@ -47,6 +47,7 @@ export class CalendarMeetingComponent implements OnInit {
 
   ngOnInit(): void {
     this.meetingId = localStorage.getItem('calendar-metting');
+    this.getRoomList();
     this.updateSubscription = interval(60000).subscribe(
       (val) => {
         this.getRoomList();
