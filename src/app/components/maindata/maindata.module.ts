@@ -24,6 +24,7 @@ import { ImportUserRoleComponent } from './import-user-role/import-user-role.com
 import { ImportActivityScoreComponent } from './import-activity-score/import-activity-score.component';
 import { ImportActivityPointComponent } from './import-activity-point/import-activity-point.component';
 import { ActivityOutdoorComponent } from './activity-outdoor/activity-outdoor.component';
+import { ActivityComponent } from './activity/activity.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ActivityOutdoorComponent } from './activity-outdoor/activity-outdoor.co
     ImportUserRoleComponent,
     ImportActivityScoreComponent,
     ImportActivityPointComponent,
-    ActivityOutdoorComponent
+    ActivityOutdoorComponent,
+    ActivityComponent
   ],
   imports: [
     CommonModule,
