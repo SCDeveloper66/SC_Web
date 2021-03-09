@@ -136,7 +136,7 @@ export class ImportActivityPointComponent implements OnInit {
     //   }
     // });
     if (this.behavioritemFormGroup.controls['detail_id'].value == null) {
-     
+
       this.behaviorDetailErrors = true;
       valid = false;
     }
@@ -155,7 +155,7 @@ export class ImportActivityPointComponent implements OnInit {
     }
     fileItem.clear();
     this.mainDataService
-      .UploadFile(formData, '3', this.fileId, this.token)
+      .UploadFile(formData, '3', this.fileId, this.currentUser.userId)
       .subscribe(
         (next) => {
           debugger;

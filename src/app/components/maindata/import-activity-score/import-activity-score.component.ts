@@ -136,7 +136,7 @@ export class ImportActivityScoreComponent implements OnInit {
     //   }
     // });
     if (this.behavioritemFormGroup.controls['detail_id'].value == null) {
-     
+
       this.behaviorDetailErrors = true;
       valid = false;
     }
@@ -148,7 +148,7 @@ export class ImportActivityScoreComponent implements OnInit {
       return;
     }
     this.fileId = this.behavioritemFormGroup.controls['detail_id'].value;
-    
+
     this.spinner.show();
     const formData = new FormData();
     for (let file of fileItem.files) {
@@ -156,7 +156,7 @@ export class ImportActivityScoreComponent implements OnInit {
     }
     fileItem.clear();
     this.mainDataService
-      .UploadFile(formData, '2', this.fileId, this.token)
+      .UploadFile(formData, '2', this.fileId, this.currentUser.userId)
       .subscribe(
         (next) => {
           debugger;

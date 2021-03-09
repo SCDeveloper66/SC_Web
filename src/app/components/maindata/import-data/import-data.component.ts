@@ -76,7 +76,7 @@ export class ImportDataComponent implements OnInit {
     }
     fileItem.clear();
     this.mainDataService
-      .UploadFile(formData, '1', this.fileId, this.token)
+      .UploadFile(formData, '1', this.fileId, this.currentUser.userId)
       .subscribe(
         (next) => {
           debugger;
