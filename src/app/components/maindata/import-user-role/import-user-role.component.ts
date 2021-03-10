@@ -9,6 +9,7 @@ import { AlertService } from 'src/app/services/global/alert.service';
 import { GlobalVariableService } from 'src/app/services/global/global-variable.service';
 import { LocalstorageService } from 'src/app/services/global/localstorage.service';
 import { MainDataService } from 'src/app/services/maindata/maindata.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-import-user-role',
@@ -64,6 +65,10 @@ export class ImportUserRoleComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  downloadTemplate(){
+    window.open(environment.apiUrl + 'fileTemplate/template_import_userrole.xlsx' );
+  }
+
   upload(fileItem) {
     this.spinner.show();
     const formData = new FormData();
@@ -72,7 +77,7 @@ export class ImportUserRoleComponent implements OnInit {
     }
     fileItem.clear();
     this.mainDataService
-      .UploadFile(formData, "4", this.fileId, this.token)
+      .UploadFile(formData, "4", this.fileId, this.currentUser.userId)
       .subscribe(
         (next) => {
           debugger;
