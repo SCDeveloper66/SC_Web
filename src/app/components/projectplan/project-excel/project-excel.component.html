@@ -1,0 +1,498 @@
+<!-- <p>project-excel works!</p> -->
+<div class="content-header row">
+    <div class="content-header-left col-md-6 col-12 mb-2">
+        <h3 class="content-header-title mb-0">บันทีกโครงการ</h3>
+        <div class="row breadcrumbs-top">
+            <div class="breadcrumb-wrapper col-12">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a [routerLink]="['/home']">หน้าหลัก</a>
+                    </li>
+                    <li class="breadcrumb-item">บันทีกโครงการ</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="content-header-right col-md-6 col-12">
+    </div>
+</div>
+<div class="content-body">
+    <section id="basic-form-layouts">
+
+        <div class="row match-height">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title" id="basic-layout-form">Search</h4>
+                        <!-- <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a> -->
+                    </div>
+                    <div class="card-content collapse show">
+                        <div class="card-body">
+                            <div class="form-body">
+                                <div class="row">
+                                    <!-- <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>หัวข้อ</label>
+                                            <input type="text" autocomplete="off" class="form-control" id="topic"
+                                                placeholder="ทั้งหมด" [(ngModel)]="title">
+                                        </div>
+                                    </div> -->
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>หลักสูตร</label>
+                                            <div class="p-md-10 ui-fluid">
+
+                                                <p-dropdown [options]="projectCourse"
+                                                    placeholder="-------- ทั้งหมด --------" [showClear]="true"
+                                                    [filter]='true' [(ngModel)]="projectCourseId">
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>สูตรคำนวน</label>
+                                            <div class="p-md-10 ui-fluid">
+
+                                                <p-dropdown [options]="projectFormula"
+                                                    placeholder="-------- ทั้งหมด --------" [showClear]="true"
+                                                    [filter]='true' [(ngModel)]="projectFormulaId">
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>สถานที่อบรม</label>
+                                            <div class="p-md-10 ui-fluid">
+
+                                                <p-dropdown [options]="projectRoom"
+                                                    placeholder="-------- ทั้งหมด --------" [showClear]="true"
+                                                    [filter]='true' [(ngModel)]="projectRoomId" >
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>เลขที่(Job No.)</label>
+                                            <input type="text" autocomplete="off" class="form-control" id="jobID"
+                                            placeholder="ทั้งหมด" [(ngModel)]="projectJobID">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <fieldset class="form-group">
+                                            <label for="helpInputTop">วันที่(From)</label>
+                                            <div class="p-grid ui-fluid">
+
+                                                <p-calendar [(ngModel)]="projectDateFrom" [showIcon]="true"
+                                                    [placeholder]="'dd/mm/yyyy'" dateFormat="dd/mm/yy">
+                                                </p-calendar>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <fieldset class="form-group">
+                                            <label for="helpInputTop">วันที่(To)</label>
+                                            <div class="p-grid ui-fluid">
+
+                                                <p-calendar [(ngModel)]="projectDateTo" [showIcon]="true"
+                                                    [placeholder]="'dd/mm/yyyy'" dateFormat="dd/mm/yy">
+                                                </p-calendar>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="col-md-12">
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-primary mr-1" (click)="search(dt)">
+                                    <i class="ft-search"></i>Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row match-height">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title" id="basic-layout-form">Search results</h4>
+                        <div class="heading-elements mt-0">
+                            <button type="button" class="btn btn-success"
+                                (click)="showModalDialogDetailX('ADD', '', '', '', '', '', '', '', '')">
+                                <span class="d-md-block  ">
+                                    <i class="ft-plus"></i>
+                                    เพิ่มรายการ
+                                </span>
+                            </button>
+                            <!-- <button type="button" class="btn btn-success d-none"
+                                (click)="showModalDialogDetail('ADD', '', '', '')">
+                                <span class="d-md-block  ">
+                                    <i class="ft-plus"></i>
+                                    เพิ่มรายการ
+                                </span>
+                            </button> -->
+                        </div>
+                    </div>
+                    <div class="card-content collapse show">
+                        <div class="card-body">
+                            <p-table #dt [columns]="cols" [value]="datasource" [paginator]="true" [rows]="30"
+                                [rowsPerPageOptions]="[30,50,100]" dataKey="tNo" [resizableColumns]="false"
+                                [scrollable]="true" [reorderableColumns]="false" stateStorage="local"
+                                stateKey="datasource-local">
+
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                        <th class="text-center" [pSortableColumn]="'number'" pResizableColumn
+                                            pReorderableColumn>
+                                            #
+                                            <p-sortIcon [field]="'number'"></p-sortIcon>
+                                        </th>
+                                        <th class="text-center" [pSortableColumn]="'course_name'" pResizableColumn
+                                            pReorderableColumn>
+                                            เลขที่
+                                            <p-sortIcon [field]="'course_name'"></p-sortIcon>
+                                        </th>
+                                        <th class="text-center" [pSortableColumn]="'course_name'" pResizableColumn
+                                            pReorderableColumn>
+                                            หลักสูตร
+                                            <p-sortIcon [field]="'course_name'"></p-sortIcon>
+                                        </th>
+                                        <th class="text-center" [pSortableColumn]="'formula_name'" pResizableColumn
+                                            pReorderableColumn>
+                                            สูตรคำนวน
+                                            <p-sortIcon [field]="'formula_name'"></p-sortIcon>
+                                        </th>
+                                        <th class="text-center" [pSortableColumn]="'room_name'" pResizableColumn
+                                            pReorderableColumn>
+                                            สถานที่อบรม
+                                            <p-sortIcon [field]="'room_name'"></p-sortIcon>
+                                        </th>
+                                        <th class="text-center" [pSortableColumn]="'tDate'" pResizableColumn
+                                            pReorderableColumn>
+                                            วันที่
+                                            <p-sortIcon [field]="'tDate'"></p-sortIcon>
+                                        </th>
+                                        <th class="text-center" [pSortableColumn]="'time'" pResizableColumn
+                                            pReorderableColumn>
+                                            เวลา
+                                            <p-sortIcon [field]="'time'"></p-sortIcon>
+                                        </th>
+                                        <th class="text-center" [pSortableColumn]="'action'" pResizableColumn
+                                            pReorderableColumn>
+                                            Action
+                                            <p-sortIcon [field]="'action'"></p-sortIcon>
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="colgroup" let-columns>
+                                    <colgroup>
+                                        <col [style.width]="'70px'">
+                                        <col [style.width]="'70px'">
+                                        <col [style.width]="'150px'">
+                                        <col [style.width]="'100px'">
+                                        <col [style.width]="'150px'">
+                                        <col [style.width]="'100px'">
+                                        <col [style.width]="'100px'">
+                                        <col [style.width]="'70px'">
+                                    </colgroup>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                    <tr [pSelectableRow]="rowData">
+                                        <td class="text-center">
+                                            {{ rowData['number'] }}
+                                        </td>
+                                        <td>
+                                            {{ rowData['tNo'] }}
+                                        </td>
+                                        <td>
+                                            {{ rowData['course_name'] }}
+                                        </td>
+                                        <td>
+                                            {{ rowData['formula_name'] }}
+                                        </td>
+                                        <td>
+                                            {{ rowData['room_name'] }}
+                                        </td>
+                                        <td>
+                                            {{ rowData['tDate'] }}
+                                        </td>
+                                        <td>
+                                            {{ rowData['time'] }}
+                                        </td>
+                                        <td class="text-center">
+                                            <a class="primary edit mr-1"
+                                                (click)="showModalDialogDetailX(rowData['tNo'], rowData['course_id'], rowData['formula_id'], rowData['room_id'], rowData['tDate'], rowData['tTimeStart'], rowData['tTimeStop'], rowData['fileName'], rowData['dataUrl'])">
+                                                <i class="fas fa-pencil-alt cursor-pointer"></i>
+                                            </a>
+                                            <a class="danger delete mr-1 cursor-pointer"
+                                                (click)="showModalDialogConfirmDelete(rowData['tNo'])">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage" let-columns>
+                                    <tr>
+                                        <td [attr.colspan]="columns.length" class="text-center">
+                                            No data available in table
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                            <!-- <p-table #dt [columns]="cols" [value]="datasource" [paginator]="true" [rows]="30"
+                                [rowsPerPageOptions]="[30,50,100]" dataKey="id" [resizableColumns]="false"
+                                [scrollable]="true" [reorderableColumns]="false" stateStorage="local"
+                                stateKey="datasource-local">
+
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                        <th class="text-center" [pSortableColumn]="'number'" pResizableColumn
+                                            pReorderableColumn>
+                                            #
+                                            <p-sortIcon [field]="'number'"></p-sortIcon>
+                                        </th>
+                                        <th class="text-center" [pSortableColumn]="'title'" pResizableColumn
+                                            pReorderableColumn>
+                                            หัวข้อ
+                                            <p-sortIcon [field]="'title'"></p-sortIcon>
+                                        </th>
+                                        <th class="text-center" [pSortableColumn]="'detail'" pResizableColumn
+                                            pReorderableColumn>
+                                            รายละเอียด
+                                            <p-sortIcon [field]="'detail'"></p-sortIcon>
+                                        </th>
+                                        <th class="text-center" [pSortableColumn]="'action'" pResizableColumn
+                                            pReorderableColumn>
+                                            Action
+                                            <p-sortIcon [field]="'action'"></p-sortIcon>
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="colgroup" let-columns>
+                                    <colgroup>
+                                        <col [style.width]="'70px'">
+                                        <col [style.width]="'200px'">
+                                        <col [style.width]="'200px'">
+                                        <col [style.width]="'100px'">
+                                    </colgroup>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                    <tr [pSelectableRow]="rowData">
+                                        <td class="text-center">
+                                            {{ rowData['number'] }}
+                                        </td>
+                                        <td>
+                                            {{ rowData['title'] }}
+                                        </td>
+                                        <td>
+                                            {{ rowData['detail'] }}
+                                        </td>
+                                        <td class="text-center">
+                                            <a class="primary edit mr-1"
+                                                (click)="showModalDialogDetail(rowData['id'], rowData['title'], rowData['detail'], rowData['url'])">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </a>
+                                            <a class="danger delete mr-1"
+                                                (click)="showModalDialogConfirmDelete(rowData['id'])">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage" let-columns>
+                                    <tr>
+                                        <td [attr.colspan]="columns.length" class="text-center">
+                                            No data available in table
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table> -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>
+
+
+<p-dialog [(visible)]="modalConfirmDelete" [position]="'top'" [modal]="true" [style]="{width: '30vw',minWidth:'300px'}"
+    [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+    <p style="text-align: center;">คุณแน่ใจหรือไม่ว่าต้องการลบข้อมูลนี้?</p>
+    <p-footer>
+        <fieldset class="form-group position-relative has-icon-left mb-0">
+            <button type="button" id="edit-contact-item" class="btn btn-success edit-contact-item" data-dismiss="modal"
+                (click)="deleteItem()">
+                <i class="fa fa-paper-plane-o d-lg-none"></i>
+                <span class="  d-lg-block">ตกลง</span>
+            </button>
+            <button type="button" id="edit-contact-item" class="btn btn-danger edit-contact-item" data-dismiss="modal"
+                (click)="showModalDialogCancelDelete()">
+                <i class="fa fa-paper-plane-o d-lg-none"></i>
+                <span class="  d-lg-block">ยกเลิก</span>
+            </button>
+        </fieldset>
+    </p-footer>
+</p-dialog>
+
+
+<!-- Aun -->
+
+<p-dialog [(visible)]="displayModalX" [position]="'top'" [modal]="true" [style]="{width: '60vw',minWidth:'600px'}"
+    [baseZIndex]="50000" [draggable]="false" [resizable]="false">
+    <p-header class="dialogHeader">
+        <div class="float-left">Action</div>
+        <!-- <div class="text-right">No.</div> -->
+    </p-header>
+    <form [formGroup]="itemFormGroupX" class="contact-input">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12" *ngIf="displayID">
+                    <div class="form-group text-right">
+                        <label class="text-right">เลขที่(Job No.) : {{jobID}}</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>หลักสูตร</label>
+                        <div class="p-md-10 ui-fluid">
+                            <p-dropdown [options]="projectCourse" placeholder="-------- เลือก --------"
+                                [showClear]="true" [required]="true"
+                                [ngClass]="{ 'is-invalid': x.course_id.errors && ( x.course_id.dirty ||  x.course_id.touched) }"
+                                [filter]='true' formControlName="course_id" class="required" [disabled]="disabledText">
+                            </p-dropdown>
+                            <div *ngIf="courseErrors" style="color: #ff7588;">
+                                <div>This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>สูตรคำนวน</label>
+                        <div class="p-md-10 ui-fluid">
+                            <p-dropdown [options]="projectFormula" placeholder="-------- เลือก --------"
+                                [showClear]="true" [required]="true"
+                                [ngClass]="{ 'is-invalid': x.fomular_id.errors && ( x.fomular_id.dirty ||  x.fomular_id.touched) }"
+                                [filter]='true' formControlName="fomular_id" class="required" [disabled]="disabledText">
+                            </p-dropdown>
+                            <div *ngIf="formularErrors" style="color: #ff7588;">
+                                <div>This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>สถานที่อบรม</label>
+                        <div class="p-md-10 ui-fluid">
+                            <p-dropdown [options]="projectRoom" placeholder="-------- เลือก --------" [showClear]="true"
+                                [required]="true"
+                                [ngClass]="{ 'is-invalid': x.room_id.errors && ( x.room_id.dirty ||  x.room_id.touched) }"
+                                [filter]='true' formControlName="room_id" class="required" [disabled]="disabledText">
+                            </p-dropdown>
+                            <div *ngIf="roomErrors" style="color: #ff7588;">
+                                <div>This field is required.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <fieldset class="form-group">
+                        <label for="helpInputTop">วันที่</label>
+                        <div class="p-grid ui-fluid">
+
+                            <p-calendar formControlName="prj_date"
+                                [ngClass]="{ 'is-invalid': x.prj_date.errors && ( x.prj_date.dirty ||  x.prj_date.touched) }"
+                                [showIcon]="true" [placeholder]="'dd/mm/yyyy'" dateFormat="dd/mm/yy" [disabled]="disabledText">
+                            </p-calendar>
+                            <div *ngIf="x.prj_date.errors" class="invalid-feedback">
+                                <div *ngIf="x.prj_date.errors.required">This field is required.</div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="col-md-4">
+                    <fieldset class="form-group">
+                        <label for="disabledInput">เวลาเริ่ม</label>
+                        <input type="time" id="start_time" class="form-control" name="prj_start_time"
+                            [ngClass]="{ 'is-invalid': x.prj_start_time.errors && ( x.prj_start_time.dirty ||  x.prj_start_time.touched) }"
+                            formControlName="prj_start_time" [readOnly]="disabledText">
+                        <div *ngIf="x.prj_start_time.errors" class="invalid-feedback">
+                            <div *ngIf="x.prj_start_time.errors.required">This field is required.</div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="col-md-4">
+                    <fieldset class="form-group">
+                        <label for="disabledInput">เวลาสิ้นสุด</label>
+                        <input type="time" id="stop_time" class="form-control" name="prj_stop_time"
+                            [ngClass]="{ 'is-invalid': x.prj_stop_time.errors && ( x.prj_stop_time.dirty ||  x.prj_stop_time.touched) }"
+                            formControlName="prj_stop_time" [readOnly]="disabledText">
+                        <div *ngIf="x.prj_stop_time.errors" class="invalid-feedback">
+                            <div *ngIf="x.prj_stop_time.errors.required">This field is required.</div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="row" *ngIf="displayID">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>แนบไฟล์ (Excel)</label>
+                        <input class="form-control" type="file" id="excelFile" #fileInput name="excelFile"
+                            accept=".xlsx, .xls" [(ngModel)]="excelFile" [ngModelOptions]="{standalone: true}"
+                            (change)="changeListener($event)">
+                        <div class="p-md-12 ui-fluid" *ngIf="displayFile">
+                            <!-- <a class="danger delete mr-1" (click)="deleteFile()">
+                                <i class="fas fa-trash-alt"></i>
+                            </a> -->
+                            <a class="primary mr-1" [href]="dataUrl" target="_blank">{{fileName}}</a>
+                            <!-- เปิดไฟล์ -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </form>
+    <p-footer>
+        <fieldset class="form-group position-relative has-icon-left mb-0">
+            <!-- <button type="button" id="edit-contact-item" *ngIf="displayID" class="btn btn-primary edit-contact-item"
+                (click)="saveItemProject()">
+                <i class="fa fa-paper-plane-o d-lg-none"></i>
+                <span class="  d-lg-block">Report</span>
+            </button> -->
+            <button type="button" id="edit-contact-item" *ngIf="displayID"
+                class="btn btn-blue edit-contact-item disabled" (click)="upload()">
+                <i class="fa fa-paper-plane-o d-lg-none"></i>
+                <span class="d-lg-block">Import</span>
+            </button>
+            <button type="button" id="edit-contact-item" *ngIf="displayID" class="btn btn-amber edit-contact-item"
+                (click)="export()">
+                <i class="fa fa-paper-plane-o d-lg-none"></i>
+                <span class="  d-lg-block">Export</span>
+            </button>
+            <button type="button" id="edit-contact-item" class="btn btn-info edit-contact-item"
+                (click)="saveItemProject()">
+                <i class="fa fa-paper-plane-o d-lg-none"></i>
+                <span class="d-lg-block">บันทึก</span>
+            </button>
+        </fieldset>
+    </p-footer>
+</p-dialog>
+
+<!-- Aun -->

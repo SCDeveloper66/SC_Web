@@ -22,6 +22,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { TrainingScheduleListComponent } from './training-schedule/training-schedule-list/training-schedule-list.component';
 import { TrainingScheduleDetailComponent } from './training-schedule/training-schedule-detail/training-schedule-detail.component';
+import { ProjectExcelComponent } from './project-excel/project-excel.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { TrainingScheduleDetailComponent } from './training-schedule/training-sc
     ProjectFormulaDetailComponent,
     ProjectFormulaListComponent,
     TrainingScheduleListComponent,
-    TrainingScheduleDetailComponent
+    TrainingScheduleDetailComponent,
+    ProjectExcelComponent
   ],
   imports: [
     CommonModule,

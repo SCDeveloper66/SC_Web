@@ -13,6 +13,7 @@ import { EmployeeLeaveListComponent } from './employee-leave-list/employee-leave
 import { EmployeeLeaveDetailComponent } from './employee-leave-detail/employee-leave-detail.component';
 import { StepsModule } from 'primeng/steps';
 
+
 @NgModule({
   declarations: [
     EmployeeListComponent,

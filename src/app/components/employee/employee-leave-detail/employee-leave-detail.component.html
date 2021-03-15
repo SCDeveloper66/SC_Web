@@ -27,11 +27,7 @@
         <div class="card">
           <div class="card-content collapse show">
             <div class="card-body">
-              <p-steps
-                [model]="items"
-                [(activeIndex)]="activeIndex"
-                [readonly]="true"
-              ></p-steps>
+              <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="true"></p-steps>
               <div class="card-text">
                 <div class="row">
                   <form class="col-sm-12 form">
@@ -60,23 +56,21 @@
                     </div>
                     <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                       <fieldset class="form-group">
-                        <label for="leave_start">วันที่เริ่มต้น</label>
+                        <label for="leaveStart">วันที่เริ่มต้น</label>
                         <div class="p-grid ui-fluid">
-                          <!-- <p-calendar formControlName="leave_start"
-                            [ngClass]="{ 'is-invalid': f.leave_start.errors && ( f.leave_start.dirty ||  f.leave_start.touched) }"
-                            [showIcon]="true" dateFormat="dd/mm/yyyy">
-                          </p-calendar> -->
+                          <p-calendar formControlName="leaveStart" [showIcon]="true" dateFormat="dd/mm/yy"
+                            [disabled]="true">
+                          </p-calendar>
                         </div>
                       </fieldset>
                     </div>
                     <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                       <fieldset class="form-group">
-                        <label for="leave_stop">วันที่สิ้นสุด</label>
+                        <label for="leaveStop">วันที่สิ้นสุด</label>
                         <div class="p-grid ui-fluid">
-                          <!-- <p-calendar formControlName="leave_stop"
-                            [ngClass]="{ 'is-invalid': f.leave_stop.errors && ( f.leave_stop.dirty ||  f.leave_stop.touched) }"
-                            [showIcon]="true" dateFormat="dd/mm/yyyy">
-                          </p-calendar> -->
+                          <p-calendar formControlName="leaveStop" [showIcon]="true" dateFormat="dd/mm/yy"
+                            [disabled]="true">
+                          </p-calendar>
                         </div>
                       </fieldset>
                     </div>
@@ -91,6 +85,18 @@
 
                   </div>
                 </form>
+                <div class="row">
+                  <form class="col-sm-12 form">
+                    <div class="form-body text-center">
+                      <div class="col-sm-12">
+                        <button type="button" class="btn btn-primary" *ngIf="activeIndex == 1">
+                          <i class="ft-check"></i>
+                          Approve
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
           </div>

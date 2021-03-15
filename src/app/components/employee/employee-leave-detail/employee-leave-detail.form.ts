@@ -7,8 +7,8 @@ export class EmployeeLeaveDetailForm {
     emp_code: new FormControl(null),
     emp_name: new FormControl(null),
     typeLeave: new FormControl(null),
-    leave_start: new FormControl(null),
-    leave_stop: new FormControl(null),
+    leaveStart: new FormControl(null),
+    leaveStop: new FormControl(null),
     remark: new FormControl(null),
     user_id: new FormControl(null)
   };

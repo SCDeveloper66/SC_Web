@@ -8,7 +8,6 @@ import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { AlertService } from 'src/app/services/global/alert.service';
 import { GlobalVariableService } from 'src/app/services/global/global-variable.service';
 import { LocalstorageService } from 'src/app/services/global/localstorage.service';
-import { MeetingroomService } from 'src/app/services/meetingroom/meetingroom.service';
 import { EmployeeLeaveDetailForm } from './employee-leave-detail.form';
 
 @Component({
@@ -82,13 +81,33 @@ export class EmployeeLeaveDetailComponent implements OnInit {
       .ApiEmployee(this.empLeaveDetailFormGroup.getRawValue())
       .subscribe(
         (data) => {
+          debugger;
           if (data) {
+            const strStart = data.leave_start.split('/');
+            let yearStrat = Number(strStart[2]);
+            const monthStrat = Number(strStart[1]) - 1;
+            const dateStrat = Number(strStart[0]);
+            let newStartDate = new Date(yearStrat, monthStrat, dateStrat);
+
+            const strStop = data.leave_stop.split('/');
+            let yearStop = Number(strStop[2]);
+            const monthStop = Number(strStop[1]) - 1;
+            const dateStop = Number(strStop[0]);
+            let newStopDate = new Date(yearStop, monthStop, dateStop);
+
             this.empLeaveDetailFormGroup.controls['emp_code'].patchValue(data.emp_code);
             this.empLeaveDetailFormGroup.controls['emp_name'].patchValue(data.emp_name);
             this.empLeaveDetailFormGroup.controls['typeLeave'].patchValue(data.typeLeave);
-            this.empLeaveDetailFormGroup.controls['leave_start'].patchValue(data.leave_start);
-            this.empLeaveDetailFormGroup.controls['leave_stop'].patchValue(data.leave_stop);
+            this.empLeaveDetailFormGroup.controls['leaveStart'].patchValue(newStartDate);
+            this.empLeaveDetailFormGroup.controls['leaveStop'].patchValue(newStopDate);
             this.empLeaveDetailFormGroup.controls['remark'].patchValue(data.remark);
+            if (data.sts_text == 'Draft') {
+              this.activeIndex = 0;
+            } else if (data.sts_text == 'Waiting Approve') {
+              this.activeIndex = 1;
+            } else if (data.sts_text == 'Approved') {
+              this.activeIndex = 2;
+            }
           }
           this.spinner.hide();
         },
