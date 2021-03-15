@@ -23,7 +23,61 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-            <!-- <h4 class="card-title" id="basic-layout-form">ผลการค้นหา</h4> -->
+            <h4 class="card-title" id="basic-layout-form">ค้นหารายการจอง</h4>
+            <!-- <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a> -->
+          </div>
+          <div class="card-content collapse show">
+            <div class="card-body">
+              <div class="form-body">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>รหัสพนักงาน</label>
+                      <input type="text" autocomplete="off" class="form-control" id="empCode" placeholder="ทั้งหมด"
+                      [(ngModel)]="empCode">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>วันที่ลา (From)</label>
+                      <div class="p-grid ui-fluid">
+                        <p-calendar [(ngModel)]="empleaveDateFrom" [showIcon]="true" [placeholder]="'dd/mm/yyyy'"
+                          dateFormat="dd/mm/yy" (onSelect)="funcSelectDateFrom($event)">
+                        </p-calendar>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>วันที่ลา (To)</label>
+                      <div class="p-grid ui-fluid">
+                        <p-calendar [(ngModel)]="empleaveDateTo" [showIcon]="true" [placeholder]="'dd/mm/yyyy'"
+                          dateFormat="dd/mm/yy" [minDate]="minDate">
+                        </p-calendar>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="col-md-12">
+              <div class="form-actions">
+                <button type="button" class="btn btn-primary mr-1" (click)="search(dt)">
+                  <i class="ft-search"></i>Search</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" id="basic-layout-form">ผลการค้นหา</h4>
             <!-- <div class="heading-elements mt-0">
               <button type="button" class="btn btn-success" (click)="empLeave('ADD')">
                 <i class="ft-plus"></i> เพิ่มข้อมูลการลา</button>

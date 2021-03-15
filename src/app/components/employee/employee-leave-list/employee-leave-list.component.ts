@@ -22,6 +22,10 @@ export class EmployeeLeaveListComponent implements OnInit {
   datasource: any[];
   cols: any[];
   itemFormGroup: FormGroup;
+  empleaveDateFrom: Date;
+  empleaveDateTo: Date;
+  minDate: Date;
+  empCode;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -105,6 +109,21 @@ export class EmployeeLeaveListComponent implements OnInit {
       this.router.navigate(['/employee/employee-leave-detail']);
     } else {
       this.router.navigate(['/employee/employee-leave-detail', id]);
+    }
+  }
+
+  funcSelectDateFrom(event) {
+    let dateFrom = new Date(event);
+    let month = dateFrom.getMonth() + 1;
+    let year = dateFrom.getFullYear();
+    let prevMonth = (month === 0) ? 12 : month - 1;
+    let prevYear = (prevMonth === 12) ? year - 1 : year;
+    this.minDate = new Date(event);
+    this.minDate.setMonth(prevMonth);
+    this.minDate.setFullYear(prevYear);
+    let dateTo = new Date(this.empleaveDateTo);
+    if (dateFrom > dateTo) {
+      this.empleaveDateTo = dateFrom;
     }
   }
 
