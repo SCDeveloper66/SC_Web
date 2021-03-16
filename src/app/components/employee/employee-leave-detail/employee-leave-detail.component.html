@@ -27,7 +27,8 @@
         <div class="card">
           <div class="card-content collapse show">
             <div class="card-body">
-              <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="true"></p-steps>
+              <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="true">
+              </p-steps>
               <div class="card-text">
                 <div class="row">
                   <form class="col-sm-12 form">
@@ -89,7 +90,7 @@
                   <form class="col-sm-12 form">
                     <div class="form-body text-center">
                       <div class="col-sm-12">
-                        <button type="button" class="btn btn-primary" *ngIf="activeIndex == 1">
+                        <button type="button" class="btn btn-primary" *ngIf="btnApprove">
                           <i class="ft-check"></i>
                           Approve
                         </button>

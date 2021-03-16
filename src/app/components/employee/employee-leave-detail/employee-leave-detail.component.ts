@@ -20,8 +20,10 @@ export class EmployeeLeaveDetailComponent implements OnInit {
   currentUser: any;
   empLeaveRoomId;
   items: any[];
+  items2: any[];
   activeIndex: number = 0;
   empLeaveDetailFormGroup: FormGroup;
+  btnApprove: boolean = false;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -53,17 +55,6 @@ export class EmployeeLeaveDetailComponent implements OnInit {
     this.empLeaveDetailFormGroup = this.formBuilder.group(
       empLeaveDeatilForm.employeeLeaveDetailFormBuilder
     );
-    this.items = [
-      {
-        label: 'Draft',
-      },
-      {
-        label: 'Waiting Approve',
-      },
-      {
-        label: 'Approved',
-      },
-    ];
     this.getDetail();
   }
 
@@ -81,7 +72,7 @@ export class EmployeeLeaveDetailComponent implements OnInit {
       .ApiEmployee(this.empLeaveDetailFormGroup.getRawValue())
       .subscribe(
         (data) => {
-          debugger;
+          this.items = [];
           if (data) {
             const strStart = data.leave_start.split('/');
             let yearStrat = Number(strStart[2]);
@@ -101,12 +92,33 @@ export class EmployeeLeaveDetailComponent implements OnInit {
             this.empLeaveDetailFormGroup.controls['leaveStart'].patchValue(newStartDate);
             this.empLeaveDetailFormGroup.controls['leaveStop'].patchValue(newStopDate);
             this.empLeaveDetailFormGroup.controls['remark'].patchValue(data.remark);
-            if (data.sts_text == 'Draft') {
-              this.activeIndex = 0;
-            } else if (data.sts_text == 'Waiting Approve') {
-              this.activeIndex = 1;
-            } else if (data.sts_text == 'Approved') {
-              this.activeIndex = 2;
+            this.items.push({ label: 'Submit' });
+            if (data.leave_over == 'N') {
+              this.items.push({ label: 'Waiting Approve' });
+              this.items.push({ label: 'Approve' });
+              if (data.sts_text == 'Submit') {
+                this.activeIndex = 1;
+                this.btnApprove = true;
+              } else if (data.sts_text == 'Approve') {
+                this.activeIndex = 2;
+              } else {
+                this.activeIndex = 0;
+              }
+            } else {
+              this.items.push({ label: 'Waiting Approval1' });
+              this.items.push({ label: 'Waiting Approval2' });
+              this.items.push({ label: 'Approve' });
+              if (data.sts_text == 'Submit') {
+                this.activeIndex = 1;
+                this.btnApprove = true;
+              } else if (data.sts_text == 'Approval1') {
+                this.activeIndex = 2;
+                this.btnApprove = true;
+              } else if (data.sts_text == 'Approval2') {
+                this.activeIndex = 3;
+              } else {
+                this.activeIndex = 0;
+              }
             }
           }
           this.spinner.hide();
