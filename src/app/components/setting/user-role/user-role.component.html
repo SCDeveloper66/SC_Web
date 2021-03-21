@@ -76,13 +76,17 @@
                         Active
                       </span>
                       <span class="badge badge-danger" *ngIf="rowData.active == 'False'">
-                        InActive
+                        Inactive
                       </span>
                     </td>
                     <td class="text-center">
                       <a class="primary edit mr-1"
                         (click)="showModalDialogDetail(rowData['group_id'], rowData['userGroup'], rowData['active'], rowData['roleList'])">
                         <i class="fas fa-pencil-alt"></i>
+                      </a>
+                      <a class="primary edit mr-1"
+                        (click)="showModalDialogUser(rowData['group_id'], rowData['userGroup'], rowData['active'], rowData['roleList'])">
+                        <i class="fas fa-user-alt"></i>
                       </a>
                     </td>
                   </tr>
@@ -164,4 +168,34 @@
       </button>
     </fieldset>
   </p-footer>
+</p-dialog>
+
+
+<p-dialog header="รายชื่อพนักงาน" [(visible)]="displayUserModal" [position]="'top'" [modal]="true"
+  [style]="{width: '45vw',minWidth:'750px'}" [baseZIndex]="50000" [draggable]="false" [resizable]="false">
+  <form [formGroup]="userFormGroup" class="contact-input">
+    <div class="modal-body">
+      <p-table [value]="selectedUser" [(selection)]="selectedUser" dataKey="emp_id" [paginator]="true"
+        [rows]="30" [rowsPerPageOptions]="[30,50,100]" stateStorage="local" stateKey="userDatasource-local">
+        <ng-template pTemplate="header">
+          <tr> 
+            <th class="text-center">ชื่อ-นามสกุล</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+          <tr> 
+            <td>{{data.emp_code}} {{data.emp_name}}</td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+          <tr>
+            <td class="text-center">
+              No data available in table
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+    </div>
+  </form> 
 </p-dialog>

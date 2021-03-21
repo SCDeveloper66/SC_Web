@@ -14,6 +14,7 @@ import { SelectItem } from 'primeng/api';
 import { EmployeeGradeForm } from './employee-grade.form';
 import { EmployeeBehaviorForm } from './employee-behavior.form';
 import { AuthorizationService } from 'src/app/services/authorization/authorization.service';
+import { BookingcarService } from 'src/app/services/bookingcar/bookingcar.service';
 
 @Component({
   selector: 'app-employee-detail',
@@ -83,7 +84,9 @@ export class EmployeeDetailComponent implements OnInit {
   public displayBehaviorModal = false;
   behaviorId;
   behavioritemFormGroup: FormGroup;
+  activitylist: SelectItem[] = [];
   public modalConfirmDeleteBehavior = false;
+  public behaviorDetailErrors = false;
 
   imageItem;
   fileBase64;
@@ -100,6 +103,7 @@ export class EmployeeDetailComponent implements OnInit {
     private alertService: AlertService,
     private router: Router,
     private route: ActivatedRoute,
+    private bookingcarService: BookingcarService,
     public datepipe: DatePipe
   ) {
     if (this.authorizationService.currentUserValue) {
@@ -179,6 +183,7 @@ export class EmployeeDetailComponent implements OnInit {
       { field: 'year', header: 'ปี', sortable: true },
       { field: 'date', header: 'วันที่', sortable: true },
       { field: 'detail', header: 'รายละเอียด', sortable: true },
+      { field: 'detail_id', header: 'รายละเอียด', sortable: true },
       { field: 'score', header: 'คะแนน', sortable: true },
       { field: 'action', header: 'Action', sortable: true },
     ];
@@ -207,6 +212,8 @@ export class EmployeeDetailComponent implements OnInit {
       { label: 'D', value: 'D' }
     ];
 
+    this.getMasterDDL();
+
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.empCode = id;
@@ -222,6 +229,34 @@ export class EmployeeDetailComponent implements OnInit {
       this.spinner.hide();
       this.router.navigate(['/pagenotfound']);
     }
+  }
+
+  private getMasterDDL() {
+    const itemForm = new EmployeeDetailForm();
+    this.itemFormGroup = this.formBuilder.group(
+      itemForm.employeeDetailFormBuilder
+    );
+    this.itemFormGroup.controls['method'].setValue('search');
+    this.itemFormGroup.controls['user_id'].setValue(this.token);
+    this.itemFormGroup.controls['name'].setValue("");
+    this.bookingcarService.ApiMasActivity(this.itemFormGroup.getRawValue()).subscribe(
+      (data) => {
+
+        if (data) {
+          console.log("load ddl");
+          console.log(data);
+          this.activitylist = [];
+          // this.activitylist.push({ value: '-1', label: 'ทั้งหมด' });
+          if (data) {
+            data.forEach(m => {
+              this.activitylist.push({ value: m.id.toString(), label: m.name });
+            });
+          }
+
+        }
+      }, (err) => {
+        this.alertService.error(err);
+      });
   }
 
   private getProfileTab() {
@@ -831,7 +866,8 @@ export class EmployeeDetailComponent implements OnInit {
           data.forEach(element => {
             this.behaviorDatasource.push({
               id: element.id, no: element.no, year: element.year,
-              date: element.date, detail: element.detail, score: element.score
+              date: element.date, detail: element.detail, score: element.score, detail2: element.detail2
+              , detail_id: element.detail_id
             });
           });
         }
@@ -876,26 +912,39 @@ export class EmployeeDetailComponent implements OnInit {
     this.modalConfirmDeleteBehavior = true;
   }
 
-  get fBehavior() { return this.behavioritemFormGroup.controls; }
+  get fBehavior() {
+    if (this.behavioritemFormGroup.controls['detail_id'].value != null) {
+      this.behaviorDetailErrors = false;
+    }
+    return this.behavioritemFormGroup.controls;
+  }
 
   getBehaviorFormValidationErrors() {
     let valid = true;
     Object.keys(this.behavioritemFormGroup.controls).forEach(key => {
+      // alert(key);
       this.behavioritemFormGroup.controls[key].markAsDirty();
       this.behavioritemFormGroup.controls[key].markAsTouched();
       this.behavioritemFormGroup.controls[key].markAsPending();
       const controlErrors: ValidationErrors = this.behavioritemFormGroup.get(key).errors;
+
       if (controlErrors != null) {
+        // alert(JSON.stringify(controlErrors));
         Object.keys(controlErrors).forEach(keyError => {
           console.log('Key control: ' + key + ', keyError: ' + keyError + ', err value: ', controlErrors[keyError]);
         });
         valid = false;
       }
     });
+    if (this.behavioritemFormGroup.controls['detail_id'].value == null) {
+      this.behaviorDetailErrors = true;
+      valid = false;
+    }
     return valid;
   }
 
-  behaviorTabEdit(id, year, date, detail, score) {
+  behaviorTabEdit(id, year, date, detail, score, detail_id, detail2) {
+    // alert(detail_id);
     this.spinner.show();
     this.displayBehaviorModal = true;
     if (id == 'ADD') {
@@ -917,13 +966,20 @@ export class EmployeeDetailComponent implements OnInit {
       // this.behavioritemFormGroup.controls['year'].setValue(year);
       this.behavioritemFormGroup.controls['date'].setValue(date);
       this.behavioritemFormGroup.controls['detail'].setValue(detail);
+      this.behavioritemFormGroup.controls['detail2'].setValue(detail2);
       this.behavioritemFormGroup.controls['score'].setValue(score);
+      this.behavioritemFormGroup.controls['detail_id'].patchValue(detail_id);
+      // this.behavioritemFormGroup.controls['detail_id'].setValue(detail_id);
       this.spinner.hide();
     }
   }
 
   saveItemBehavior() {
+    console.log(this.behavioritemFormGroup.value);
+    
     if (this.getBehaviorFormValidationErrors()) {
+      // console.log(this.behavioritemFormGroup.getRawValue());
+      // return;
       this.spinner.show();
       this.displayBehaviorModal = false;
       if (this.behavioritemFormGroup.controls['id'].value == '0') {
@@ -944,6 +1000,7 @@ export class EmployeeDetailComponent implements OnInit {
         }
         this.behavioritemFormGroup.controls['date'].patchValue(behaviorDate);
         this.behavioritemFormGroup.controls['user_id'].setValue(this.token);
+        this.behavioritemFormGroup.controls['detail'].setValue(this.behavioritemFormGroup.controls['detail2'].value);
         this.employeeService.ApiEmployee(this.behavioritemFormGroup.getRawValue()).subscribe(
           (data) => {
             if (data.status == 'S') {

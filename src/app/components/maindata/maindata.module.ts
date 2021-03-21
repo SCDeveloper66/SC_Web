@@ -25,6 +25,7 @@ import { ImportActivityScoreComponent } from './import-activity-score/import-act
 import { ImportActivityPointComponent } from './import-activity-point/import-activity-point.component';
 import { ActivityOutdoorComponent } from './activity-outdoor/activity-outdoor.component';
 import { ActivityComponent } from './activity/activity.component';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { ActivityComponent } from './activity/activity.component';
     CalendarModule,
     ListboxModule,
     FullCalendarModule,
-    FileUploadModule
+    FileUploadModule,
+    InputSwitchModule
   ]
 })
 export class MaindataModule { }

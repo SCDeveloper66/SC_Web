@@ -11,15 +11,7 @@
       </li>
       <li class=" nav-item has-sub" *ngFor="let prog of roleList | async | filterDistinctProgramGroup">
         <a href="#">
-          <i class="ft-user" *ngIf="prog.programGroupId == 'Emp'"></i>
-          <i class="ft-check-circle" *ngIf="prog.programGroupId == 'MeetingRoom'"></i>
-          <i class="ft-check-circle" *ngIf="prog.programGroupId == 'Car'"></i>
-          <i class="ft-file-text" *ngIf="prog.programGroupId == 'ProjectPlan'"></i>
-          <i class="ft-grid" *ngIf="prog.programGroupId == 'MainData'"></i>
-          <i class="ft-grid" *ngIf="prog.programGroupId == 'ImportData'"></i>
-          <i class="ft-file-text" *ngIf="prog.programGroupId == 'Report'"></i>
-          <i class="ft-server" *ngIf="prog.programGroupId == 'Interace'"></i>
-          <i class="ft-settings" *ngIf="prog.programGroupId == 'Setting'"></i>
+          <i [class]="prog.icon"></i>
           <span class="menu-title" data-i18n="">
             {{ prog.programGroupName }}
           </span>

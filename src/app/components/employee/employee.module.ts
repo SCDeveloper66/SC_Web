@@ -9,16 +9,15 @@ import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { EmployeeDetailComponent } from './employee-detail/employee-detail.component';
 import { CalendarModule } from 'primeng/calendar';
 import { FileUploadModule } from 'primeng/fileupload';
-import { EmployeeLeaveListComponent } from './employee-leave-list/employee-leave-list.component';
 import { EmployeeLeaveDetailComponent } from './employee-leave-detail/employee-leave-detail.component';
 import { StepsModule } from 'primeng/steps';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 
 @NgModule({
   declarations: [
     EmployeeListComponent,
     EmployeeDetailComponent,
-    EmployeeLeaveListComponent,
     EmployeeLeaveDetailComponent,
   ],
   imports: [
@@ -31,7 +30,8 @@ import { StepsModule } from 'primeng/steps';
     DropdownModule,
     CalendarModule,
     FileUploadModule,
-    StepsModule
+    StepsModule,
+    InputSwitchModule
   ],
 })
 export class EmployeeModule {}

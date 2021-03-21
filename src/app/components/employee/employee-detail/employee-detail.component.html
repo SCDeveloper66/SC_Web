@@ -52,7 +52,7 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" id="base-behaviortab" data-toggle="tab" aria-controls="behaviortab"
-                    href="#behaviortab" role="tab" aria-selected="false">ความดี+บทลงโทษ</a>
+                    href="#behaviortab" role="tab" aria-selected="false">ความดี+บทลงโทษ+แลกพ้อย</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" id="base-gradetab" data-toggle="tab" aria-controls="gradetab" href="#gradetab"
@@ -744,7 +744,7 @@
                           <span class="d-md-block  "> <i class="ft-download"></i> Export</span>
                         </button>
                         <label>&nbsp;</label>
-                        <button class="btn btn-success" type="button" (click)="behaviorTabEdit('ADD', '', '', '', '')">
+                        <button class="btn btn-success" type="button" (click)="behaviorTabEdit('ADD', '', '', '', '','','')">
                           <span class="d-md-block  "> <i class="ft-plus"></i> เพิ่มรายการ</span>
                         </button>
                       </div>
@@ -784,6 +784,10 @@
                                 คะแนน
                                 <p-sortIcon [field]="'score'"></p-sortIcon>
                               </th>
+                              <th class="text-center" [pSortableColumn]="'detail2'" pResizableColumn pReorderableColumn>
+                                รายละเอียด
+                                <p-sortIcon [field]="'detail2'"></p-sortIcon>
+                              </th>
                               <th class="text-center" [pSortableColumn]="'action'" pResizableColumn pReorderableColumn>
                                 Action
                                 <p-sortIcon [field]="'action'"></p-sortIcon>
@@ -797,6 +801,7 @@
                               <col [style.width]="'150px'">
                               <col [style.width]="'200px'">
                               <col [style.width]="'150px'">
+                              <col [style.width]="'200px'">
                               <col [style.width]="'100px'">
                             </colgroup>
                           </ng-template>
@@ -817,9 +822,12 @@
                               <td class="text-center">
                                 {{ rowData['score'] }}
                               </td>
+                              <td>
+                                {{ rowData['detail2'] }}
+                              </td>
                               <td class="text-center">
                                 <a class="primary edit mr-1"
-                                  (click)="behaviorTabEdit(rowData['id'], rowData['year'], rowData['date'], rowData['detail'], rowData['score'])">
+                                  (click)="behaviorTabEdit(rowData['id'], rowData['year'], rowData['date'], rowData['detail'], rowData['score'], rowData['detail_id'], rowData['detail2'])">
                                   <i class="fas fa-pencil-alt"></i>
                                 </a>
                                 <a class="danger delete mr-1"
@@ -1053,8 +1061,9 @@
   </section>
 </div>
 
-<p-dialog header="รายการ" [(visible)]="displayBehaviorModal" [position]="'top'" [modal]="true" [style]="{minWidth: '300px'}"
-  [baseZIndex]="50000" [draggable]="false" [resizable]="false" [contentStyle]="{minHeight: '450px'}">
+<p-dialog header="รายการ" [(visible)]="displayBehaviorModal" [position]="'top'" [modal]="true"
+  [style]="{minWidth: '300px'}" [baseZIndex]="50000" [draggable]="false" [resizable]="false"
+  [contentStyle]="{minHeight: '450px'}">
   <form [formGroup]="behavioritemFormGroup" class="contact-input">
     <div class="modal-body">
       <label>วันที่</label>
@@ -1070,12 +1079,21 @@
     </div>
     <div class="modal-body">
       <label>รายละเอียด</label>
-      <input type="text" autocomplete="off"
-        [ngClass]="{ 'is-invalid': fBehavior.detail.errors && ( fBehavior.detail.dirty ||  fBehavior.detail.touched) }"
-        class="form-control required" id="detail" formControlName="detail">
-      <div *ngIf="fBehavior.detail.errors" class="invalid-feedback">
-        <div *ngIf="fBehavior.detail.errors.required">This field is required.</div>
+      <div class="p-md-10 ui-fluid">
+        <p-dropdown [options]="activitylist" placeholder="-------- เลือก --------" [showClear]="true"
+          [ngClass]="{ 'is-invalid': fBehavior.detail_id.errors && ( fBehavior.detail_id.dirty ||  fBehavior.detail_id.touched) }"
+          id="detail_id" [filter]='true' formControlName="detail_id">
+        </p-dropdown>
       </div>
+      <div *ngIf="behaviorDetailErrors"  style="color: #ff7588;font-size: 80%;">
+        <div>This field is required.</div>
+      </div>
+      <!-- <input type="text" autocomplete="off"
+        [ngClass]="{ 'is-invalid': fBehavior.detail.errors && ( fBehavior.detail.dirty ||  fBehavior.detail.touched) }"
+        class="form-control required" id="detail" formControlName="detail"> -->
+      <!-- <div *ngIf="fBehavior.detail_id.errors" class="invalid-feedback">
+        <div *ngIf="fBehavior.detail_id.errors.required">This field is required.</div>
+      </div> -->
     </div>
     <div class="modal-body">
       <label>คะแนน</label>
@@ -1085,6 +1103,15 @@
       <div *ngIf="fBehavior.score.errors" class="invalid-feedback">
         <div *ngIf="fBehavior.score.errors.required">This field is required.</div>
       </div>
+    </div>
+    <div class="modal-body">
+      <label>หมายเหตุ</label>
+      <input type="text" autocomplete="off"
+        [ngClass]="{ 'is-invalid': fBehavior.detail2.errors && ( fBehavior.detail2.dirty ||  fBehavior.detail2.touched) }"
+        class="form-control " id="detail2" formControlName="detail2">
+      <!-- <div *ngIf="fBehavior.detail_id.errors" class="invalid-feedback">
+        <div *ngIf="fBehavior.detail_id.errors.required">This field is required.</div>
+      </div> -->
     </div>
   </form>
   <p-footer>
@@ -1098,8 +1125,9 @@
   </p-footer>
 </p-dialog>
 
-<p-dialog header="รายการ" [(visible)]="displayGradeModal" [position]="'top'" [modal]="true" [style]="{minWidth: '300px'}"
-  [baseZIndex]="50000" [draggable]="false" [resizable]="false" [contentStyle]="{minHeight: '550px'}">
+<p-dialog header="รายการ" [(visible)]="displayGradeModal" [position]="'top'" [modal]="true"
+  [style]="{minWidth: '300px'}" [baseZIndex]="50000" [draggable]="false" [resizable]="false"
+  [contentStyle]="{minHeight: '550px'}">
   <form [formGroup]="gradeitemFormGroup" class="contact-input">
     <div class="modal-body">
       <label>ครั้งที่</label>

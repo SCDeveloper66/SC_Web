@@ -64,6 +64,10 @@ const routes: Routes = [
     path: 'setting',
     loadChildren: () => import('./components/setting/setting.module').then(m => m.SettingModule)
   },
+  {
+    path: 'approvalform',
+    loadChildren: () => import('./components/approvalform/approvalform.module').then(m => m.ApprovalformModule)
+  },
   { path: '**', component: PagenotfoundComponent }
 ];
 

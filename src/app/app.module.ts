@@ -39,6 +39,7 @@ import { DialogModule } from 'primeng/dialog';
 import { UserRoleService } from './services/user-role/user-role.service';
 import { FilterDistinctProgramGroupPipe, FilterProgramGroupPipe } from './components/shared/layout/sidebar/filter-program-group.pipe';
 import { CalendarMeetingComponent } from './components/calendar-meeting/calendar-meeting.component';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { CalendarMeetingComponent } from './components/calendar-meeting/calendar
     FullCalendarModule,
     TableModule,
     CheckboxModule,
-    DialogModule
+    DialogModule,
+    InputSwitchModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

@@ -34,9 +34,35 @@
                     <div class="form-group">
                       <label>รหัสพนักงาน</label>
                       <input type="text" autocomplete="off" class="form-control" id="empCode" placeholder="ทั้งหมด"
-                      [(ngModel)]="empCode">
+                        [(ngModel)]="empCode">
                     </div>
                   </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>ชื่อพนักงาน</label>
+                      <input type="text" autocomplete="off" class="form-control" id="fName" placeholder="ชื่อพนักงาน"
+                        [(ngModel)]="empfName">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>นามสกุลพนักงาน</label>
+                      <input type="text" autocomplete="off" class="form-control" id="surNameEmp"
+                        placeholder="นามสกุลพนักงาน" [(ngModel)]="emplName">
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>แผนก</label>
+                      <div class="p-md-10 ui-fluid">
+                        <p-dropdown [options]="departments" placeholder="-------- ทั้งหมด --------" [showClear]="true"
+                          [filter]='true' [(ngModel)]="department">
+                        </p-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
                   <div class="col-md-3">
                     <div class="form-group">
                       <label>วันที่ลา (From)</label>
@@ -144,7 +170,8 @@
                       {{ rowData['emp_name'] }}
                     </td>
                     <td>
-                      {{ rowData['leave_start'] | date: 'dd/MM/yyyy' }} - {{ rowData['leave_stop'] | date: 'dd/MM/yyyy' }}
+                      {{ rowData['leave_start'] | date: 'dd/MM/yyyy' }} - {{ rowData['leave_stop'] | date: 'dd/MM/yyyy'
+                      }}
                     </td>
                     <td class="text-center">
                       <span class="badge" [style.background-color]="rowData.sts_color">

@@ -45,10 +45,13 @@ export class ActivityOutdoorComponent implements OnInit {
   public scoreError = false;
   itemFormGroup: FormGroup;
   dateFrom: Date;
+  isOpenCard: boolean = false;
+  readOnlyControl:boolean = false;
 
   public isInput: boolean = false;
 
   @ViewChild('emp_code') searchElement: ElementRef;
+  @ViewChild('score') scoreElement: ElementRef;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -81,9 +84,20 @@ export class ActivityOutdoorComponent implements OnInit {
     }
   }
 
+  public clickBonusChecked(e) {
+
+    this.isOpenCard = e.checked;
+    this.readOnlyControl =  this.isOpenCard;
+    // alert(bonusChecked);
+    // if (this.isOpenCard) {
+    //   this.readOnlyControl = true;
+    // } else {
+
+    // }
+
+  }
+
   ngOnInit(): void {
-    if (this.searchElement != null)
-      this.searchElement.nativeElement.focus();
 
     this.AutoFocus();
 
@@ -100,8 +114,9 @@ export class ActivityOutdoorComponent implements OnInit {
   }
 
   AutoFocus() {
+    // alert(this.searchElement);
     setTimeout(() => { // this will make the execution after the above boolean has changed
-      if (this.isInput == false) {
+      if (this.isOpenCard) {
         if (this.behavioritemFormGroup.controls['emp_code'].value == null || this.behavioritemFormGroup.controls['emp_code'].value == '') {
           this.searchElement.nativeElement.focus();
         }
@@ -188,8 +203,12 @@ export class ActivityOutdoorComponent implements OnInit {
     this.searchElement.nativeElement.focus();
   }
 
-
   submitData(dataKey) {
+    if (this.isOpenCard == false)
+      return;
+
+      console.log(this.behavioritemFormGroup.value);
+
     // if (dataKey == '') {
     //   return;
     // }
@@ -247,6 +266,6 @@ export class ActivityOutdoorComponent implements OnInit {
 
   }
 
- 
+
 
 }

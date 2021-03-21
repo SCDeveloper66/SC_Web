@@ -23,12 +23,7 @@
                     <div class="card-header">
                         <h4 class="card-title" id="basic-layout-form">Submit Data</h4>
                         <div class="heading-elements mt-0">
-                            <!-- <button type="button" class="btn btn-success" (click)="downloadTemplate()">
-                                <span class="d-md-block  ">
-                                    <i class="ft-download"></i>
-                                    Download Template
-                                </span>
-                            </button> -->
+
                         </div>
                     </div>
                     <div class="card-content collapse show">
@@ -37,10 +32,11 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <form [formGroup]="behavioritemFormGroup" class="contact-input">
+                                            
                                             <div class="form-group">
                                                 <label>กิจกรรม</label>
                                                 <div class="p-md-10 ui-fluid">
-                                                    <p-dropdown [options]="activitylist"
+                                                    <p-dropdown [options]="activitylist" [disabled]="readOnlyControl"
                                                         placeholder="-------- เลือก --------" [showClear]="true"
                                                         [ngClass]="{ 'is-invalid': fBehavior.detail_id.errors && ( fBehavior.detail_id.dirty ||  fBehavior.detail_id.touched) }"
                                                         id="detail_id" [filter]='true' formControlName="detail_id">
@@ -54,7 +50,7 @@
                                             <div class="form-group">
                                                 <label>วันที่</label>
                                                 <div class="p-md-10 ui-fluid">
-                                                    <p-calendar formControlName="date" [showIcon]="true"
+                                                    <p-calendar formControlName="date" [showIcon]="true" [disabled]="readOnlyControl"
                                                         [placeholder]="'dd/mm/yyyy'" dateFormat="dd/mm/yy">
                                                     </p-calendar>
                                                 </div>
@@ -64,16 +60,24 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>คะแนน</label>
-                                                <input type="text" autocomplete="off" (focus)="onFocusEvent($event)" (focusout)="onFocusOutEvent($event)"
+                                                <input type="text" autocomplete="off" (focus)="onFocusEvent($event)"
+                                                    (focusout)="onFocusOutEvent($event)" [readOnly]="readOnlyControl"
                                                     [ngClass]="{ 'is-invalid': fBehavior.score.errors && ( fBehavior.score.dirty ||  fBehavior.score.touched) }"
-                                                    class="form-control required" id="score" formControlName="score">
+                                                    class="form-control required" id="score" formControlName="score"  #score>
                                                 <div *ngIf="scoreError" style="color: #ff7588;font-size: 80%;">
                                                     <div>This field is required.</div>
                                                 </div>
                                             </div>
+                                            <div class="form-group">
+                                                <label>เปิดทาบบัตร</label>
+                                                <div class="col-md-3">
+                                                    <p-inputSwitch (onChange)="clickBonusChecked($event)" formControlName="active"></p-inputSwitch>
+                                                  </div>
+                                            </div>
                                             <div class="form-group" style="height: 100px;">
                                                 <!-- <label>บัตรพนักงาน</label> -->
-                                                <input type="text" style="position:absolute; z-index: -1" autocomplete="off" (keydown.enter)="submitData($event.target.value)" 
+                                                <input type="text" style="position:absolute; z-index: -1"
+                                                    autocomplete="off" (keydown.enter)="submitData($event.target.value)"
                                                     [ngClass]="{ 'is-invalid': fBehavior.emp_code.errors && ( fBehavior.emp_code.dirty ||  fBehavior.emp_code.touched) }"
                                                     class="form-control required" id="emp_code" #emp_code
                                                     formControlName="emp_code">
@@ -84,44 +88,15 @@
                                         </form>
                                     </div>
                                 </div>
-                                <!-- <div class="row">
-                                    <div class="col-md-12">
-                                        <p-fileUpload #fileInput name="importFiles[]" maxFileSize="1000000000"
-                                            accept=".xlsx, .xls" customUpload="true" (uploadHandler)="upload(fileInput)"
-                                            showUploadButton="true" showCancelButton="true">
-                                        </p-fileUpload>
-                                    </div>
-                                </div> -->
+
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="card-footer">
-              <div class="col-md-12">
-                <div class="form-actions">
-                  <button type="button" class="btn btn-primary mr-1" (click)="search(dt)">
-                    <i class="ft-search"></i>Search</button>
-                </div>
-              </div>
-            </div> -->
+
                 </div>
             </div>
         </div>
 
-        <!-- <div class="row match-height">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-header">
-              <h4 class="card-title" id="basic-layout-form">Results</h4>
-              <div class="heading-elements mt-0">
-              </div>
-            </div>
-            <div class="card-content collapse show">
-              <div class="card-body">
-  
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
+
     </section>
 </div>

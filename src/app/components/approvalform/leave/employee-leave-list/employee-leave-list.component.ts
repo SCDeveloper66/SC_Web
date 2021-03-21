@@ -3,18 +3,18 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Table } from 'primeng';
+import { SelectItem, Table } from 'primeng';
+import { EmployeeListForm } from 'src/app/components/employee/employee-list/employee-list.form';
 import { AuthorizationService } from 'src/app/services/authorization/authorization.service';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { AlertService } from 'src/app/services/global/alert.service';
 import { GlobalVariableService } from 'src/app/services/global/global-variable.service';
 import { LocalstorageService } from 'src/app/services/global/localstorage.service';
-import { EmployeeListForm } from '../employee-list/employee-list.form';
 
 @Component({
   selector: 'app-employee-leave-list',
   templateUrl: './employee-leave-list.component.html',
-  styleUrls: ['./employee-leave-list.component.scss'],
+  styleUrls: ['./employee-leave-list.component.scss']
 })
 export class EmployeeLeaveListComponent implements OnInit {
   token;
@@ -26,6 +26,10 @@ export class EmployeeLeaveListComponent implements OnInit {
   empleaveDateTo: Date;
   minDate: Date;
   empCode;
+  empfName;
+  emplName;
+  departments: SelectItem[] = [];
+  department;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -52,6 +56,9 @@ export class EmployeeLeaveListComponent implements OnInit {
 
   ngOnInit(): void {
     this.spinner.show();
+    this.empleaveDateFrom = new Date();
+    this.empleaveDateTo = new Date();
+    this.funcSelectDateFrom(this.empleaveDateFrom);
     this.datasource = [];
     this.cols = [
       { field: 'no' },
@@ -63,12 +70,36 @@ export class EmployeeLeaveListComponent implements OnInit {
       { field: 'sts_color' },
       { field: 'remark' },
     ];
+    this.getMasterDDL();
     this.getEmpLeaveList();
   }
 
   search(dt: Table) {
     this.localstorageService.removeItem('datasource-local');
     this.getEmpLeaveList();
+  }
+
+  private getMasterDDL() {
+    const itemForm = new EmployeeListForm();
+    this.itemFormGroup = this.formBuilder.group(
+      itemForm.employeeListFormBuilder
+    );
+    this.itemFormGroup.controls['method'].setValue('master');
+    this.itemFormGroup.controls['user_id'].setValue(this.token);
+    this.employeeService.GetMasterDDL(this.itemFormGroup.getRawValue()).subscribe(
+      (data) => {
+        if (data) {
+          this.departments = [];
+          this.departments.push({ value: '-1', label: 'ทั้งหมด' });
+          if (data.depart) {
+            data.depart.forEach(m => {
+              this.departments.push({ value: m.value, label: m.text });
+            });
+          }
+        }
+      }, (err) => {
+        this.alertService.error(err);
+      });
   }
 
   private getEmpLeaveList() {
@@ -106,9 +137,9 @@ export class EmployeeLeaveListComponent implements OnInit {
 
   empLeave(id) {
     if (id == 'ADD') {
-      this.router.navigate(['/employee/employee-leave-detail']);
+      this.router.navigate(['/approvalform/employee-leave-detail']);
     } else {
-      this.router.navigate(['/employee/employee-leave-detail', id]);
+      this.router.navigate(['/approvalform/employee-leave-detail', id]);
     }
   }
 
