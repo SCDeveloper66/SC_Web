@@ -1,0 +1,175 @@
+<!-- <p>report-emp-score works!</p> -->
+<div class="content-header row">
+    <div class="content-header-left col-md-6 col-12 mb-2">
+      <h3 class="content-header-title mb-0">สรุปคะแนนผลงาน</h3>
+      <div class="row breadcrumbs-top">
+        <div class="breadcrumb-wrapper col-12">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="['/home']">หน้าหลัก</a>
+              <a [routerLink]="['/home']">หน้าหลัก</a>
+            </li>
+            <li class="breadcrumb-item">สรุปคะแนนผลงาน</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <div class="content-header-right col-md-6 col-12">
+    </div>
+  </div>
+  
+  <div class="content-body">
+    <section id="basic-form-layouts">
+      <div class="row match-height">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title" id="basic-layout-form">เงื่อนไขการค้นหา</h4>
+              <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+            </div>
+            <div class="card-content collapse show">
+              <div class="card-body">
+                <div class="form-body">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label>วันที่ (From)</label>
+                        <div class="p-grid ui-fluid">
+                          <p-calendar [(ngModel)]="dateFrom" [showIcon]="true" [placeholder]="'dd/mm/yyyy'"
+                            dateFormat="dd/mm/yy">
+                          </p-calendar>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label>วันที่ (To)</label>
+                        <div class="p-grid ui-fluid">
+                          <p-calendar [(ngModel)]="dateTo" [showIcon]="true" [placeholder]="'dd/mm/yyyy'"
+                            dateFormat="dd/mm/yy">
+                          </p-calendar>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label>รหัสพนักงาน</label>
+                        <input type="text" autocomplete="off" class="form-control" id="empCodeFrom" placeholder="ทั้งหมด"
+                          [(ngModel)]="empCode">
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label>แผนก</label>
+                        <div class="p-md-10 ui-fluid">
+                          <p-dropdown [options]="deps" placeholder="-------- ทั้งหมด --------" [showClear]="true"
+                            [filter]='true' [(ngModel)]="dep">
+                          </p-dropdown>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label>ชื่อ</label>
+                        <input type="text" autocomplete="off" class="form-control" id="empfname" placeholder="ทั้งหมด"
+                          [(ngModel)]="empfname">
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label>นามสกุล</label>
+                        <input type="text" autocomplete="off" class="form-control" id="emplname" placeholder="ทั้งหมด"
+                          [(ngModel)]="emplname">
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label>ประเภท</label>
+                        <div class="p-md-10 ui-fluid">
+                            <div *ngFor="let category of categories" class="p-field-checkbox ">
+                                <p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedCategory" [disabled]="category.key === 'R'"></p-radioButton>
+                                <label [for]="category.key">&#32;{{category.name}}</label>
+                            </div>
+                            
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="col-md-12">
+                <div class="form-actions">
+                  <button type="button" class="btn btn-primary mr-1" (click)="search(dt)">
+                    <i class="ft-search"></i>
+                    Search
+                  </button>
+                  <label>&nbsp;</label>
+                  <button type="button" class="btn btn-success mr-1" (click)="export()">
+                    <i class="ft-download"></i>
+                    Export
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row match-height">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title" id="basic-layout-form">ผลการค้นหา</h4>
+              <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+            </div>
+            <div class="card-content collapse show">
+              <div class="card-body">
+                <p-table #dt [columns]="cols" [value]="datasource" [paginator]="true" [rows]="30"
+                  [rowsPerPageOptions]="[30,50,100]" dataKey="id" [resizableColumns]="false" [scrollable]="true"
+                  [reorderableColumns]="false" stateStorage="local" stateKey="datasource-local">
+
+  
+                  <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of cols" class="text-center" [pSortableColumn]="col.field" pResizableColumn pReorderableColumn>
+                            {{col.header}}
+                            <p-sortIcon [field]="col.field"></p-sortIcon>
+                        </th>
+                     
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="colgroup" let-columns>
+                    <colgroup>
+                        <col *ngFor="let col of cols" [style.width]="col.colWidth">
+                      
+                    </colgroup>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr [pSelectableRow]="rowData">
+                        <td *ngFor="let col of cols" class="{{col.style}}">
+                            {{rowData[col.field]}}
+                        </td>
+                      
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage" let-columns>
+                    <tr>
+                      <td [attr.colspan]="columns.length" class="text-center">
+                        No data available in table
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+
+  

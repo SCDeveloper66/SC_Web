@@ -10,9 +10,11 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ListboxModule } from 'primeng/listbox';
+import { ReportEmpScoreComponent } from './report-emp-score/report-emp-score.component';
+import { RadioButtonModule } from 'primeng';
 
 @NgModule({
-  declarations: [TimeAttRealtimeComponent],
+  declarations: [TimeAttRealtimeComponent, ReportEmpScoreComponent],
   imports: [
     CommonModule,
     ReportRoutingModule,
@@ -24,6 +26,7 @@ import { ListboxModule } from 'primeng/listbox';
     CalendarModule,
     CheckboxModule,
     ListboxModule,
+    RadioButtonModule
   ]
 })
 export class ReportModule { }
