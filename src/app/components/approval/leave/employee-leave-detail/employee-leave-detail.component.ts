@@ -8,7 +8,7 @@ import { AuthorizationService } from 'src/app/services/authorization/authorizati
 import { AlertService } from 'src/app/services/global/alert.service';
 import { GlobalVariableService } from 'src/app/services/global/global-variable.service';
 import { LocalstorageService } from 'src/app/services/global/localstorage.service';
-import { EmployeeLeaveDetailForm } from './employee-leave-detail.form';
+import { EmployeeLeaveForm } from '../employee-leave.form';
 
 @Component({
   selector: 'app-employee-leave-detail',
@@ -51,9 +51,9 @@ export class EmployeeLeaveDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.spinner.show();
-    const empLeaveDeatilForm = new EmployeeLeaveDetailForm();
+    const empLeaveDeatilForm = new EmployeeLeaveForm();
     this.empLeaveDetailFormGroup = this.formBuilder.group(
-      empLeaveDeatilForm.employeeLeaveDetailFormBuilder
+      empLeaveDeatilForm.employeeLeaveFormBuilder
     );
     this.getDetail();
   }

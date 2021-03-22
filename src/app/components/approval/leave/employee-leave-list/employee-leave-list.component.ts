@@ -12,7 +12,7 @@ import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { AlertService } from 'src/app/services/global/alert.service';
 import { GlobalVariableService } from 'src/app/services/global/global-variable.service';
 import { LocalstorageService } from 'src/app/services/global/localstorage.service';
-import { EmployeeLeaveListForm } from './employee-leave-list.form';
+import { EmployeeLeaveForm } from '../employee-leave.form';
 
 @Component({
   selector: 'app-employee-leave-list',
@@ -112,9 +112,9 @@ export class EmployeeLeaveListComponent implements OnInit {
 
   private getEmpLeaveList() {
     this.spinner.show();
-    const empLeaveForm = new EmployeeLeaveListForm();
+    const empLeaveForm = new EmployeeLeaveForm();
     this.itemFormGroup = this.formBuilder.group(
-      empLeaveForm.employeeLeaveListFormBuilder
+      empLeaveForm.employeeLeaveFormBuilder
     );
     this.itemFormGroup.controls['method'].setValue('search-leve');
     this.itemFormGroup.controls['user_id'].setValue(this.token);
