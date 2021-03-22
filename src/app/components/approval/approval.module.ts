@@ -8,25 +8,26 @@ import { CalendarModule } from 'primeng/calendar';
 import { FileUploadModule } from 'primeng/fileupload';
 import { StepsModule } from 'primeng/steps';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { ApprovalRoutingModule } from './approval-routing.module';
 import { EmployeeLeaveListComponent } from './leave/employee-leave-list/employee-leave-list.component';
 import { EmployeeLeaveDetailComponent } from './leave/employee-leave-detail/employee-leave-detail.component';
-import { EmployeeOtListComponent } from './ot/employee-ot-list/employee-ot-list.component';
 import { EmployeeOtDetailComponent } from './ot/employee-ot-detail/employee-ot-detail.component';
-import { EmployeeMachineListComponent } from './machine/employee-machine-list/employee-machine-list.component';
+import { EmployeeOtListComponent } from './ot/employee-ot-list/employee-ot-list.component';
 import { EmployeeMachineDetailComponent } from './machine/employee-machine-detail/employee-machine-detail.component';
-
+import { EmployeeMachineListComponent } from './machine/employee-machine-list/employee-machine-list.component';
 
 @NgModule({
   declarations: [
     EmployeeLeaveListComponent,
     EmployeeLeaveDetailComponent,
-    EmployeeOtListComponent,
     EmployeeOtDetailComponent,
-    EmployeeMachineListComponent,
+    EmployeeOtListComponent,
     EmployeeMachineDetailComponent,
+    EmployeeMachineListComponent,
   ],
   imports: [
-    CommonModule,
+    CommonModule, 
+    ApprovalRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     TableModule,
@@ -36,6 +37,6 @@ import { EmployeeMachineDetailComponent } from './machine/employee-machine-detai
     FileUploadModule,
     StepsModule,
     InputSwitchModule
-  ]
+  ],
 })
-export class ApprovalformModule { }
+export class ApprovalModule {}

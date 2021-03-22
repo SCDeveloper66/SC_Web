@@ -3,18 +3,21 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { SelectItem, Table } from 'primeng';
+import { Table } from 'primeng';
+import { SelectItem } from 'primeng/api/selectitem';
 import { EmployeeListForm } from 'src/app/components/employee/employee-list/employee-list.form';
+import { ApprovalService } from 'src/app/services/approval/approval.service';
 import { AuthorizationService } from 'src/app/services/authorization/authorization.service';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { AlertService } from 'src/app/services/global/alert.service';
 import { GlobalVariableService } from 'src/app/services/global/global-variable.service';
 import { LocalstorageService } from 'src/app/services/global/localstorage.service';
+import { EmployeeLeaveListForm } from './employee-leave-list.form';
 
 @Component({
   selector: 'app-employee-leave-list',
   templateUrl: './employee-leave-list.component.html',
-  styleUrls: ['./employee-leave-list.component.scss']
+  styleUrls: ['./employee-leave-list.component.scss'],
 })
 export class EmployeeLeaveListComponent implements OnInit {
   token;
@@ -35,6 +38,7 @@ export class EmployeeLeaveListComponent implements OnInit {
     private authorizationService: AuthorizationService,
     public globalVariableService: GlobalVariableService,
     private employeeService: EmployeeService,
+    private approvalService: ApprovalService,
     private formBuilder: FormBuilder,
     private localstorageService: LocalstorageService,
     private spinner: NgxSpinnerService,
@@ -86,60 +90,68 @@ export class EmployeeLeaveListComponent implements OnInit {
     );
     this.itemFormGroup.controls['method'].setValue('master');
     this.itemFormGroup.controls['user_id'].setValue(this.token);
-    this.employeeService.GetMasterDDL(this.itemFormGroup.getRawValue()).subscribe(
-      (data) => {
-        if (data) {
-          this.departments = [];
-          this.departments.push({ value: '-1', label: 'ทั้งหมด' });
-          if (data.depart) {
-            data.depart.forEach(m => {
-              this.departments.push({ value: m.value, label: m.text });
-            });
+    this.employeeService
+      .GetMasterDDL(this.itemFormGroup.getRawValue())
+      .subscribe(
+        (data) => {
+          if (data) {
+            this.departments = [];
+            this.departments.push({ value: '-1', label: 'ทั้งหมด' });
+            if (data.depart) {
+              data.depart.forEach((m) => {
+                this.departments.push({ value: m.value, label: m.text });
+              });
+            }
           }
+        },
+        (err) => {
+          this.alertService.error(err);
         }
-      }, (err) => {
-        this.alertService.error(err);
-      });
+      );
   }
 
   private getEmpLeaveList() {
     this.spinner.show();
-    const empLeaveForm = new EmployeeListForm();
+    const empLeaveForm = new EmployeeLeaveListForm();
     this.itemFormGroup = this.formBuilder.group(
-      empLeaveForm.employeeListFormBuilder
+      empLeaveForm.employeeLeaveListFormBuilder
     );
     this.itemFormGroup.controls['method'].setValue('search-leve');
     this.itemFormGroup.controls['user_id'].setValue(this.token);
-    this.employeeService.ApiEmployee(this.itemFormGroup.getRawValue()).subscribe(
-      (data) => {
-        this.datasource = [];
-        if (data) {
-          data.forEach(element => {
-            this.datasource.push({
-              id: element.id,
-              no: element.no,
-              emp_code: element.emp_code,
-              emp_name: element.emp_name,
-              leave_start: element.leave_start,
-              leave_stop: element.leave_stop,
-              sts_color: element.sts_color,
-              sts_text: element.sts_text,
-              remark: element.remark
+    this.approvalService
+      .ApiApproval(this.itemFormGroup.getRawValue())
+      .subscribe(
+        (data) => {
+          this.datasource = [];
+          if (data) {
+            data.forEach((element) => {
+              this.datasource.push({
+                id: element.id,
+                no: element.no,
+                emp_code: element.emp_code,
+                emp_name: element.emp_name,
+                leave_start: element.leave_start,
+                leave_stop: element.leave_stop,
+                sts_color: element.sts_color,
+                sts_text: element.sts_text,
+                remark: element.remark,
+              });
             });
-          });
+          }
+          this.spinner.hide();
+        },
+        (err) => {
+          this.spinner.hide();
+          this.alertService.error(err);
         }
-        this.spinner.hide();
-      }, (err) => {
-        this.spinner.hide();
-        this.alertService.error(err);
-      });
+      );
   }
 
   empLeave(id) {
     if (id == 'ADD') {
-      this.router.navigate(['/approvalform/employee-leave-detail']);
+      this.router.navigate(['/approval/employee-leave-detail']);
     } else {
-      this.router.navigate(['/approvalform/employee-leave-detail', id]);
+      this.router.navigate(['/approval/employee-leave-detail', id]);
     }
   }
 
@@ -147,8 +159,8 @@ export class EmployeeLeaveListComponent implements OnInit {
     let dateFrom = new Date(event);
     let month = dateFrom.getMonth() + 1;
     let year = dateFrom.getFullYear();
-    let prevMonth = (month === 0) ? 12 : month - 1;
-    let prevYear = (prevMonth === 12) ? year - 1 : year;
+    let prevMonth = month === 0 ? 12 : month - 1;
+    let prevYear = prevMonth === 12 ? year - 1 : year;
     this.minDate = new Date(event);
     this.minDate.setMonth(prevMonth);
     this.minDate.setFullYear(prevYear);
@@ -157,5 +169,4 @@ export class EmployeeLeaveListComponent implements OnInit {
       this.empleaveDateTo = dateFrom;
     }
   }
-
 }

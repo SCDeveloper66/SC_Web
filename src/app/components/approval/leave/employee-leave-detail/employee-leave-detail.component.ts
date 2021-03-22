@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ApprovalService } from 'src/app/services/approval/approval.service';
 import { AuthorizationService } from 'src/app/services/authorization/authorization.service';
-import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { AlertService } from 'src/app/services/global/alert.service';
 import { GlobalVariableService } from 'src/app/services/global/global-variable.service';
 import { LocalstorageService } from 'src/app/services/global/localstorage.service';
@@ -28,7 +28,7 @@ export class EmployeeLeaveDetailComponent implements OnInit {
   constructor(
     private authorizationService: AuthorizationService,
     public globalVariableService: GlobalVariableService,
-    private employeeService: EmployeeService,
+    private approvalService: ApprovalService,
     private formBuilder: FormBuilder,
     private localstorageService: LocalstorageService,
     private spinner: NgxSpinnerService,
@@ -68,8 +68,8 @@ export class EmployeeLeaveDetailComponent implements OnInit {
       this.empLeaveRoomId ?? ''
     );
     this.empLeaveDetailFormGroup.controls['user_id'].setValue(this.token);
-    this.employeeService
-      .ApiEmployee(this.empLeaveDetailFormGroup.getRawValue())
+    this.approvalService
+      .ApiApproval(this.empLeaveDetailFormGroup.getRawValue())
       .subscribe(
         (data) => {
           this.items = [];
@@ -86,12 +86,24 @@ export class EmployeeLeaveDetailComponent implements OnInit {
             const dateStop = Number(strStop[0]);
             let newStopDate = new Date(yearStop, monthStop, dateStop);
 
-            this.empLeaveDetailFormGroup.controls['emp_code'].patchValue(data.emp_code);
-            this.empLeaveDetailFormGroup.controls['emp_name'].patchValue(data.emp_name);
-            this.empLeaveDetailFormGroup.controls['typeLeave'].patchValue(data.typeLeave);
-            this.empLeaveDetailFormGroup.controls['leaveStart'].patchValue(newStartDate);
-            this.empLeaveDetailFormGroup.controls['leaveStop'].patchValue(newStopDate);
-            this.empLeaveDetailFormGroup.controls['remark'].patchValue(data.remark);
+            this.empLeaveDetailFormGroup.controls['emp_code'].patchValue(
+              data.emp_code
+            );
+            this.empLeaveDetailFormGroup.controls['emp_name'].patchValue(
+              data.emp_name
+            );
+            this.empLeaveDetailFormGroup.controls['typeLeave'].patchValue(
+              data.typeLeave
+            );
+            this.empLeaveDetailFormGroup.controls['leaveStart'].patchValue(
+              newStartDate
+            );
+            this.empLeaveDetailFormGroup.controls['leaveStop'].patchValue(
+              newStopDate
+            );
+            this.empLeaveDetailFormGroup.controls['remark'].patchValue(
+              data.remark
+            );
             this.items.push({ label: 'Submit' });
             if (data.leave_over == 'N') {
               this.items.push({ label: 'Waiting Approve' });

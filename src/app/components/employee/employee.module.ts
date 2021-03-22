@@ -9,7 +9,6 @@ import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { EmployeeDetailComponent } from './employee-detail/employee-detail.component';
 import { CalendarModule } from 'primeng/calendar';
 import { FileUploadModule } from 'primeng/fileupload';
-import { EmployeeLeaveDetailComponent } from './employee-leave-detail/employee-leave-detail.component';
 import { StepsModule } from 'primeng/steps';
 import { InputSwitchModule } from 'primeng/inputswitch';
 
@@ -18,7 +17,6 @@ import { InputSwitchModule } from 'primeng/inputswitch';
   declarations: [
     EmployeeListComponent,
     EmployeeDetailComponent,
-    EmployeeLeaveDetailComponent,
   ],
   imports: [
     CommonModule,

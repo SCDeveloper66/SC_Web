@@ -4,7 +4,6 @@ import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { EmployeeDetailComponent } from './employee-detail/employee-detail.component';
 import { AuthGuard } from 'src/app/helpers/auth.guard';
 import { RouteGuard } from 'src/app/helpers/route.guard';
-import { EmployeeLeaveDetailComponent } from './employee-leave-detail/employee-leave-detail.component';
 
 
 const routes: Routes = [

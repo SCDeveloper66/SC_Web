@@ -9,6 +9,7 @@ import { EmployeeMachineListComponent } from './machine/employee-machine-list/em
 import { EmployeeOtDetailComponent } from './ot/employee-ot-detail/employee-ot-detail.component';
 import { EmployeeOtListComponent } from './ot/employee-ot-list/employee-ot-list.component';
 
+
 const routes: Routes = [
   {
     path: '',
@@ -66,4 +67,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ApprovalFormRoutingModule { }
+export class ApprovalRoutingModule { }

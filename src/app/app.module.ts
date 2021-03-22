@@ -40,6 +40,7 @@ import { UserRoleService } from './services/user-role/user-role.service';
 import { FilterDistinctProgramGroupPipe, FilterProgramGroupPipe } from './components/shared/layout/sidebar/filter-program-group.pipe';
 import { CalendarMeetingComponent } from './components/calendar-meeting/calendar-meeting.component';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { ApprovalService } from './services/approval/approval.service';
 
 @NgModule({
   declarations: [
@@ -90,7 +91,8 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     AuthorizationService,
     MainDataService,
     ReportService,
-    UserRoleService
+    UserRoleService,
+    ApprovalService
   ],
   bootstrap: [AppComponent]
 })
