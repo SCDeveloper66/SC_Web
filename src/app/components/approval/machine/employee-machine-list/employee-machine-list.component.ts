@@ -105,6 +105,11 @@ export class EmployeeMachineListComponent implements OnInit {
                 this.departments.push({ value: m.value, label: m.text });
               });
             }
+            this.machines = [
+              { value: 'machine1', label: 'เครื่องจักร1' },
+              { value: 'machine2', label: 'เครื่องจักร2' },
+              { value: 'machine3', label: 'เครื่องจักร3' }
+            ];
           }
         },
         (err) => {

@@ -1,109 +1,108 @@
 <div class="content-header row">
-    <div class="content-header-left col-md-6 col-12 mb-2">
-      <h3 class="content-header-title mb-0">รายละเอียดข้อมูลการลา</h3>
-      <div class="row breadcrumbs-top">
-        <div class="breadcrumb-wrapper col-12">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-              <a [routerLink]="['/home']"> หน้าหลัก </a>
-            </li>
-            <li class="breadcrumb-item">
-              <a [routerLink]="['/approval/employee-leave']">
-                ข้อมูลข้อมูลการลา
-              </a>
-            </li>
-            <li class="breadcrumb-item">รายละเอียดข้อมูลการลา</li>
-          </ol>
-        </div>
+  <div class="content-header-left col-md-6 col-12 mb-2">
+    <h3 class="content-header-title mb-0">รายละเอียดข้อมูลการลา</h3>
+    <div class="row breadcrumbs-top">
+      <div class="breadcrumb-wrapper col-12">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/home']"> หน้าหลัก </a>
+          </li>
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/approval/employee-leave']">
+              ข้อมูลข้อมูลการลา
+            </a>
+          </li>
+          <li class="breadcrumb-item">รายละเอียดข้อมูลการลา</li>
+        </ol>
       </div>
     </div>
-    <div class="content-header-right col-md-6 col-12"></div>
   </div>
-  
-  <div class="content-body">
-    <section id="basic-form-layouts">
-      <div class="row match-height">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-content collapse show">
-              <div class="card-body">
-                <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="true">
-                </p-steps>
-                <div class="card-text">
-                  <div class="row">
-                    <form class="col-sm-12 form">
-                      <div class="form-body">
-                        <h4 class="form-section"><i class="ft-info"></i> ข้อมูลการลา</h4>
-                      </div>
-                    </form>
-                  </div>
-                  <form [formGroup]="empLeaveDetailFormGroup" class="contact-input">
-                    <div class="row">
-                      <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                        <fieldset class="form-group">
-                          <label for="basicInput">รหัสพนักงาน</label>
-                          <input type="text" autocomplete="off"
-                            [ngClass]="{ 'is-invalid': f.emp_code.errors && ( f.emp_code.dirty ||  f.emp_code.touched) }"
-                            class="form-control required" id="emp_code" formControlName="emp_code" [readOnly]="true">
-                        </fieldset>
-                      </div>
-                      <div class="col-xl-8 col-lg-6 col-md-12 mb-1">
-                        <fieldset class="form-group">
-                          <label for="basicInput">ชื่อ - นามสกุล</label>
-                          <input type="text" autocomplete="off"
-                            [ngClass]="{ 'is-invalid': f.emp_name.errors && ( f.emp_name.dirty ||  f.emp_name.touched) }"
-                            class="form-control required" id="emp_name" formControlName="emp_name" [readOnly]="true">
-                        </fieldset>
-                      </div>
-                      <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                        <fieldset class="form-group">
-                          <label for="leaveStart">วันที่เริ่มต้น</label>
-                          <div class="p-grid ui-fluid">
-                            <p-calendar formControlName="leaveStart" [showIcon]="true" dateFormat="dd/mm/yy"
-                              [disabled]="true">
-                            </p-calendar>
-                          </div>
-                        </fieldset>
-                      </div>
-                      <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                        <fieldset class="form-group">
-                          <label for="leaveStop">วันที่สิ้นสุด</label>
-                          <div class="p-grid ui-fluid">
-                            <p-calendar formControlName="leaveStop" [showIcon]="true" dateFormat="dd/mm/yy"
-                              [disabled]="true">
-                            </p-calendar>
-                          </div>
-                        </fieldset>
-                      </div>
-                      <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                        <fieldset class="form-group">
-                          <label for="typeLeave">ประเภทการลา</label>
-                          <input type="text" autocomplete="off"
-                            [ngClass]="{ 'is-invalid': f.typeLeave.errors && ( f.typeLeave.dirty ||  f.typeLeave.touched) }"
-                            class="form-control required" id="typeLeave" formControlName="typeLeave" [readOnly]="true">
-                        </fieldset>
-                      </div>
-  
+  <div class="content-header-right col-md-6 col-12"></div>
+</div>
+
+<div class="content-body">
+  <section id="basic-form-layouts">
+    <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-content collapse show">
+            <div class="card-body">
+              <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="true">
+              </p-steps>
+              <div class="card-text">
+                <div class="row">
+                  <form class="col-sm-12 form">
+                    <div class="form-body">
+                      <h4 class="form-section"><i class="ft-info"></i> ข้อมูลการลา</h4>
                     </div>
                   </form>
+                </div>
+                <form [formGroup]="empLeaveDetailFormGroup" class="contact-input">
                   <div class="row">
-                    <form class="col-sm-12 form">
-                      <div class="form-body text-center">
-                        <div class="col-sm-12">
-                          <button type="button" class="btn btn-primary" *ngIf="btnApprove">
-                            <i class="ft-check"></i>
-                            Approve
-                          </button>
+                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                      <fieldset class="form-group">
+                        <label for="basicInput">รหัสพนักงาน</label>
+                        <input type="text" autocomplete="off"
+                          [ngClass]="{ 'is-invalid': f.emp_code.errors && ( f.emp_code.dirty ||  f.emp_code.touched) }"
+                          class="form-control required" id="emp_code" formControlName="emp_code" [readOnly]="true">
+                      </fieldset>
+                    </div>
+                    <div class="col-xl-8 col-lg-6 col-md-12 mb-1">
+                      <fieldset class="form-group">
+                        <label for="basicInput">ชื่อ - นามสกุล</label>
+                        <input type="text" autocomplete="off"
+                          [ngClass]="{ 'is-invalid': f.emp_name.errors && ( f.emp_name.dirty ||  f.emp_name.touched) }"
+                          class="form-control required" id="emp_name" formControlName="emp_name" [readOnly]="true">
+                      </fieldset>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                      <fieldset class="form-group">
+                        <label for="leaveStart">วันที่เริ่มต้น</label>
+                        <div class="p-grid ui-fluid">
+                          <p-calendar formControlName="leaveStart" [showIcon]="true" dateFormat="dd/mm/yy"
+                            [disabled]="true">
+                          </p-calendar>
                         </div>
-                      </div>
-                    </form>
+                      </fieldset>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                      <fieldset class="form-group">
+                        <label for="leaveStop">วันที่สิ้นสุด</label>
+                        <div class="p-grid ui-fluid">
+                          <p-calendar formControlName="leaveStop" [showIcon]="true" dateFormat="dd/mm/yy"
+                            [disabled]="true">
+                          </p-calendar>
+                        </div>
+                      </fieldset>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                      <fieldset class="form-group">
+                        <label for="typeLeave">ประเภทการลา</label>
+                        <input type="text" autocomplete="off"
+                          [ngClass]="{ 'is-invalid': f.typeLeave.errors && ( f.typeLeave.dirty ||  f.typeLeave.touched) }"
+                          class="form-control required" id="typeLeave" formControlName="typeLeave" [readOnly]="true">
+                      </fieldset>
+                    </div>
+
                   </div>
+                </form>
+                <div class="row">
+                  <form class="col-sm-12 form">
+                    <div class="form-body text-center">
+                      <div class="col-sm-12">
+                        <button type="button" class="btn btn-primary" *ngIf="btnApprove">
+                          <i class="ft-check"></i>
+                          Approve
+                        </button>
+                      </div>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-  </div>
-  
+    </div>
+  </section>
+</div>

@@ -15,6 +15,7 @@ import { EmployeeOtDetailComponent } from './ot/employee-ot-detail/employee-ot-d
 import { EmployeeOtListComponent } from './ot/employee-ot-list/employee-ot-list.component';
 import { EmployeeMachineDetailComponent } from './machine/employee-machine-detail/employee-machine-detail.component';
 import { EmployeeMachineListComponent } from './machine/employee-machine-list/employee-machine-list.component';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import { EmployeeMachineListComponent } from './machine/employee-machine-list/em
     EmployeeMachineListComponent,
   ],
   imports: [
-    CommonModule, 
+    CommonModule,
     ApprovalRoutingModule,
     FormsModule,
     ReactiveFormsModule,
@@ -36,7 +37,8 @@ import { EmployeeMachineListComponent } from './machine/employee-machine-list/em
     CalendarModule,
     FileUploadModule,
     StepsModule,
-    InputSwitchModule
+    InputSwitchModule,
+    CheckboxModule
   ],
 })
 export class ApprovalModule {}

@@ -18,7 +18,7 @@ import { EmployeeLeaveForm } from '../employee-leave.form';
 export class EmployeeLeaveDetailComponent implements OnInit {
   token;
   currentUser: any;
-  empLeaveRoomId;
+  empLeaveId;
   items: any[];
   items2: any[];
   activeIndex: number = 0;
@@ -61,11 +61,11 @@ export class EmployeeLeaveDetailComponent implements OnInit {
   private getDetail() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.empLeaveRoomId = id;
+      this.empLeaveId = id;
     }
     this.empLeaveDetailFormGroup.controls['method'].setValue('leave-detail');
     this.empLeaveDetailFormGroup.controls['id'].setValue(
-      this.empLeaveRoomId ?? ''
+      this.empLeaveId ?? ''
     );
     this.empLeaveDetailFormGroup.controls['user_id'].setValue(this.token);
     this.approvalService
