@@ -33,6 +33,8 @@ export class EmployeeLeaveListComponent implements OnInit {
   emplName;
   departments: SelectItem[] = [];
   department;
+  leaves: SelectItem[] = [];
+  leave;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -68,10 +70,11 @@ export class EmployeeLeaveListComponent implements OnInit {
       { field: 'no' },
       { field: 'emp_code' },
       { field: 'emp_name' },
-      { field: 'leave_start' },
-      { field: 'leave_stop' },
-      { field: 'sts_text' },
+      { field: 'depart_name'},
+      { field: 'leave_type'},
+      { field: 'leave_date' },
       { field: 'sts_color' },
+      { field: 'sts_text' },
       { field: 'remark' },
     ];
     this.getMasterDDL();
@@ -91,15 +94,22 @@ export class EmployeeLeaveListComponent implements OnInit {
     this.itemFormGroup.controls['method'].setValue('master');
     this.itemFormGroup.controls['user_id'].setValue(this.token);
     this.employeeService
-      .GetMasterDDL(this.itemFormGroup.getRawValue())
+      .ApiJsoft(this.itemFormGroup.getRawValue())
       .subscribe(
         (data) => {
           if (data) {
             this.departments = [];
-            this.departments.push({ value: '-1', label: 'ทั้งหมด' });
+            // this.departments.push({ value: '-1', label: 'ทั้งหมด' });
             if (data.depart) {
               data.depart.forEach((m) => {
-                this.departments.push({ value: m.value, label: m.text });
+                this.departments.push({ value: m.id, label: m.name });
+              });
+            }
+            this.leaves = [];
+            // this.leave.push({ value: '-1', label: 'ทั้งหมด' });
+            if (data.type) {
+              data.type.forEach((m) => {
+                this.leaves.push({ value: m.id, label: m.name });
               });
             }
           }
@@ -116,26 +126,41 @@ export class EmployeeLeaveListComponent implements OnInit {
     this.itemFormGroup = this.formBuilder.group(
       empLeaveForm.employeeLeaveFormBuilder
     );
-    this.itemFormGroup.controls['method'].setValue('search-leve');
+    this.itemFormGroup.controls['method'].setValue('search');
     this.itemFormGroup.controls['user_id'].setValue(this.token);
-    this.approvalService
-      .ApiApproval(this.itemFormGroup.getRawValue())
+    this.itemFormGroup.controls['leave_id'].setValue(this.leave);
+    this.itemFormGroup.controls['depart_id'].setValue(this.department);
+    let startDate = this.datepipe.transform(this.empleaveDateFrom, 'dd/MM/yyyy');
+    this.itemFormGroup.controls['date_from'].setValue(startDate);
+    let endDate = this.datepipe.transform(this.empleaveDateTo, 'dd/MM/yyyy');
+    this.itemFormGroup.controls['date_to'].setValue(endDate);
+    this.itemFormGroup.controls['emp_code'].setValue(this.empCode);
+    this.itemFormGroup.controls['emp_fname'].setValue(this.empfName);
+    this.itemFormGroup.controls['emp_lname'].setValue(this.emplName);
+    this.employeeService
+      .ApiJsoft(this.itemFormGroup.getRawValue())
       .subscribe(
         (data) => {
           this.datasource = [];
           if (data) {
+            let no = 1;
             data.forEach((element) => {
               this.datasource.push({
-                id: element.id,
-                no: element.no,
+                no: no,
+                id: element.leave_id,
+                leave_type: element.leave_type,
+                depart_name: element.depart_name,
                 emp_code: element.emp_code,
-                emp_name: element.emp_name,
-                leave_start: element.leave_start,
-                leave_stop: element.leave_stop,
+                emp_name: element.emp_fname + ' ' + element.emp_lname,
+                leave_date: element.date_start + ' - ' + element.date_stop,
+                remark: element.remark,
+                sts_id: element.status_id,
                 sts_color: element.sts_color,
                 sts_text: element.sts_text,
-                remark: element.remark,
+                value1: element.value1,
+                value2: element.value2
               });
+              no++;
             });
           }
           this.spinner.hide();
