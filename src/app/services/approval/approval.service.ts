@@ -13,4 +13,6 @@ export class ApprovalService {
   ApiApproval(body: any) {
     return this.http.post<any>(this.baseUrl + 'api/approval', body);
   }
+
+  //https://jsoft-thailand.com/SCBackendApi/api/empLeave/
 }

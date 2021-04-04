@@ -35,6 +35,7 @@ export class EmployeeLeaveListComponent implements OnInit {
   department;
   leaves: SelectItem[] = [];
   leave;
+  selectLeaveList: string[];
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -71,11 +72,15 @@ export class EmployeeLeaveListComponent implements OnInit {
       { field: 'emp_code' },
       { field: 'emp_name' },
       { field: 'depart_name'},
+      { field: 'leave_id' },
       { field: 'leave_type'},
       { field: 'leave_date' },
-      { field: 'sts_color' },
-      { field: 'sts_text' },
+      { field: 'status_id' },
+      { field: 'status_color' },
+      { field: 'status_name' },
       { field: 'remark' },
+      { field: 'value1' },
+      { field: 'value2' },
     ];
     this.getMasterDDL();
     this.getEmpLeaveList();
@@ -147,7 +152,7 @@ export class EmployeeLeaveListComponent implements OnInit {
             data.forEach((element) => {
               this.datasource.push({
                 no: no,
-                id: element.leave_id,
+                leave_id: element.leave_id,
                 leave_type: element.leave_type,
                 depart_name: element.depart_name,
                 emp_code: element.emp_code,
@@ -172,11 +177,11 @@ export class EmployeeLeaveListComponent implements OnInit {
       );
   }
 
-  empLeave(id) {
-    if (id == 'ADD') {
+  empLeave(leave_id) {
+    if (leave_id == 'ADD') {
       this.router.navigate(['/approval/employee-leave-detail']);
     } else {
-      this.router.navigate(['/approval/employee-leave-detail', id]);
+      this.router.navigate(['/approval/employee-leave-detail', leave_id]);
     }
   }
 

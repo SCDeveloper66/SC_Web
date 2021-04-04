@@ -42,48 +42,51 @@
                     <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                       <fieldset class="form-group">
                         <label for="basicInput">รหัสพนักงาน</label>
-                        <input type="text" autocomplete="off"
-                          [ngClass]="{ 'is-invalid': f.emp_code.errors && ( f.emp_code.dirty ||  f.emp_code.touched) }"
-                          class="form-control required" id="emp_code" formControlName="emp_code" [readOnly]="true">
+                        <input type="text" autocomplete="off" class="form-control required" id="emp_code"
+                          formControlName="emp_code" [readOnly]="true">
+                      </fieldset>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                      <fieldset class="form-group">
+                        <label for="basicInput">ชื่อ - นามสกุล</label>
+                        <input type="text" autocomplete="off" class="form-control required" id="emp_name"
+                          formControlName="emp_name" [readOnly]="true">
+                      </fieldset>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                      <fieldset class="form-group">
+                        <label for="depart_name">แผนก</label>
+                        <input type="text" autocomplete="off" class="form-control required" id="depart_name"
+                          formControlName="depart_name" [readOnly]="true">
+                      </fieldset>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                      <fieldset class="form-group">
+                        <label for="date_from">วันที่เริ่มต้น</label>
+                        <input type="text" autocomplete="off" class="form-control required" id="date_from"
+                          formControlName="date_from" [readOnly]="true">
+                      </fieldset>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                      <fieldset class="form-group">
+                        <label for="date_to">วันที่สิ้นสุด</label>
+                        <input type="text" autocomplete="off" class="form-control required" id="date_to"
+                          formControlName="date_to" [readOnly]="true">
+                      </fieldset>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                      <fieldset class="form-group">
+                        <label for="leave_type">ประเภทการลา</label>
+                        <input type="text" autocomplete="off" class="form-control required" id="leave_type"
+                          formControlName="leave_type" [readOnly]="true">
                       </fieldset>
                     </div>
                     <div class="col-xl-8 col-lg-6 col-md-12 mb-1">
                       <fieldset class="form-group">
-                        <label for="basicInput">ชื่อ - นามสกุล</label>
-                        <input type="text" autocomplete="off"
-                          [ngClass]="{ 'is-invalid': f.emp_name.errors && ( f.emp_name.dirty ||  f.emp_name.touched) }"
-                          class="form-control required" id="emp_name" formControlName="emp_name" [readOnly]="true">
+                        <label for="remark">หมายเหตุ</label>
+                        <textarea class="form-control" formControlName="remark" rows="6" [readOnly]="true"></textarea>
                       </fieldset>
                     </div>
-                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                      <fieldset class="form-group">
-                        <label for="leaveStart">วันที่เริ่มต้น</label>
-                        <div class="p-grid ui-fluid">
-                          <p-calendar formControlName="leaveStart" [showIcon]="true" dateFormat="dd/mm/yy"
-                            [disabled]="true">
-                          </p-calendar>
-                        </div>
-                      </fieldset>
-                    </div>
-                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                      <fieldset class="form-group">
-                        <label for="leaveStop">วันที่สิ้นสุด</label>
-                        <div class="p-grid ui-fluid">
-                          <p-calendar formControlName="leaveStop" [showIcon]="true" dateFormat="dd/mm/yy"
-                            [disabled]="true">
-                          </p-calendar>
-                        </div>
-                      </fieldset>
-                    </div>
-                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                      <fieldset class="form-group">
-                        <label for="typeLeave">ประเภทการลา</label>
-                        <input type="text" autocomplete="off"
-                          [ngClass]="{ 'is-invalid': f.typeLeave.errors && ( f.typeLeave.dirty ||  f.typeLeave.touched) }"
-                          class="form-control required" id="typeLeave" formControlName="typeLeave" [readOnly]="true">
-                      </fieldset>
-                    </div>
-
                   </div>
                 </form>
                 <div class="row">
@@ -93,6 +96,11 @@
                         <button type="button" class="btn btn-primary" *ngIf="btnApprove">
                           <i class="ft-check"></i>
                           Approve
+                        </button>
+                        <label>&nbsp;</label>
+                        <button type="button" class="btn btn-warning" *ngIf="btnReject">
+                          <i class="ft-x"></i>
+                          Reject
                         </button>
                       </div>
                     </div>

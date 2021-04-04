@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApprovalService } from 'src/app/services/approval/approval.service';
 import { AuthorizationService } from 'src/app/services/authorization/authorization.service';
+import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { AlertService } from 'src/app/services/global/alert.service';
 import { GlobalVariableService } from 'src/app/services/global/global-variable.service';
 import { LocalstorageService } from 'src/app/services/global/localstorage.service';
@@ -24,6 +25,7 @@ export class EmployeeLeaveDetailComponent implements OnInit {
   activeIndex: number = 0;
   empLeaveDetailFormGroup: FormGroup;
   btnApprove: boolean = false;
+  btnReject: boolean = false;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -35,7 +37,8 @@ export class EmployeeLeaveDetailComponent implements OnInit {
     private alertService: AlertService,
     private router: Router,
     private route: ActivatedRoute,
-    public datepipe: DatePipe
+    public datepipe: DatePipe,
+    private employeeService: EmployeeService,
   ) {
     if (this.authorizationService.currentUserValue) {
       this.currentUser = this.authorizationService.currentUserValue;
@@ -63,75 +66,72 @@ export class EmployeeLeaveDetailComponent implements OnInit {
     if (id) {
       this.empLeaveId = id;
     }
-    this.empLeaveDetailFormGroup.controls['method'].setValue('leave-detail');
-    this.empLeaveDetailFormGroup.controls['id'].setValue(
+    this.empLeaveDetailFormGroup.controls['method'].setValue('detail');
+    this.empLeaveDetailFormGroup.controls['leave_id'].setValue(
       this.empLeaveId ?? ''
     );
     this.empLeaveDetailFormGroup.controls['user_id'].setValue(this.token);
-    this.approvalService
-      .ApiApproval(this.empLeaveDetailFormGroup.getRawValue())
+    this.employeeService
+      .ApiJsoft(this.empLeaveDetailFormGroup.getRawValue())
       .subscribe(
         (data) => {
+          debugger;
           this.items = [];
           if (data) {
-            const strStart = data.leave_start.split('/');
-            let yearStrat = Number(strStart[2]);
-            const monthStrat = Number(strStart[1]) - 1;
-            const dateStrat = Number(strStart[0]);
-            let newStartDate = new Date(yearStrat, monthStrat, dateStrat);
+            data.forEach(element => {
+              this.empLeaveDetailFormGroup.controls['emp_code'].patchValue(
+                element.emp_code
+              );
+              let fullname = element.emp_fname + ' ' + element.emp_lname;
+              this.empLeaveDetailFormGroup.controls['emp_name'].patchValue(
+                fullname
+              );
+              this.empLeaveDetailFormGroup.controls['depart_name'].patchValue(
+                element.depart_name
+              );
+              this.empLeaveDetailFormGroup.controls['leave_type'].patchValue(
+                element.leave_type
+              );
+              this.empLeaveDetailFormGroup.controls['date_from'].patchValue(
+                element.date_start
+              );
+              this.empLeaveDetailFormGroup.controls['date_to'].patchValue(
+                element.date_stop
+              );
+              this.empLeaveDetailFormGroup.controls['remark'].patchValue(
+                element.remark
+              );
+              this.btnApprove = element.btn_appr == '1' ? true : false;
+              this.btnReject = element.btn_reject == '1' ? true : false;
+            });
 
-            const strStop = data.leave_stop.split('/');
-            let yearStop = Number(strStop[2]);
-            const monthStop = Number(strStop[1]) - 1;
-            const dateStop = Number(strStop[0]);
-            let newStopDate = new Date(yearStop, monthStop, dateStop);
-
-            this.empLeaveDetailFormGroup.controls['emp_code'].patchValue(
-              data.emp_code
-            );
-            this.empLeaveDetailFormGroup.controls['emp_name'].patchValue(
-              data.emp_name
-            );
-            this.empLeaveDetailFormGroup.controls['typeLeave'].patchValue(
-              data.typeLeave
-            );
-            this.empLeaveDetailFormGroup.controls['leaveStart'].patchValue(
-              newStartDate
-            );
-            this.empLeaveDetailFormGroup.controls['leaveStop'].patchValue(
-              newStopDate
-            );
-            this.empLeaveDetailFormGroup.controls['remark'].patchValue(
-              data.remark
-            );
-            this.items.push({ label: 'Submit' });
-            if (data.leave_over == 'N') {
-              this.items.push({ label: 'Waiting Approve' });
-              this.items.push({ label: 'Approve' });
-              if (data.sts_text == 'Submit') {
-                this.activeIndex = 1;
-                this.btnApprove = true;
-              } else if (data.sts_text == 'Approve') {
-                this.activeIndex = 2;
-              } else {
-                this.activeIndex = 0;
-              }
-            } else {
-              this.items.push({ label: 'Waiting Approval1' });
-              this.items.push({ label: 'Waiting Approval2' });
-              this.items.push({ label: 'Approve' });
-              if (data.sts_text == 'Submit') {
-                this.activeIndex = 1;
-                this.btnApprove = true;
-              } else if (data.sts_text == 'Approval1') {
-                this.activeIndex = 2;
-                this.btnApprove = true;
-              } else if (data.sts_text == 'Approval2') {
-                this.activeIndex = 3;
-              } else {
-                this.activeIndex = 0;
-              }
-            }
+            // this.items.push({ label: 'Submit' });
+            // if (data.leave_over == 'N') {
+            //   this.items.push({ label: 'Waiting Approve' });
+            //   this.items.push({ label: 'Approve' });
+            //   if (data.sts_text == 'Submit') {
+            //     this.activeIndex = 1;
+            //   } else if (data.sts_text == 'Approve') {
+            //     this.activeIndex = 2;
+            //   } else {
+            //     this.activeIndex = 0;
+            //   }
+            // } else {
+            //   this.items.push({ label: 'Waiting Approval1' });
+            //   this.items.push({ label: 'Waiting Approval2' });
+            //   this.items.push({ label: 'Approve' });
+            //   if (data.sts_text == 'Submit') {
+            //     this.activeIndex = 1;
+            //     this.btnApprove = true;
+            //   } else if (data.sts_text == 'Approval1') {
+            //     this.activeIndex = 2;
+            //     this.btnApprove = true;
+            //   } else if (data.sts_text == 'Approval2') {
+            //     this.activeIndex = 3;
+            //   } else {
+            //     this.activeIndex = 0;
+            //   }
+            // }
           }
           this.spinner.hide();
         },
