@@ -19,13 +19,20 @@ import { EmployeeLeaveForm } from '../employee-leave.form';
 export class EmployeeLeaveDetailComponent implements OnInit {
   token;
   currentUser: any;
-  empLeaveId;
+  empLeaveId = null;
   items: any[];
   items2: any[];
   activeIndex: number = 0;
   empLeaveDetailFormGroup: FormGroup;
   btnApprove: boolean = false;
   btnReject: boolean = false;
+  modalConfirm: boolean = false;
+  submitStatus;
+  submitRemark;
+  step1_status = '0';
+  step2_status = '0';
+  step3_status = '0';
+  step4_status = '0';
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -62,9 +69,11 @@ export class EmployeeLeaveDetailComponent implements OnInit {
   }
 
   private getDetail() {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.empLeaveId = id;
+    if (this.empLeaveId == null) {
+      const id = this.route.snapshot.paramMap.get('id');
+      if (id) {
+        this.empLeaveId = id;
+      }
     }
     this.empLeaveDetailFormGroup.controls['method'].setValue('detail');
     this.empLeaveDetailFormGroup.controls['leave_id'].setValue(
@@ -75,7 +84,6 @@ export class EmployeeLeaveDetailComponent implements OnInit {
       .ApiJsoft(this.empLeaveDetailFormGroup.getRawValue())
       .subscribe(
         (data) => {
-          debugger;
           this.items = [];
           if (data) {
             data.forEach(element => {
@@ -103,35 +111,36 @@ export class EmployeeLeaveDetailComponent implements OnInit {
               );
               this.btnApprove = element.btn_appr == '1' ? true : false;
               this.btnReject = element.btn_reject == '1' ? true : false;
-            });
+              if (element.step1_lable != '') {
+                this.items.push({ label: element.step1_lable });
+              }
+              if (element.step2_lable != '') {
+                this.items.push({ label: element.step2_lable });
+              }
+              if (element.step3_lable != '') {
+                this.items.push({ label: element.step3_lable });
+              }
+              if (element.step4_lable != '') {
+                this.items.push({ label: element.step4_lable });
+              }
+              if (element.step1_status == '1') {
+                this.activeIndex = 0;
+                this.step1_status = '1';
+              }
+              else if (element.step2_status == '1') {
+                this.activeIndex = 1;
+                this.step2_status = '1';
+              }
+              else if (element.step3_status == '1') {
+                this.activeIndex = 2;
+                this.step3_status = '1';
+              }
+              else if (element.step4_status == '1') {
+                this.activeIndex = 3;
+                this.step4_status = '1';
+              }
 
-            // this.items.push({ label: 'Submit' });
-            // if (data.leave_over == 'N') {
-            //   this.items.push({ label: 'Waiting Approve' });
-            //   this.items.push({ label: 'Approve' });
-            //   if (data.sts_text == 'Submit') {
-            //     this.activeIndex = 1;
-            //   } else if (data.sts_text == 'Approve') {
-            //     this.activeIndex = 2;
-            //   } else {
-            //     this.activeIndex = 0;
-            //   }
-            // } else {
-            //   this.items.push({ label: 'Waiting Approval1' });
-            //   this.items.push({ label: 'Waiting Approval2' });
-            //   this.items.push({ label: 'Approve' });
-            //   if (data.sts_text == 'Submit') {
-            //     this.activeIndex = 1;
-            //     this.btnApprove = true;
-            //   } else if (data.sts_text == 'Approval1') {
-            //     this.activeIndex = 2;
-            //     this.btnApprove = true;
-            //   } else if (data.sts_text == 'Approval2') {
-            //     this.activeIndex = 3;
-            //   } else {
-            //     this.activeIndex = 0;
-            //   }
-            // }
+            });
           }
           this.spinner.hide();
         },
@@ -143,5 +152,62 @@ export class EmployeeLeaveDetailComponent implements OnInit {
   }
   get f() {
     return this.empLeaveDetailFormGroup.controls;
+  }
+
+  openRemarkEmpLeave(status) {
+    this.submitRemark = '';
+    this.submitStatus = status;
+    this.modalConfirm = true;
+  }
+
+  closeRemarkEmpLeave() {
+    this.submitStatus = '';
+    this.submitRemark = '';
+    this.modalConfirm = false;
+  }
+
+  saveEmpLeave() {
+    if (this.submitRemark != null && this.submitRemark != '') {
+      this.spinner.show();
+      this.modalConfirm = false;
+      const empLeaveDeatilForm = new EmployeeLeaveForm();
+      this.empLeaveDetailFormGroup = this.formBuilder.group(
+        empLeaveDeatilForm.employeeLeaveFormBuilder
+      );
+      if (this.submitStatus == 'Approve') {
+        this.empLeaveDetailFormGroup.controls['method'].setValue('detail_approve');
+      } else if (this.submitStatus == 'Reject') {
+        this.empLeaveDetailFormGroup.controls['method'].setValue('detail_reject');
+      }
+      this.empLeaveDetailFormGroup.controls['leave_id'].setValue(
+        this.empLeaveId ?? ''
+      );
+      this.empLeaveDetailFormGroup.controls['step1_status'].setValue(this.step1_status);
+      this.empLeaveDetailFormGroup.controls['step2_status'].setValue(this.step2_status);
+      this.empLeaveDetailFormGroup.controls['step3_status'].setValue(this.step3_status);
+      this.empLeaveDetailFormGroup.controls['step4_status'].setValue(this.step4_status);
+      this.empLeaveDetailFormGroup.controls['submit_remark'].setValue(this.submitRemark);
+      this.empLeaveDetailFormGroup.controls['user_id'].setValue(this.token);
+      this.employeeService
+        .ApiJsoft(this.empLeaveDetailFormGroup.getRawValue())
+        .subscribe(
+          (data) => {
+            if (data.status == 'S') {
+              this.alertService.success('success');
+              this.getDetail();
+            } else {
+              this.alertService.error(data.message);
+            }
+            this.spinner.hide();
+          },
+          (err) => {
+            this.spinner.hide();
+            this.alertService.error(err);
+          }
+        );
+    } else {
+      this.alertService.error('กรุณาระบุเหตุผล');
+      return false;
+    }
   }
 }

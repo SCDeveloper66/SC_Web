@@ -20,6 +20,7 @@ import { EmployeeLeaveForm } from '../employee-leave.form';
   styleUrls: ['./employee-leave-list.component.scss'],
 })
 export class EmployeeLeaveListComponent implements OnInit {
+
   token;
   currentUser: any;
   datasource: any[];
@@ -35,7 +36,11 @@ export class EmployeeLeaveListComponent implements OnInit {
   department;
   leaves: SelectItem[] = [];
   leave;
-  selectLeaveList: string[];
+  selectLeaveList: any[];
+  leaveData: any[];
+  modalConfirm: boolean = false;
+  submitStatus;
+  submitRemark;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -59,21 +64,24 @@ export class EmployeeLeaveListComponent implements OnInit {
       this.authorizationService.Logout();
       location.reload(true);
     }
+    this.localstorageService.removeItem('datasource-local');
   }
 
   ngOnInit(): void {
+    this.localstorageService.removeItem('datasource-local');
     this.spinner.show();
     this.empleaveDateFrom = new Date();
     this.empleaveDateTo = new Date();
     this.funcSelectDateFrom(this.empleaveDateFrom);
     this.datasource = [];
+    this.selectLeaveList = [];
     this.cols = [
       { field: 'no' },
       { field: 'emp_code' },
       { field: 'emp_name' },
-      { field: 'depart_name'},
+      { field: 'depart_name' },
       { field: 'leave_id' },
-      { field: 'leave_type'},
+      { field: 'leave_type' },
       { field: 'leave_date' },
       { field: 'status_id' },
       { field: 'status_color' },
@@ -87,6 +95,7 @@ export class EmployeeLeaveListComponent implements OnInit {
   }
 
   search(dt: Table) {
+    this.selectLeaveList = [];
     this.localstorageService.removeItem('datasource-local');
     this.getEmpLeaveList();
   }
@@ -126,6 +135,8 @@ export class EmployeeLeaveListComponent implements OnInit {
   }
 
   private getEmpLeaveList() {
+    this.selectLeaveList = [];
+    this.localstorageService.removeItem('datasource-local');
     this.spinner.show();
     const empLeaveForm = new EmployeeLeaveForm();
     this.itemFormGroup = this.formBuilder.group(
@@ -156,7 +167,7 @@ export class EmployeeLeaveListComponent implements OnInit {
                 leave_type: element.leave_type,
                 depart_name: element.depart_name,
                 emp_code: element.emp_code,
-                emp_name: element.emp_fname + ' ' + element.emp_lname,
+                emp_name: (element.emp_fname ?? '') + ' ' + (element.emp_lname ?? ''),
                 leave_date: element.date_start + ' - ' + element.date_stop,
                 remark: element.remark,
                 sts_id: element.status_id,
@@ -199,4 +210,70 @@ export class EmployeeLeaveListComponent implements OnInit {
       this.empleaveDateTo = dateFrom;
     }
   }
+
+  saveCheckAll() {
+    if (this.submitRemark != null && this.submitRemark != '') {
+      if (this.selectLeaveList.length != 0) {
+        this.submitStatus = '';
+        this.submitRemark = '';
+        this.modalConfirm = false;
+        this.spinner.show();
+        const empLeaveForm = new EmployeeLeaveForm();
+        this.itemFormGroup = this.formBuilder.group(
+          empLeaveForm.employeeLeaveFormBuilder
+        );
+        if (this.submitStatus == 'Approve') {
+          this.itemFormGroup.controls['submit_type'].setValue('1');
+        } else if (this.submitStatus == 'Reject') {
+          this.itemFormGroup.controls['submit_type'].setValue('0');
+        }
+        this.leaveData = [];
+        this.selectLeaveList.forEach((element) => {
+          this.leaveData.push({
+            id: element.leave_id
+          });
+        });
+        this.itemFormGroup.controls['method'].setValue('submit_all');
+        this.itemFormGroup.controls['user_id'].setValue(this.token);
+        this.itemFormGroup.controls['leave'].setValue(this.leaveData);
+        this.itemFormGroup.controls['submit_remark'].setValue(this.submitRemark);
+        this.employeeService
+          .ApiJsoft(this.itemFormGroup.getRawValue())
+          .subscribe(
+            (data) => {
+              if (data.status == 'S') {
+                this.alertService.success('success');
+                this.getEmpLeaveList();
+              } else {
+                this.alertService.error(data.message);
+              }
+              this.spinner.hide();
+            },
+            (err) => {
+              this.spinner.hide();
+              this.alertService.error(err);
+            }
+          );
+      } else {
+        this.alertService.error('กรุณาเลือกรายการ');
+        return false;
+      }
+    } else {
+      this.alertService.error('กรุณาระบุเหตุผล');
+      return false;
+    }
+  }
+
+  openRemarkEmpLeave(status) {
+    this.submitRemark = '';
+    this.submitStatus = status;
+    this.modalConfirm = true;
+  }
+
+  closeRemarkEmpLeave() {
+    this.submitStatus = '';
+    this.submitRemark = '';
+    this.modalConfirm = false;
+  }
+
 }

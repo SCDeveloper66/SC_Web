@@ -93,12 +93,14 @@
                   <form class="col-sm-12 form">
                     <div class="form-body text-center">
                       <div class="col-sm-12">
-                        <button type="button" class="btn btn-primary" *ngIf="btnApprove">
+                        <button type="button" class="btn btn-primary" *ngIf="btnApprove"
+                          (click)="openRemarkEmpLeave('Approve')">
                           <i class="ft-check"></i>
                           Approve
                         </button>
                         <label>&nbsp;</label>
-                        <button type="button" class="btn btn-warning" *ngIf="btnReject">
+                        <button type="button" class="btn btn-warning" *ngIf="btnReject"
+                          (click)="openRemarkEmpLeave('Reject')">
                           <i class="ft-x"></i>
                           Reject
                         </button>
@@ -114,3 +116,25 @@
     </div>
   </section>
 </div>
+
+<p-dialog [(visible)]="modalConfirm" [position]="'top'" [modal]="true" [style]="{width: '30vw',minWidth:'550px'}"
+  [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+  <div class="modal-body">
+    <label>เหตุผล</label>
+    <textarea class="form-control" id="reasonCancel" rows="6" placeholder="" [(ngModel)]="submitRemark"></textarea>
+  </div>
+  <p-footer>
+    <fieldset class="form-group position-relative has-icon-left mb-0">
+      <button type="button" id="edit-contact-item" class="btn btn-success edit-contact-item" data-dismiss="modal"
+        (click)="saveEmpLeave()">
+        <i class="fa fa-paper-plane-o d-lg-none"></i>
+        <span class="  d-lg-block">ตกลง</span>
+      </button>
+      <button type="button" id="edit-contact-item" class="btn btn-danger edit-contact-item" data-dismiss="modal"
+        (click)="closeRemarkEmpLeave()">
+        <i class="fa fa-paper-plane-o d-lg-none"></i>
+        <span class="d-none d-lg-block">ยกเลิก</span>
+      </button>
+    </fieldset>
+  </p-footer>
+</p-dialog>

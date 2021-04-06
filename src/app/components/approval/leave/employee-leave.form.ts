@@ -15,6 +15,15 @@ export class EmployeeLeaveForm {
     date_from: new FormControl(null),
     date_to: new FormControl(null),
     remark: new FormControl(null),
+    step1_status: new FormControl(null),
+    step2_status: new FormControl(null),
+    step3_status: new FormControl(null),
+    step4_status: new FormControl(null),
+    submit_remark: new FormControl(null),
+    submit_type: new FormControl(null),
+    leave: new FormControl(null),
     user_id: new FormControl(null)
   };
 }
+
+
