@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -77,6 +78,8 @@ export class EmployeeMachineDetailComponent implements OnInit {
     this.empDetailFormGroup = this.formBuilder.group(
       empDeatilForm.machineFormBuilder
     );
+    this.empListDatasource = [];
+    this.empOtherListDatasource = [];
     // this.getDetail();
     this.items = [
       { label: 'Submit' },
@@ -90,22 +93,24 @@ export class EmployeeMachineDetailComponent implements OnInit {
       { value: 'machine3', label: 'เครื่องจักร3' }
     ];
     this.searchcols = [
-      { field: 'depart', header: 'แผนก', sortable: true },
-      { field: 'emp_name', header: 'ชื่อ-นามสกุล', sortable: true },
-      { field: 'emp_tel', header: 'เบอร์ติดต่อ', sortable: true },
-      { field: 'emp_email', header: 'อีเมล', sortable: true },
+      { field: 'depart' },
+      { field: 'emp_name' },
+      { field: 'emp_tel' },
+      { field: 'emp_email' },
     ];
     this.empListcols = [
-      { field: 'depart', header: 'แผนก', sortable: true },
-      { field: 'emp_name', header: 'ชื่อ-นามสกุล', sortable: true },
-      { field: 'tel', header: 'เบอร์ติดต่อ', sortable: true },
-      { field: 'email', header: 'อีเมล', sortable: true },
+      { field: 'depart' },
+      { field: 'emp_name' },
+      { field: 'tel' },
+      { field: 'status' },
+      { field: 'remark' },
     ];
     this.empOtherListcols = [
-      { field: 'depart', header: 'แผนก', sortable: true },
-      { field: 'emp_name', header: 'ชื่อ-นามสกุล', sortable: true },
-      { field: 'tel', header: 'เบอร์ติดต่อ', sortable: true },
-      { field: 'email', header: 'อีเมล', sortable: true },
+      { field: 'depart' },
+      { field: 'emp_name' },
+      { field: 'tel' },
+      { field: 'status' },
+      { field: 'remark' },
     ];
     this.btnSubmit = true;
   }
@@ -230,36 +235,43 @@ export class EmployeeMachineDetailComponent implements OnInit {
   }
 
   saveAddPerson() {
+    debugger;
     this.modalAddPerson = false;
-    // this.localstorageService.removeItem('detailDatasource-local');
-    // this.localstorageService.removeItem('personlistDatasource-local');
-    // if (this.personType == 'person') {
-    //   this.searchDatasource.forEach(element => {
-    //     if (this.searchSelecteds.some((a) => a == element.emp_code)) {
-    //       this.detailDatasource.push({
-    //         emp_code: element.emp_code,
-    //         emp_name: element.emp_code + ' ' + element.emp_name,
-    //         depart: element.depart,
-    //         tel: element.emp_tel,
-    //         email: element.emp_email,
-    //       });
-    //       this.personlistDatasource.push({
-    //         emp_code: element.emp_code,
-    //         emp_name: element.emp_code + ' ' + element.emp_name,
-    //         depart: element.depart,
-    //         tel: element.emp_tel,
-    //         email: element.emp_email,
-    //       });
-    //     }
-    //   });
-    // } else {
-    //   this.searchDatasource.forEach(element => {
-    //     if (this.searchSelecteds.some((a) => a == element.emp_code)) {
-    //       this.personRequestCode = element.emp_code;
-    //       this.personRequestName = element.emp_name;
-    //     }
-    //   });
-    // }
+    this.localstorageService.removeItem('empListDatasource-local');
+    this.localstorageService.removeItem('empOtherListDatasource-local');
+    if (this.personType == 'emp') {
+      this.searchDatasource.forEach(element => {
+        if (this.searchSelecteds.some((a) => a == element.emp_code)) {
+          const result = this.empListDatasource.find(({ emp_code }) => emp_code === element.emp_code);
+          if (result === undefined) {
+            this.empListDatasource.push({
+              emp_code: element.emp_code,
+              emp_name: element.emp_code + ' ' + element.emp_name,
+              depart: element.depart ?? '-',
+              tel: element.emp_tel ?? '-',
+            });
+          }
+        }
+      });
+    } else {
+      this.searchDatasource.forEach(element => {
+        if (this.searchSelecteds.some((a) => a == element.emp_code)) {
+          const result = this.empOtherListDatasource.find(({ emp_code }) => emp_code === element.emp_code);
+          if (result === undefined) {
+            this.empOtherListDatasource.push({
+              emp_code: element.emp_code,
+              emp_name: element.emp_code + ' ' + element.emp_name,
+              depart: element.depart ?? '-',
+              tel: element.emp_tel ?? '-',
+            });
+          }
+        }
+      });
+    }
+  }
+
+  checkForDuplicates(array, keyName) {
+    return new Set(array.map(item => item[keyName])).size !== array.length
   }
 
   serachDataPerson() {
@@ -294,21 +306,18 @@ export class EmployeeMachineDetailComponent implements OnInit {
       });
   }
 
-  deleteDetailDatasource(empCode) {
-    // this.localstorageService.removeItem('detailDatasource-local');
-    // this.detailDatasource.forEach(element => {
-    //   detailDatasourceNew.push({
-    //     emp_code: element.emp_code,
-    //     emp_name: element.emp_name,
-    //     depart: element.depart,
-    //     tel: element.tel,
-    //     email: element.email,
-    //   });
-    // });
-    // this.detailDatasource = [];
-    // this.personlistDatasource = [];
-    // this.detailDatasource = detailDatasourceNew;
-    // this.personlistDatasource = personlistDatasourceNew;
+  deleteDetailDatasource(empCode, type) {
+    this.localstorageService.removeItem('empListDatasource-local');
+    this.localstorageService.removeItem('empOtherListDatasource-local');
+    if (type == 'emp') {
+      let newEmpListDatasource = this.empListDatasource.filter(element => element.emp_code != empCode);
+      this.empListDatasource = [];
+      this.empListDatasource = newEmpListDatasource;
+    } else {
+      let newEmpOtherListDatasource = this.empOtherListDatasource.filter(element => element.emp_code != empCode)
+      this.empOtherListDatasource = [];
+      this.empOtherListDatasource = newEmpOtherListDatasource;
+    }
   }
 
 

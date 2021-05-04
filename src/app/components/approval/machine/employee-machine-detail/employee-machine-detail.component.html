@@ -69,6 +69,13 @@
                         </div>
                       </fieldset>
                     </div>
+                    <div class="col-xl-12 col-lg-6 col-md-12 mb-1">
+                      <fieldset class="form-group">
+                        <label for="squareText">หมายเหตุ</label>
+                        <textarea class="form-control" id="remark" rows="3" placeholder=""
+                          formControlName="remark"></textarea>
+                      </fieldset>
+                    </div>
                   </div>
                 </form>
                 <div class="row">
@@ -84,7 +91,7 @@
                       <dt class="col-sm-12">
                         <div class="row">
                           <div class="col-xl-12">
-                            <button type="button" class="btn btn-success float-right" (click)="addPerson('person')">
+                            <button type="button" class="btn btn-success float-right" (click)="addPerson('emp')">
                               <i class="ft-plus"></i>
                               Add
                             </button>
@@ -110,9 +117,13 @@
                                 เบอร์ติดต่อ
                                 <p-sortIcon [field]="'tel'"></p-sortIcon>
                               </th>
-                              <th class="text-center" [pSortableColumn]="'email'" pResizableColumn pReorderableColumn>
-                                อีเมล
-                                <p-sortIcon [field]="'email'"></p-sortIcon>
+                              <th class="text-center" [pSortableColumn]="'status'" pResizableColumn pReorderableColumn>
+                                สถานะ
+                                <p-sortIcon [field]="'status'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'remark'" pResizableColumn pReorderableColumn>
+                                Remark
+                                <p-sortIcon [field]="'remark'"></p-sortIcon>
                               </th>
                               <th class="text-center" style="width:60px"><i class="ft-info"></i></th>
                             </tr>
@@ -120,8 +131,9 @@
                           <ng-template pTemplate="colgroup" let-columns>
                             <colgroup>
                               <col [style.width]="'200px'">
+                              <col [style.width]="'300px'">
                               <col [style.width]="'200px'">
-                              <col [style.width]="'200px'">
+                              <col [style.width]="'150px'">
                               <col [style.width]="'200px'">
                               <col [style.width]="'120px'">
                             </colgroup>
@@ -138,10 +150,13 @@
                                 {{ rowData['tel'] }}
                               </td>
                               <td class="text-center">
-                                {{ rowData['email'] }}
+                                {{ rowData['status'] }}
+                              </td>
+                              <td>
+                                {{ rowData['remark'] }}
                               </td>
                               <td class="text-center">
-                                <a class="danger delete" (click)="deleteDetailDatasource(rowData.emp_code)">
+                                <a class="danger delete" (click)="deleteDetailDatasource(rowData.emp_code, 'emp')">
                                   <i class="fas fa-trash-alt"></i>
                                 </a>
                               </td>
@@ -172,7 +187,7 @@
                       <dt class="col-sm-12">
                         <div class="row">
                           <div class="col-xl-12">
-                            <button type="button" class="btn btn-success float-right" (click)="addPerson('person')">
+                            <button type="button" class="btn btn-success float-right" (click)="addPerson('empOther')">
                               <i class="ft-plus"></i>
                               Add
                             </button>
@@ -198,9 +213,13 @@
                                 เบอร์ติดต่อ
                                 <p-sortIcon [field]="'tel'"></p-sortIcon>
                               </th>
-                              <th class="text-center" [pSortableColumn]="'email'" pResizableColumn pReorderableColumn>
-                                อีเมล
-                                <p-sortIcon [field]="'email'"></p-sortIcon>
+                              <th class="text-center" [pSortableColumn]="'status'" pResizableColumn pReorderableColumn>
+                                สถานะ
+                                <p-sortIcon [field]="'status'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'remark'" pResizableColumn pReorderableColumn>
+                                Remark
+                                <p-sortIcon [field]="'remark'"></p-sortIcon>
                               </th>
                               <th class="text-center" style="width:60px"><i class="ft-info"></i></th>
                             </tr>
@@ -208,8 +227,9 @@
                           <ng-template pTemplate="colgroup" let-columns>
                             <colgroup>
                               <col [style.width]="'200px'">
+                              <col [style.width]="'300px'">
                               <col [style.width]="'200px'">
-                              <col [style.width]="'200px'">
+                              <col [style.width]="'150px'">
                               <col [style.width]="'200px'">
                               <col [style.width]="'120px'">
                             </colgroup>
@@ -226,10 +246,13 @@
                                 {{ rowData['tel'] }}
                               </td>
                               <td class="text-center">
-                                {{ rowData['email'] }}
+                                {{ rowData['status'] }}
+                              </td>
+                              <td>
+                                {{ rowData['remark'] }}
                               </td>
                               <td class="text-center">
-                                <a class="danger delete" (click)="deleteDetailDatasource(rowData.emp_code)">
+                                <a class="danger delete" (click)="deleteDetailDatasource(rowData.emp_code, 'empOther')">
                                   <i class="fas fa-trash-alt"></i>
                                 </a>
                               </td>
