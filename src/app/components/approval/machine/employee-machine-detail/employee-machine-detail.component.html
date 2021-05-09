@@ -40,39 +40,78 @@
                 </div>
                 <form [formGroup]="empDetailFormGroup" class="contact-input">
                   <div class="row">
-                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                    <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                       <fieldset class="form-group">
-                        <label for="machineCode">เครื่องจักร</label>
+                        <label for="job_name">ชื่องาน</label>
+                        <input type="text" autocomplete="off"
+                          [ngClass]="{ 'is-invalid': f.job_name.errors && ( f.job_name.dirty ||  f.job_name.touched) }"
+                          class="form-control required" id="job_name" formControlName="job_name">
+                        <div *ngIf="f.job_name.errors" class="invalid-feedback">
+                          <div *ngIf="f.job_name.errors.required">This field is required.</div>
+                        </div>
+                      </fieldset>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                      <fieldset class="form-group">
+                        <label for="machine_id">เครื่องจักร</label>
                         <div class="p-md-10 ui-fluid">
                           <p-dropdown [options]="machines" placeholder="-------- เลือก --------" [showClear]="true"
-                            [ngClass]="{ 'is-invalid': f.machineCode.errors && ( f.machineCode.dirty ||  f.machineCode.touched) }"
-                            [filter]='true' formControlName="machineCode">
+                            [ngClass]="{ 'is-invalid': f.machine_id.errors && ( f.machine_id.dirty ||  f.machine_id.touched) }"
+                            [filter]='true' formControlName="machine_id">
                           </p-dropdown>
                         </div>
                       </fieldset>
                     </div>
-                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                    <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
                       <fieldset class="form-group">
-                        <label for="jobStart">วันที่เริ่มต้น</label>
-                        <div class="p-grid ui-fluid">
-                          <p-calendar formControlName="jobStart" [showIcon]="true" dateFormat="dd/mm/yy">
-                          </p-calendar>
+                        <label for="jobshift">กะงาน</label>
+                        <div class="p-md-10 ui-fluid">
+                          <p-dropdown [options]="jobshifts" placeholder="-------- เลือก --------" [showClear]="true"
+                            [ngClass]="{ 'is-invalid': f.jobshift.errors && ( f.jobshift.dirty ||  f.jobshift.touched) }"
+                            [filter]='true' formControlName="jobshift">
+                          </p-dropdown>
                         </div>
                       </fieldset>
                     </div>
-                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                    <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
                       <fieldset class="form-group">
-                        <label for="jobStop">วันที่สิ้นสุด</label>
+                        <label for="from_date">วันที่เริ่มต้น</label>
                         <div class="p-grid ui-fluid">
-                          <p-calendar formControlName="jobStop" [showIcon]="true" dateFormat="dd/mm/yy">
-                          </p-calendar>
+                          <div class="p-grid ui-fluid">
+                            <p-calendar formControlName="from_date"
+                              [ngClass]="{ 'is-invalid': f.from_date.errors && ( f.from_date.dirty ||  f.from_date.touched) }"
+                              [showIcon]="true" [placeholder]="'dd/mm/yyyy'" dateFormat="dd/mm/yy"
+                              (onSelect)="funcSelectDateFrom($event)">
+                            </p-calendar>
+                            <div *ngIf="f.from_date.errors" class="invalid-feedback">
+                              <div *ngIf="f.from_date.errors.required">This field is required.</div>
+                            </div>
+                          </div>
                         </div>
                       </fieldset>
                     </div>
+                    <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                      <fieldset class="form-group">
+                        <label for="to_date">วันที่สิ้นสุด</label>
+                        <div class="p-grid ui-fluid">
+                          <p-calendar formControlName="to_date"
+                            [ngClass]="{ 'is-invalid': f.to_date.errors && ( f.to_date.dirty ||  f.to_date.touched) }"
+                            [showIcon]="true" [placeholder]="'dd/mm/yyyy'" dateFormat="dd/mm/yy" [minDate]="minDate">
+                          </p-calendar>
+                          <div *ngIf="f.to_date.errors" class="invalid-feedback">
+                            <div *ngIf="f.to_date.errors.required">This field is required.</div>
+                          </div>
+                        </div>
+                      </fieldset>
+                    </div>
+                  </div>
+                  <div class="row">
                     <div class="col-xl-12 col-lg-6 col-md-12 mb-1">
                       <fieldset class="form-group">
                         <label for="squareText">หมายเหตุ</label>
-                        <textarea class="form-control" id="remark" rows="3" placeholder=""
+                        <textarea class="form-control" id="remark" rows="5" placeholder=""
                           formControlName="remark"></textarea>
                       </fieldset>
                     </div>
@@ -194,9 +233,10 @@
                           </div>
                         </div>
                         <br>
-                        <p-table #dt [columns]="empOtherListcols" [value]="empOtherListDatasource" [paginator]="true" [rows]="30"
-                          [rowsPerPageOptions]="[30,50,100]" dataKey="id" [scrollable]="true" [resizableColumns]="false"
-                          [reorderableColumns]="false" stateStorage="local" stateKey="empOtherListDatasource-local">
+                        <p-table #dt [columns]="empOtherListcols" [value]="empOtherListDatasource" [paginator]="true"
+                          [rows]="30" [rowsPerPageOptions]="[30,50,100]" dataKey="id" [scrollable]="true"
+                          [resizableColumns]="false" [reorderableColumns]="false" stateStorage="local"
+                          stateKey="empOtherListDatasource-local">
 
                           <ng-template pTemplate="header" let-columns>
                             <tr>
@@ -292,7 +332,7 @@
   </section>
 </div>
 
-<p-dialog [header]="'เพิ่มผู้เข้าร่วมประชุม'" [(visible)]="modalAddPerson" [position]="'top'" [modal]="true"
+<p-dialog [header]="'ค้นหาพนักงาน'" [(visible)]="modalAddPerson" [position]="'top'" [modal]="true"
   [style]="{width: '55vw', minWidth: '300px'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
 
   <div class="modal-body">

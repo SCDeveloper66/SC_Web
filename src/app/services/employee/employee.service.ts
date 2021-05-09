@@ -21,7 +21,7 @@ export class EmployeeService {
   }
 
   ApiJsoft(body: any) {
-    return this.http.post<any>('https://jsoft-thailand.com/SCBackendApi/api/empLeave', body);
+    return this.http.post<any>('https://jsoft-thailand.com/SCBackendApi/api/machineSubmit', body);
   }
 
 }

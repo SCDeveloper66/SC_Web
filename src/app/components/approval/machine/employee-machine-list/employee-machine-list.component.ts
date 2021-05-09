@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -27,11 +28,14 @@ export class EmployeeMachineListComponent implements OnInit {
   empleaveDateFrom: Date;
   empleaveDateTo: Date;
   minDate: Date;
+  jobName;
   empCode;
   empfName;
   emplName;
   departments: SelectItem[] = [];
   department;
+  jobshifts: SelectItem[] = [];
+  jobshift;
   machines: SelectItem[] = [];
   machine;
 
@@ -67,22 +71,30 @@ export class EmployeeMachineListComponent implements OnInit {
     this.datasource = [];
     this.cols = [
       { field: 'no' },
-      { field: 'emp_code' },
-      { field: 'emp_name' },
+      { field: 'id' },
+      { field: 'job_name' },
+      { field: 'job_desc' },
+      { field: 'machine_name' },
+      { field: 'shift_name' },
       { field: 'job_start' },
       { field: 'job_stop' },
-      { field: 'sts_text' },
-      { field: 'sts_color' },
-      { field: 'remark' },
-      { field: 'machineName' },
+      { field: 'job_time' },
+      { field: 'status_id' },
+      { field: 'status_color' },
+      { field: 'status_name' },
+      { field: 'request_by' },
+      { field: 'value1' },
+      { field: 'value2' },
+      { field: 'job_from_date' },
+      { field: 'job_from_time' },
     ];
     this.getMasterDDL();
-    this.getEmpLeaveList();
+    this.getMachineList();
   }
 
   search(dt: Table) {
     this.localstorageService.removeItem('datasource-local');
-    this.getEmpLeaveList();
+    this.getMachineList();
   }
 
   private getMasterDDL() {
@@ -92,24 +104,30 @@ export class EmployeeMachineListComponent implements OnInit {
     );
     this.itemFormGroup.controls['method'].setValue('master');
     this.itemFormGroup.controls['user_id'].setValue(this.token);
-    this.employeeService
-      .GetMasterDDL(this.itemFormGroup.getRawValue())
+    this.approvalService
+      // .ApiMachineApproval(this.itemFormGroup.getRawValue())
+      .ApiJsoft(this.itemFormGroup.getRawValue())
       .subscribe(
         (data) => {
           if (data) {
             this.departments = [];
             this.machines = [];
-            this.departments.push({ value: '-1', label: 'ทั้งหมด' });
+            this.jobshifts = [];
             if (data.depart) {
               data.depart.forEach((m) => {
-                this.departments.push({ value: m.value, label: m.text });
+                this.departments.push({ value: m.code, label: m.text });
               });
             }
-            this.machines = [
-              { value: 'machine1', label: 'เครื่องจักร1' },
-              { value: 'machine2', label: 'เครื่องจักร2' },
-              { value: 'machine3', label: 'เครื่องจักร3' }
-            ];
+            if (data.machine) {
+              data.machine.forEach((m) => {
+                this.machines.push({ value: m.code, label: m.text });
+              });
+            }
+            if (data.shift) {
+              data.shift.forEach((m) => {
+                this.jobshifts.push({ value: m.code, label: m.text });
+              });
+            }
           }
         },
         (err) => {
@@ -118,33 +136,54 @@ export class EmployeeMachineListComponent implements OnInit {
       );
   }
 
-  private getEmpLeaveList() {
+  private getMachineList() {
     this.spinner.show();
     const empLeaveForm = new MachineForm();
     this.itemFormGroup = this.formBuilder.group(
       empLeaveForm.machineFormBuilder
     );
-    this.itemFormGroup.controls['method'].setValue('search-machine');
+    this.itemFormGroup.controls['method'].setValue('search');
     this.itemFormGroup.controls['user_id'].setValue(this.token);
+    this.itemFormGroup.controls['job_name'].setValue(this.jobName);
+    this.itemFormGroup.controls['dept_id'].setValue(this.department);
+    let startDate = this.datepipe.transform(this.empleaveDateFrom, 'dd/MM/yyyy');
+    this.itemFormGroup.controls['from_date'].setValue(startDate);
+    let endDate = this.datepipe.transform(this.empleaveDateTo, 'dd/MM/yyyy');
+    this.itemFormGroup.controls['to_date'].setValue(endDate);
+    this.itemFormGroup.controls['emp_code'].setValue(this.empCode);
+    this.itemFormGroup.controls['emp_fname'].setValue(this.empfName);
+    this.itemFormGroup.controls['emp_lname'].setValue(this.emplName);
+    this.itemFormGroup.controls['machine_id'].setValue(this.machine);
+    this.itemFormGroup.controls['shift_id'].setValue(this.jobshift);
     this.approvalService
-      .ApiApproval(this.itemFormGroup.getRawValue())
+      // .ApiMachineApproval(this.itemFormGroup.getRawValue())
+      .ApiJsoft(this.itemFormGroup.getRawValue())
       .subscribe(
         (data) => {
           this.datasource = [];
           if (data) {
+            let i = 1;
             data.forEach((element) => {
               this.datasource.push({
-                id: element.id,
-                no: element.no,
-                emp_code: element.emp_code,
-                emp_name: element.emp_name,
-                job_start: element.job_start,
-                job_stop: element.job_stop,
-                sts_color: element.sts_color,
-                sts_text: element.sts_text,
-                remark: element.remark,
-                machineName: element.machineName,
+                no: i,
+                id: element.job_id,
+                job_name: element.job_name,
+                job_desc: element.job_desc,
+                machine_name: element.machine_name,
+                shift_name: element.shift_name,
+                job_start: element.date_start,
+                job_stop: element.date_stop,
+                job_time: element.date_start + ' - ' + element.date_stop,
+                status_id: element.status_id,
+                status_color: element.status_color,
+                status_name: element.status_name,
+                request_by: element.request_by,
+                value1: element.value1,
+                value2: element.value2,
+                job_from_date: element.job_from_date,
+                job_from_time: element.job_from_time
               });
+              i++;
             });
           }
           this.spinner.hide();

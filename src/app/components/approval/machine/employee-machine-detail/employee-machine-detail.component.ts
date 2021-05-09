@@ -14,6 +14,7 @@ import { AlertService } from 'src/app/services/global/alert.service';
 import { GlobalVariableService } from 'src/app/services/global/global-variable.service';
 import { LocalstorageService } from 'src/app/services/global/localstorage.service';
 import { MachineForm } from '../machine.form';
+import { EmployeeListForm } from 'src/app/components/employee/employee-list/employee-list.form';
 
 @Component({
   selector: 'app-employee-machine-detail',
@@ -28,10 +29,13 @@ export class EmployeeMachineDetailComponent implements OnInit {
   items2: any[];
   activeIndex: number = 0;
   empDetailFormGroup: FormGroup;
+  itemFormGroup: FormGroup;
   btnSubmit: boolean = false;
   btnApprove: boolean = false;
   machines: SelectItem[] = [];
+  jobshifts: SelectItem[] = [];
   machine;
+  minDate: Date;
   personType;
   modalAddPerson: boolean = false;
   searchEmpCode;
@@ -80,6 +84,7 @@ export class EmployeeMachineDetailComponent implements OnInit {
     );
     this.empListDatasource = [];
     this.empOtherListDatasource = [];
+    this.getMasterDDL();
     // this.getDetail();
     this.items = [
       { label: 'Submit' },
@@ -87,11 +92,6 @@ export class EmployeeMachineDetailComponent implements OnInit {
       { label: 'Approve' }
     ];
     this.activeIndex = 0;
-    this.machines = [
-      { value: 'machine1', label: 'เครื่องจักร1' },
-      { value: 'machine2', label: 'เครื่องจักร2' },
-      { value: 'machine3', label: 'เครื่องจักร3' }
-    ];
     this.searchcols = [
       { field: 'depart' },
       { field: 'emp_name' },
@@ -113,6 +113,39 @@ export class EmployeeMachineDetailComponent implements OnInit {
       { field: 'remark' },
     ];
     this.btnSubmit = true;
+  }
+
+  private getMasterDDL() {
+    const itemForm = new EmployeeListForm();
+    this.itemFormGroup = this.formBuilder.group(
+      itemForm.employeeListFormBuilder
+    );
+    this.itemFormGroup.controls['method'].setValue('master');
+    this.itemFormGroup.controls['user_id'].setValue(this.token);
+    this.approvalService
+      // .ApiMachineApproval(this.itemFormGroup.getRawValue())
+      .ApiJsoft(this.itemFormGroup.getRawValue())
+      .subscribe(
+        (data) => {
+          if (data) {
+            this.machines = [];
+            this.jobshifts = [];
+            if (data.machine) {
+              data.machine.forEach((m) => {
+                this.machines.push({ value: m.code, label: m.text });
+              });
+            }
+            if (data.shift) {
+              data.shift.forEach((m) => {
+                this.jobshifts.push({ value: m.code, label: m.text });
+              });
+            }
+          }
+        },
+        (err) => {
+          this.alertService.error(err);
+        }
+      );
   }
 
   // private getDetail() {
@@ -317,6 +350,22 @@ export class EmployeeMachineDetailComponent implements OnInit {
       let newEmpOtherListDatasource = this.empOtherListDatasource.filter(element => element.emp_code != empCode)
       this.empOtherListDatasource = [];
       this.empOtherListDatasource = newEmpOtherListDatasource;
+    }
+  }
+
+  funcSelectDateFrom(event) {
+    let dateFrom = new Date(event);
+    let month = dateFrom.getMonth() + 1;
+    let year = dateFrom.getFullYear();
+    let prevMonth = (month === 0) ? 12 : month - 1;
+    let prevYear = (prevMonth === 12) ? year - 1 : year;
+    this.minDate = new Date(event);
+    this.minDate.setMonth(prevMonth);
+    this.minDate.setFullYear(prevYear);
+    let stopDate = this.empDetailFormGroup.controls['to_date'].value;
+    let dateTo = new Date(stopDate);
+    if (dateFrom > dateTo) {
+      this.empDetailFormGroup.controls['to_date'].setValue(dateFrom);
     }
   }
 

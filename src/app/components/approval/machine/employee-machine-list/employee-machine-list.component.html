@@ -30,6 +30,15 @@
             <div class="card-body">
               <div class="form-body">
                 <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>ชื่องาน</label>
+                      <input type="text" autocomplete="off" class="form-control" id="jobName" placeholder="ทั้งหมด"
+                        [(ngModel)]="jobName">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
                   <div class="col-md-3">
                     <div class="form-group">
                       <label>รหัสพนักงาน</label>
@@ -69,6 +78,16 @@
                       <div class="p-md-10 ui-fluid">
                         <p-dropdown [options]="machines" placeholder="-------- ทั้งหมด --------" [showClear]="true"
                           [filter]='true' [(ngModel)]="machine">
+                        </p-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>กะงาน</label>
+                      <div class="p-md-10 ui-fluid">
+                        <p-dropdown [options]="jobshifts" placeholder="-------- ทั้งหมด --------" [showClear]="true"
+                          [filter]='true' [(ngModel)]="jobshift">
                         </p-dropdown>
                       </div>
                     </div>
@@ -131,25 +150,29 @@
                       #
                       <p-sortIcon [field]="'no'"></p-sortIcon>
                     </th>
-                    <th class="text-center" [pSortableColumn]="'room_name'" pResizableColumn pReorderableColumn>
-                      รหัสพนักงาน
-                      <p-sortIcon [field]="'room_name'"></p-sortIcon>
+                    <th class="text-center" [pSortableColumn]="'status_name'" pResizableColumn pReorderableColumn>
+                      สถานะ
+                      <p-sortIcon [field]="'status_name'"></p-sortIcon>
                     </th>
-                    <th class="text-center" [pSortableColumn]="'time_start'" pResizableColumn pReorderableColumn>
-                      ชื่อ - สกุล
-                      <p-sortIcon [field]="'time_start'"></p-sortIcon>
+                    <th class="text-center" [pSortableColumn]="'job_time'" pResizableColumn pReorderableColumn>
+                      วันที่
+                      <p-sortIcon [field]="'job_time'"></p-sortIcon>
                     </th>
-                    <th class="text-center" [pSortableColumn]="'machineName'" pResizableColumn pReorderableColumn>
+                    <th class="text-center" [pSortableColumn]="'job_name'" pResizableColumn pReorderableColumn>
+                      ชื่องาน
+                      <p-sortIcon [field]="'job_name'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'shift_name'" pResizableColumn pReorderableColumn>
+                      กะงาน
+                      <p-sortIcon [field]="'shift_name'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'machine_name'" pResizableColumn pReorderableColumn>
                       เครื่องจักร
-                      <p-sortIcon [field]="'machineName'"></p-sortIcon>
+                      <p-sortIcon [field]="'machine_name'"></p-sortIcon>
                     </th>
-                    <th class="text-center" [pSortableColumn]="'person_total'" pResizableColumn pReorderableColumn>
-                      วันที่ - เวลา
-                      <p-sortIcon [field]="'person_total'"></p-sortIcon>
-                    </th>
-                    <th class="text-center" [pSortableColumn]="'sts_code'" pResizableColumn pReorderableColumn>
-                      สถานะอนุมัติ
-                      <p-sortIcon [field]="'sts_code'"></p-sortIcon>
+                    <th class="text-center" [pSortableColumn]="'request_by'" pResizableColumn pReorderableColumn>
+                      ผู้สร้าง
+                      <p-sortIcon [field]="'request_by'"></p-sortIcon>
                     </th>
                     <th class="text-center" [pSortableColumn]="'action'" pResizableColumn pReorderableColumn>
                       Action
@@ -162,9 +185,10 @@
                     <col [style.width]="'70px'">
                     <col [style.width]="'150px'">
                     <col [style.width]="'200px'">
-                    <col [style.width]="'200px'">
-                    <col [style.width]="'200px'">
+                    <col [style.width]="'300px'">
                     <col [style.width]="'150px'">
+                    <col [style.width]="'150px'">
+                    <col [style.width]="'250px'">
                     <col [style.width]="'100px'">
                   </colgroup>
                 </ng-template>
@@ -173,23 +197,25 @@
                     <td class="text-center">
                       {{ rowData['no'] }}
                     </td>
-                    <td>
-                      {{ rowData['emp_code'] }}
-                    </td>
-                    <td class="text-center">
-                      {{ rowData['emp_name'] }}
-                    </td>
-                    <td>
-                      {{ rowData['machineName'] }}
-                    </td>
-                    <td>
-                      {{ rowData['job_start'] | date: 'dd/MM/yyyy' }} - {{ rowData['job_stop'] | date: 'dd/MM/yyyy'
-                      }}
-                    </td>
                     <td class="text-center">
                       <span class="badge" [style.background-color]="rowData.sts_color">
-                        {{ rowData['sts_text'] }}
+                        {{ rowData['status_name'] }}
                       </span>
+                    </td>
+                    <td class="text-center">
+                      {{ rowData['job_time'] }}
+                    </td>
+                    <td class="text-center">
+                      {{ rowData['job_name'] }}
+                    </td>
+                    <td class="text-center">
+                      {{ rowData['shift_name'] }}
+                    </td>
+                    <td class="text-center">
+                      {{ rowData['machine_name'] }}
+                    </td>
+                    <td>
+                      {{ rowData['request_by'] }}
                     </td>
                     <td class="text-center">
                       <button type="button" class="btn btn-info btn-sm" (click)="empMachine(rowData['id'])">
