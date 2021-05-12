@@ -20,8 +20,4 @@ export class EmployeeService {
     return this.http.post<any>(this.baseUrl + 'api/employee', body);
   }
 
-  ApiJsoft(body: any) {
-    return this.http.post<any>('https://jsoft-thailand.com/SCBackendApi/api/machineSubmit', body);
-  }
-
 }

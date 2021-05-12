@@ -18,7 +18,7 @@ export class ApprovalService {
     return this.http.post<any>(this.baseUrl + 'api/machineSubmit', body);
   }
 
-  ApiJsoft(body: any) {
-    return this.http.post<any>('https://jsoft-thailand.com/SCBackendApi/api/machineSubmit', body);
+  ApiEmployeeLeave(body: any) {
+    return this.http.post<any>(this.baseUrl + 'api/empLeave', body);
   }
 }

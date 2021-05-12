@@ -31,93 +31,97 @@
               <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="true">
               </p-steps>
               <div class="card-text">
-                <div class="row">
-                  <form class="col-sm-12 form">
-                    <div class="form-body">
-                      <h4 class="form-section"><i class="ft-info"></i> ข้อมูลพนักงานประจำเครื่อง</h4>
+
+                <div *ngIf="groupDetail">
+                  <div class="row">
+                    <form class="col-sm-12 form">
+                      <div class="form-body">
+                        <h4 class="form-section"><i class="ft-info"></i> ข้อมูลพนักงานประจำเครื่อง</h4>
+                      </div>
+                    </form>
+                  </div>
+                  <form [formGroup]="empDetailFormGroup" class="contact-input">
+                    <div class="row">
+                      <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                        <fieldset class="form-group">
+                          <label for="job_name">ชื่องาน</label>
+                          <input type="text" autocomplete="off"
+                            [ngClass]="{ 'is-invalid': f.job_name.errors && ( f.job_name.dirty ||  f.job_name.touched) }"
+                            class="form-control required" id="job_name" formControlName="job_name">
+                          <div *ngIf="f.job_name.errors" class="invalid-feedback">
+                            <div *ngIf="f.job_name.errors.required">This field is required.</div>
+                          </div>
+                        </fieldset>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                        <fieldset class="form-group">
+                          <label for="machine_id">เครื่องจักร</label>
+                          <div class="p-md-10 ui-fluid">
+                            <p-dropdown [options]="machines" placeholder="-------- เลือก --------" [showClear]="true"
+                              [ngClass]="{ 'is-invalid': f.machine_id.errors && ( f.machine_id.dirty ||  f.machine_id.touched) }"
+                              [filter]='true' formControlName="machine_id">
+                            </p-dropdown>
+                          </div>
+                        </fieldset>
+                      </div>
+                      <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                        <fieldset class="form-group">
+                          <label for="shift_id">กะงาน</label>
+                          <div class="p-md-10 ui-fluid">
+                            <p-dropdown [options]="jobshifts" placeholder="-------- เลือก --------" [showClear]="true"
+                              [ngClass]="{ 'is-invalid': f.shift_id.errors && ( f.shift_id.dirty ||  f.shift_id.touched) }"
+                              [filter]='true' formControlName="shift_id">
+                            </p-dropdown>
+                          </div>
+                        </fieldset>
+                      </div>
+                      <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                        <fieldset class="form-group">
+                          <label for="from_date">วันที่เริ่มต้น</label>
+                          <div class="p-grid ui-fluid">
+                            <div class="p-grid ui-fluid">
+                              <p-calendar formControlName="from_date"
+                                [ngClass]="{ 'is-invalid': f.from_date.errors && ( f.from_date.dirty ||  f.from_date.touched) }"
+                                [showIcon]="true" [placeholder]="'dd/mm/yyyy'" dateFormat="dd/mm/yy"
+                                (onSelect)="funcSelectDateFrom($event)">
+                              </p-calendar>
+                              <div *ngIf="f.from_date.errors" class="invalid-feedback">
+                                <div *ngIf="f.from_date.errors.required">This field is required.</div>
+                              </div>
+                            </div>
+                          </div>
+                        </fieldset>
+                      </div>
+                      <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                        <fieldset class="form-group">
+                          <label for="to_date">วันที่สิ้นสุด</label>
+                          <div class="p-grid ui-fluid">
+                            <p-calendar formControlName="to_date"
+                              [ngClass]="{ 'is-invalid': f.to_date.errors && ( f.to_date.dirty ||  f.to_date.touched) }"
+                              [showIcon]="true" [placeholder]="'dd/mm/yyyy'" dateFormat="dd/mm/yy" [minDate]="minDate">
+                            </p-calendar>
+                            <div *ngIf="f.to_date.errors" class="invalid-feedback">
+                              <div *ngIf="f.to_date.errors.required">This field is required.</div>
+                            </div>
+                          </div>
+                        </fieldset>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xl-12 col-lg-6 col-md-12 mb-1">
+                        <fieldset class="form-group">
+                          <label for="job_desc">หมายเหตุ</label>
+                          <textarea class="form-control" id="job_desc" rows="5" placeholder=""
+                            formControlName="job_desc"></textarea>
+                        </fieldset>
+                      </div>
                     </div>
                   </form>
                 </div>
-                <form [formGroup]="empDetailFormGroup" class="contact-input">
-                  <div class="row">
-                    <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
-                      <fieldset class="form-group">
-                        <label for="job_name">ชื่องาน</label>
-                        <input type="text" autocomplete="off"
-                          [ngClass]="{ 'is-invalid': f.job_name.errors && ( f.job_name.dirty ||  f.job_name.touched) }"
-                          class="form-control required" id="job_name" formControlName="job_name">
-                        <div *ngIf="f.job_name.errors" class="invalid-feedback">
-                          <div *ngIf="f.job_name.errors.required">This field is required.</div>
-                        </div>
-                      </fieldset>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
-                      <fieldset class="form-group">
-                        <label for="machine_id">เครื่องจักร</label>
-                        <div class="p-md-10 ui-fluid">
-                          <p-dropdown [options]="machines" placeholder="-------- เลือก --------" [showClear]="true"
-                            [ngClass]="{ 'is-invalid': f.machine_id.errors && ( f.machine_id.dirty ||  f.machine_id.touched) }"
-                            [filter]='true' formControlName="machine_id">
-                          </p-dropdown>
-                        </div>
-                      </fieldset>
-                    </div>
-                    <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
-                      <fieldset class="form-group">
-                        <label for="jobshift">กะงาน</label>
-                        <div class="p-md-10 ui-fluid">
-                          <p-dropdown [options]="jobshifts" placeholder="-------- เลือก --------" [showClear]="true"
-                            [ngClass]="{ 'is-invalid': f.jobshift.errors && ( f.jobshift.dirty ||  f.jobshift.touched) }"
-                            [filter]='true' formControlName="jobshift">
-                          </p-dropdown>
-                        </div>
-                      </fieldset>
-                    </div>
-                    <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
-                      <fieldset class="form-group">
-                        <label for="from_date">วันที่เริ่มต้น</label>
-                        <div class="p-grid ui-fluid">
-                          <div class="p-grid ui-fluid">
-                            <p-calendar formControlName="from_date"
-                              [ngClass]="{ 'is-invalid': f.from_date.errors && ( f.from_date.dirty ||  f.from_date.touched) }"
-                              [showIcon]="true" [placeholder]="'dd/mm/yyyy'" dateFormat="dd/mm/yy"
-                              (onSelect)="funcSelectDateFrom($event)">
-                            </p-calendar>
-                            <div *ngIf="f.from_date.errors" class="invalid-feedback">
-                              <div *ngIf="f.from_date.errors.required">This field is required.</div>
-                            </div>
-                          </div>
-                        </div>
-                      </fieldset>
-                    </div>
-                    <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
-                      <fieldset class="form-group">
-                        <label for="to_date">วันที่สิ้นสุด</label>
-                        <div class="p-grid ui-fluid">
-                          <p-calendar formControlName="to_date"
-                            [ngClass]="{ 'is-invalid': f.to_date.errors && ( f.to_date.dirty ||  f.to_date.touched) }"
-                            [showIcon]="true" [placeholder]="'dd/mm/yyyy'" dateFormat="dd/mm/yy" [minDate]="minDate">
-                          </p-calendar>
-                          <div *ngIf="f.to_date.errors" class="invalid-feedback">
-                            <div *ngIf="f.to_date.errors.required">This field is required.</div>
-                          </div>
-                        </div>
-                      </fieldset>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-xl-12 col-lg-6 col-md-12 mb-1">
-                      <fieldset class="form-group">
-                        <label for="squareText">หมายเหตุ</label>
-                        <textarea class="form-control" id="remark" rows="5" placeholder=""
-                          formControlName="remark"></textarea>
-                      </fieldset>
-                    </div>
-                  </div>
-                </form>
-                <div class="row">
+
+                <div class="row" *ngIf="groupEmp_1">
                   <div class="col-md-12">
                     <div class="row">
                       <form class="col-sm-12 form">
@@ -130,7 +134,8 @@
                       <dt class="col-sm-12">
                         <div class="row">
                           <div class="col-xl-12">
-                            <button type="button" class="btn btn-success float-right" (click)="addPerson('emp')">
+                            <button type="button" class="btn btn-success float-right" *ngIf="add_emp_1"
+                              (click)="addPerson('emp')">
                               <i class="ft-plus"></i>
                               Add
                             </button>
@@ -143,26 +148,39 @@
 
                           <ng-template pTemplate="header" let-columns>
                             <tr>
-                              <th class="text-center" [pSortableColumn]="'depart'" pResizableColumn pReorderableColumn>
+                              <th class="text-center" [pSortableColumn]="'depart_name'" pResizableColumn
+                                pReorderableColumn>
                                 แผนก
-                                <p-sortIcon [field]="'depart'"></p-sortIcon>
+                                <p-sortIcon [field]="'depart_name'"></p-sortIcon>
                               </th>
                               <th class="text-center" [pSortableColumn]="'emp_name'" pResizableColumn
                                 pReorderableColumn>
                                 ชื่อ-นามสกุล
                                 <p-sortIcon [field]="'emp_name'"></p-sortIcon>
                               </th>
-                              <th class="text-center" [pSortableColumn]="'tel'" pResizableColumn pReorderableColumn>
+                              <th class="text-center" [pSortableColumn]="'emp_tel'" pResizableColumn pReorderableColumn>
                                 เบอร์ติดต่อ
-                                <p-sortIcon [field]="'tel'"></p-sortIcon>
+                                <p-sortIcon [field]="'emp_tel'"></p-sortIcon>
                               </th>
-                              <th class="text-center" [pSortableColumn]="'status'" pResizableColumn pReorderableColumn>
-                                สถานะ
-                                <p-sortIcon [field]="'status'"></p-sortIcon>
+                              <th class="text-center" [pSortableColumn]="'appr_status'" pResizableColumn
+                                pReorderableColumn>
+                                สถานะอนุมัติ
+                                <p-sortIcon [field]="'appr_status'"></p-sortIcon>
                               </th>
-                              <th class="text-center" [pSortableColumn]="'remark'" pResizableColumn pReorderableColumn>
-                                Remark
-                                <p-sortIcon [field]="'remark'"></p-sortIcon>
+                              <th class="text-center" [pSortableColumn]="'appr_remark'" pResizableColumn
+                                pReorderableColumn>
+                                เหตุผล
+                                <p-sortIcon [field]="'appr_remark'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'accept_status'" pResizableColumn
+                                pReorderableColumn>
+                                สถานะรับงาน
+                                <p-sortIcon [field]="'accept_status'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'accept_remark'" pResizableColumn
+                                pReorderableColumn>
+                                เหตุผล
+                                <p-sortIcon [field]="'accept_remark'"></p-sortIcon>
                               </th>
                               <th class="text-center" style="width:60px"><i class="ft-info"></i></th>
                             </tr>
@@ -174,28 +192,37 @@
                               <col [style.width]="'200px'">
                               <col [style.width]="'150px'">
                               <col [style.width]="'200px'">
+                              <col [style.width]="'150px'">
+                              <col [style.width]="'200px'">
                               <col [style.width]="'120px'">
                             </colgroup>
                           </ng-template>
                           <ng-template pTemplate="body" let-rowData let-columns="columns">
                             <tr [pSelectableRow]="rowData">
                               <td>
-                                {{ rowData['depart'] }}
+                                {{ rowData['depart_name'] }}
                               </td>
                               <td>
                                 {{ rowData['emp_name'] }}
                               </td>
                               <td>
-                                {{ rowData['tel'] }}
+                                {{ rowData['emp_tel'] }}
                               </td>
                               <td class="text-center">
-                                {{ rowData['status'] }}
+                                {{ rowData['appr_status'] }}
                               </td>
                               <td>
-                                {{ rowData['remark'] }}
+                                {{ rowData['appr_remark'] }}
                               </td>
                               <td class="text-center">
-                                <a class="danger delete" (click)="deleteDetailDatasource(rowData.emp_code, 'emp')">
+                                {{ rowData['accept_status'] }}
+                              </td>
+                              <td>
+                                {{ rowData['accept_remark'] }}
+                              </td>
+                              <td class="text-center">
+                                <a class="danger delete" (click)="deleteDetailDatasource(rowData.emp_code, 'emp')"
+                                  *ngIf="add_emp_1 && rowData.appr_status == ''">
                                   <i class="fas fa-trash-alt"></i>
                                 </a>
                               </td>
@@ -213,7 +240,7 @@
                     </dl>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row" *ngIf="groupEmp_2">
                   <div class="col-md-12">
                     <div class="row">
                       <form class="col-sm-12 form">
@@ -226,7 +253,18 @@
                       <dt class="col-sm-12">
                         <div class="row">
                           <div class="col-xl-12">
-                            <button type="button" class="btn btn-success float-right" (click)="addPerson('empOther')">
+                            <button type="button" class="btn btn-success" *ngIf="approve_2"
+                              (click)="saveEmpMachine('7')">
+                              <i class="ft-save"></i>
+                              Approve
+                            </button>
+                            <label>&nbsp;</label>
+                            <button type="button" class="btn btn-danger" *ngIf="reject_2" (click)="saveEmpMachine('8')">
+                              <i class="ft-delete"></i>
+                              Reject
+                            </button>
+                            <button type="button" class="btn btn-success float-right" *ngIf="add_emp_2"
+                              (click)="addPerson('empOther')">
                               <i class="ft-plus"></i>
                               Add
                             </button>
@@ -234,40 +272,58 @@
                         </div>
                         <br>
                         <p-table #dt [columns]="empOtherListcols" [value]="empOtherListDatasource" [paginator]="true"
-                          [rows]="30" [rowsPerPageOptions]="[30,50,100]" dataKey="id" [scrollable]="true"
-                          [resizableColumns]="false" [reorderableColumns]="false" stateStorage="local"
-                          stateKey="empOtherListDatasource-local">
-
+                          [rows]="30" [rowsPerPageOptions]="[30,50,100]" dataKey="emp_code" [scrollable]="true"
+                          [(selection)]="empOtherListSelecteds" [resizableColumns]="false" [reorderableColumns]="false"
+                          stateStorage="local" stateKey="empOtherListDatasource-local">
                           <ng-template pTemplate="header" let-columns>
                             <tr>
-                              <th class="text-center" [pSortableColumn]="'depart'" pResizableColumn pReorderableColumn>
+                              <th class="text-center" *ngIf="approve_2">
+                                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'depart_name'" pResizableColumn
+                                pReorderableColumn>
                                 แผนก
-                                <p-sortIcon [field]="'depart'"></p-sortIcon>
+                                <p-sortIcon [field]="'depart_name'"></p-sortIcon>
                               </th>
                               <th class="text-center" [pSortableColumn]="'emp_name'" pResizableColumn
                                 pReorderableColumn>
                                 ชื่อ-นามสกุล
                                 <p-sortIcon [field]="'emp_name'"></p-sortIcon>
                               </th>
-                              <th class="text-center" [pSortableColumn]="'tel'" pResizableColumn pReorderableColumn>
+                              <th class="text-center" [pSortableColumn]="'emp_tel'" pResizableColumn pReorderableColumn>
                                 เบอร์ติดต่อ
-                                <p-sortIcon [field]="'tel'"></p-sortIcon>
+                                <p-sortIcon [field]="'emp_tel'"></p-sortIcon>
                               </th>
-                              <th class="text-center" [pSortableColumn]="'status'" pResizableColumn pReorderableColumn>
-                                สถานะ
-                                <p-sortIcon [field]="'status'"></p-sortIcon>
+                              <th class="text-center" [pSortableColumn]="'appr_status'" pResizableColumn
+                                pReorderableColumn>
+                                สถานะอนุมัติ
+                                <p-sortIcon [field]="'appr_status'"></p-sortIcon>
                               </th>
-                              <th class="text-center" [pSortableColumn]="'remark'" pResizableColumn pReorderableColumn>
-                                Remark
-                                <p-sortIcon [field]="'remark'"></p-sortIcon>
+                              <th class="text-center" [pSortableColumn]="'appr_remark'" pResizableColumn
+                                pReorderableColumn>
+                                เหตุผล
+                                <p-sortIcon [field]="'appr_remark'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'accept_status'" pResizableColumn
+                                pReorderableColumn>
+                                สถานะรับงาน
+                                <p-sortIcon [field]="'accept_status'"></p-sortIcon>
+                              </th>
+                              <th class="text-center" [pSortableColumn]="'accept_remark'" pResizableColumn
+                                pReorderableColumn>
+                                เหตุผล
+                                <p-sortIcon [field]="'accept_remark'"></p-sortIcon>
                               </th>
                               <th class="text-center" style="width:60px"><i class="ft-info"></i></th>
                             </tr>
                           </ng-template>
                           <ng-template pTemplate="colgroup" let-columns>
                             <colgroup>
+                              <col [style.width]="'100px'" *ngIf="approve_2">
                               <col [style.width]="'200px'">
                               <col [style.width]="'300px'">
+                              <col [style.width]="'200px'">
+                              <col [style.width]="'150px'">
                               <col [style.width]="'200px'">
                               <col [style.width]="'150px'">
                               <col [style.width]="'200px'">
@@ -276,23 +332,34 @@
                           </ng-template>
                           <ng-template pTemplate="body" let-rowData let-columns="columns">
                             <tr [pSelectableRow]="rowData">
+                              <td class="text-center" *ngIf="approve_2">
+                                <p-tableCheckbox [value]="rowData" *ngIf="rowData.show_checkbox == '1'">
+                                </p-tableCheckbox>
+                              </td>
                               <td>
-                                {{ rowData['depart'] }}
+                                {{ rowData['depart_name'] }}
                               </td>
                               <td>
                                 {{ rowData['emp_name'] }}
                               </td>
                               <td>
-                                {{ rowData['tel'] }}
+                                {{ rowData['emp_tel'] }}
                               </td>
                               <td class="text-center">
-                                {{ rowData['status'] }}
+                                {{ rowData['appr_status'] }}
                               </td>
                               <td>
-                                {{ rowData['remark'] }}
+                                {{ rowData['appr_remark'] }}
                               </td>
                               <td class="text-center">
-                                <a class="danger delete" (click)="deleteDetailDatasource(rowData.emp_code, 'empOther')">
+                                {{ rowData['accept_status'] }}
+                              </td>
+                              <td>
+                                {{ rowData['accept_remark'] }}
+                              </td>
+                              <td class="text-center">
+                                <a class="danger delete" (click)="deleteDetailDatasource(rowData.emp_code, 'empOther')"
+                                  *ngIf="add_emp_2 && rowData.appr_status == ''">
                                   <i class="fas fa-trash-alt"></i>
                                 </a>
                               </td>
@@ -300,7 +367,7 @@
                           </ng-template>
                           <ng-template pTemplate="emptymessage" let-columns>
                             <tr>
-                              <td [attr.colspan]="columns.length + 1" class="text-center">
+                              <td [attr.colspan]="columns.length + 2" class="text-center">
                                 No data available in table
                               </td>
                             </tr>
@@ -314,9 +381,36 @@
                   <form class="col-sm-12 form">
                     <div class="form-body text-center">
                       <div class="col-sm-12">
-                        <button type="button" class="btn btn-primary" *ngIf="btnSubmit">
+                        <button type="button" class="btn btn-primary" *ngIf="save" (click)="saveEmpMachine('1')">
+                          <i class="ft-save"></i>
+                          บันทึก
+                        </button>
+                        <label>&nbsp;</label>
+                        <button type="button" class="btn btn-primary" *ngIf="send_depart_b"
+                          (click)="saveEmpMachine('2')">
                           <i class="ft-check"></i>
-                          Submit
+                          ส่งแผนก B
+                        </button>
+                        <label>&nbsp;</label>
+                        <button type="button" class="btn btn-primary" *ngIf="send_approve"
+                          (click)="saveEmpMachine('4')">
+                          <i class="ft-check"></i>
+                          ส่งหัวหน้า
+                        </button>
+                        <label>&nbsp;</label>
+                        <button type="button" class="btn btn-danger" *ngIf="cancel" (click)="saveEmpMachine('3')">
+                          <i class="ft-delete"></i>
+                          ยกเลิก
+                        </button>
+                        <label>&nbsp;</label>
+                        <button type="button" class="btn btn-primary" *ngIf="approve" (click)="saveEmpMachine('5')">
+                          <i class="ft-check"></i>
+                          อนุมัติ
+                        </button>
+                        <label>&nbsp;</label>
+                        <button type="button" class="btn btn-danger" *ngIf="reject" (click)="saveEmpMachine('6')">
+                          <i class="ft-delete"></i>
+                          ไม่อนุมัติ
                         </button>
                       </div>
                     </div>
@@ -326,7 +420,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </section>
@@ -449,6 +542,28 @@
         (click)="saveAddPerson()">
         <i class="fa fa-paper-plane-o d-lg-none"></i>
         <span class="  d-lg-block">ยืนยัน</span>
+      </button>
+    </fieldset>
+  </p-footer>
+</p-dialog>
+
+<p-dialog [(visible)]="modalConfirm" [position]="'top'" [modal]="true" [style]="{width: '30vw',minWidth:'550px'}"
+  [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+  <div class="modal-body">
+    <label>เหตุผล</label>
+    <textarea class="form-control" id="reasonCancel" rows="6" placeholder="" [(ngModel)]="submitRemark"></textarea>
+  </div>
+  <p-footer>
+    <fieldset class="form-group position-relative has-icon-left mb-0">
+      <button type="button" id="edit-contact-item" class="btn btn-success edit-contact-item" data-dismiss="modal"
+        (click)="saveEmpMachine('')">
+        <i class="fa fa-paper-plane-o d-lg-none"></i>
+        <span class="d-lg-block">ตกลง</span>
+      </button>
+      <button type="button" id="edit-contact-item" class="btn btn-danger edit-contact-item" data-dismiss="modal"
+        (click)="closeRemarkEmpMachine()">
+        <i class="fa fa-paper-plane-o d-lg-none"></i>
+        <span class="d-none d-lg-block">ยกเลิก</span>
       </button>
     </fieldset>
   </p-footer>

@@ -105,8 +105,7 @@ export class EmployeeMachineListComponent implements OnInit {
     this.itemFormGroup.controls['method'].setValue('master');
     this.itemFormGroup.controls['user_id'].setValue(this.token);
     this.approvalService
-      // .ApiMachineApproval(this.itemFormGroup.getRawValue())
-      .ApiJsoft(this.itemFormGroup.getRawValue())
+      .ApiMachineApproval(this.itemFormGroup.getRawValue())
       .subscribe(
         (data) => {
           if (data) {
@@ -156,8 +155,7 @@ export class EmployeeMachineListComponent implements OnInit {
     this.itemFormGroup.controls['machine_id'].setValue(this.machine);
     this.itemFormGroup.controls['shift_id'].setValue(this.jobshift);
     this.approvalService
-      // .ApiMachineApproval(this.itemFormGroup.getRawValue())
-      .ApiJsoft(this.itemFormGroup.getRawValue())
+      .ApiMachineApproval(this.itemFormGroup.getRawValue())
       .subscribe(
         (data) => {
           this.datasource = [];

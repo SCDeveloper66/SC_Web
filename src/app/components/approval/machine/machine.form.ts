@@ -12,12 +12,17 @@ export class MachineForm {
     emp_lname: new FormControl(null),
     machine_id: new FormControl(null),
     shift_id: new FormControl(null),
-
     job_id: new FormControl(null),
     jobshift: new FormControl(null),
-    remark: new FormControl(null),
+    job_desc: new FormControl(null),
     empList: new FormControl(null),
     empOtherList: new FormControl(null),
+    submit_type: new FormControl(null),
+    date_start: new FormControl(null),
+    date_stop: new FormControl(null),
+    submit_remark: new FormControl(null),
+    detail_emp_1: new FormControl(null),
+    detail_emp_2: new FormControl(null),
     user_id: new FormControl(null)
   };
 }

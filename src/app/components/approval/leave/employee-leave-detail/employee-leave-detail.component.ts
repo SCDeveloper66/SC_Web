@@ -80,8 +80,8 @@ export class EmployeeLeaveDetailComponent implements OnInit {
       this.empLeaveId ?? ''
     );
     this.empLeaveDetailFormGroup.controls['user_id'].setValue(this.token);
-    this.employeeService
-      .ApiJsoft(this.empLeaveDetailFormGroup.getRawValue())
+    this.approvalService
+      .ApiEmployeeLeave(this.empLeaveDetailFormGroup.getRawValue())
       .subscribe(
         (data) => {
           this.items = [];
@@ -188,8 +188,8 @@ export class EmployeeLeaveDetailComponent implements OnInit {
       this.empLeaveDetailFormGroup.controls['step4_status'].setValue(this.step4_status);
       this.empLeaveDetailFormGroup.controls['submit_remark'].setValue(this.submitRemark);
       this.empLeaveDetailFormGroup.controls['user_id'].setValue(this.token);
-      this.employeeService
-        .ApiJsoft(this.empLeaveDetailFormGroup.getRawValue())
+      this.approvalService
+        .ApiEmployeeLeave(this.empLeaveDetailFormGroup.getRawValue())
         .subscribe(
           (data) => {
             if (data.status == 'S') {

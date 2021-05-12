@@ -107,8 +107,8 @@ export class EmployeeLeaveListComponent implements OnInit {
     );
     this.itemFormGroup.controls['method'].setValue('master');
     this.itemFormGroup.controls['user_id'].setValue(this.token);
-    this.employeeService
-      .ApiJsoft(this.itemFormGroup.getRawValue())
+    this.approvalService
+      .ApiEmployeeLeave(this.itemFormGroup.getRawValue())
       .subscribe(
         (data) => {
           if (data) {
@@ -153,8 +153,8 @@ export class EmployeeLeaveListComponent implements OnInit {
     this.itemFormGroup.controls['emp_code'].setValue(this.empCode);
     this.itemFormGroup.controls['emp_fname'].setValue(this.empfName);
     this.itemFormGroup.controls['emp_lname'].setValue(this.emplName);
-    this.employeeService
-      .ApiJsoft(this.itemFormGroup.getRawValue())
+    this.approvalService
+      .ApiEmployeeLeave(this.itemFormGroup.getRawValue())
       .subscribe(
         (data) => {
           this.datasource = [];
@@ -237,8 +237,8 @@ export class EmployeeLeaveListComponent implements OnInit {
         this.itemFormGroup.controls['user_id'].setValue(this.token);
         this.itemFormGroup.controls['leave'].setValue(this.leaveData);
         this.itemFormGroup.controls['submit_remark'].setValue(this.submitRemark);
-        this.employeeService
-          .ApiJsoft(this.itemFormGroup.getRawValue())
+        this.approvalService
+          .ApiEmployeeLeave(this.itemFormGroup.getRawValue())
           .subscribe(
             (data) => {
               if (data.status == 'S') {
