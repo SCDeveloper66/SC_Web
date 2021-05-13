@@ -476,8 +476,19 @@ export class EmployeeMachineDetailComponent implements OnInit {
     this.empDetailFormGroup.controls['detail_emp_1'].setValue(detail_emp_1);
     let detail_emp_2 = [];
     this.empOtherListDatasource.forEach((element) => {
+      let check_sts = '0';
+      if (status == '7' || status == '8') {
+        const result = this.empOtherListSelecteds.find(
+          ({ emp_code }) => emp_code === element.emp_code
+        );
+        if (result === undefined) {
+          check_sts = '0';
+        } else {
+          check_sts = '1';
+        }
+      }
       detail_emp_2.push({
-        check_sts: element.check_sts,
+        check_sts: check_sts,
         emp_code: element.emp_code,
       });
     });
@@ -527,8 +538,6 @@ export class EmployeeMachineDetailComponent implements OnInit {
           this.alertService.error(err);
         }
       );
-
-
   }
 
 }
