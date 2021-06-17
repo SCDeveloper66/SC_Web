@@ -77,7 +77,7 @@ export class AuthorizationService {
         }));
   }
 
-  
+
   LoginToken2(token: string) {
     return this.http.post<any>(`${environment.apiUrl}api/Authentication`,
       {
@@ -137,5 +137,9 @@ export class AuthorizationService {
     this.currentUserSubject = new BehaviorSubject<User>(null);
   }
 
+  LanguagesChange(lang: string)
+  {
+    this.localStorageService.setLocalStorage('language', lang);
+  }
 
 }

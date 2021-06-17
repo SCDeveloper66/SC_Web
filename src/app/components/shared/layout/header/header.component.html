@@ -1,4 +1,5 @@
-<nav *ngIf="isMobile==false" class="header-navbar navbar-expand-md navbar navbar-with-menu fixed-top navbar-semi-light bg-gradient-x-grey-blue">
+<nav *ngIf="isMobile==false"
+  class="header-navbar navbar-expand-md navbar navbar-with-menu fixed-top navbar-semi-light bg-gradient-x-grey-blue">
   <div class="navbar-wrapper">
     <div class="navbar-header">
       <ul class="nav navbar-nav flex-row">
@@ -25,6 +26,19 @@
                 class="ft-menu"></i></a></li>
         </ul>
         <ul class="nav navbar-nav float-right">
+          <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
+              <i class="flag-icon flag-icon-{{siteLocale}}"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-0" style="left: inherit; right: 0px;">
+              <a (click)="funcLanguage('en')" class="dropdown-item">
+                <i class="flag-icon flag-icon-us mr-2"></i> English
+              </a>
+              <a (click)="funcLanguage('th')" class="dropdown-item">
+                <i class="flag-icon flag-icon-th mr-2"></i> ภาษาไทย
+              </a>
+            </div>
+          </li>
           <li class="dropdown dropdown-user nav-item">
             <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown"><span
                 class="avatar avatar-online">
@@ -35,10 +49,10 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right">
               <a class="dropdown-item" (click)="profile()">
-                <i class="ft-user"></i> ข้อมูลส่วนตัว
+                <i class="ft-user"></i> {{ 'LayoutHeader.MenuProfile' | translate}}
               </a>
               <a class="dropdown-item" (click)="logout()">
-                <i class="ft-power"></i> ออกจากระบบ
+                <i class="ft-power"></i> {{ 'LayoutHeader.MenuLogout' | translate}}
               </a>
             </div>
           </li>

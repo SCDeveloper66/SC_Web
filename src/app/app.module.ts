@@ -10,7 +10,7 @@ import { FooterComponent } from './components/shared/layout/footer/footer.compon
 import { HomeComponent } from './components/home/home.component';
 import { PagenotfoundComponent } from './components/shared/pagenotfound/pagenotfound.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { LocalstorageService } from './services/global/localstorage.service';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastModule } from 'primeng/toast';
@@ -41,6 +41,8 @@ import { FilterDistinctProgramGroupPipe, FilterProgramGroupPipe } from './compon
 import { CalendarMeetingComponent } from './components/calendar-meeting/calendar-meeting.component';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { ApprovalService } from './services/approval/approval.service';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 @NgModule({
   declarations: [
@@ -74,7 +76,15 @@ import { ApprovalService } from './services/approval/approval.service';
     TableModule,
     CheckboxModule,
     DialogModule,
-    InputSwitchModule
+    InputSwitchModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
@@ -97,3 +107,7 @@ import { ApprovalService } from './services/approval/approval.service';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}

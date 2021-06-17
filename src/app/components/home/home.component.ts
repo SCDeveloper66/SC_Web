@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { DatePipe, JsonPipe } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 import { SelectItem } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
@@ -56,7 +57,7 @@ export class HomeComponent implements OnInit {
 
   // filterList: string[];
 
-  // checked:boolean = true; 
+  // checked:boolean = true;
 
   modalConfirmReject: boolean = false;
   reasonReject: string = "";
@@ -66,19 +67,20 @@ export class HomeComponent implements OnInit {
     public globalVariableService: GlobalVariableService,
     private homeService: HomeService,
     private formBuilder: FormBuilder,
-    private localstorageService: LocalstorageService,
+    private localStorageService: LocalstorageService,
     private spinner: NgxSpinnerService,
     private alertService: AlertService,
     private router: Router,
-    private datepipe: DatePipe
+    private datepipe: DatePipe,
+    public translate: TranslateService
   ) {
 
     if (this.authorizationService.currentUserValue) {
       this.currentUser = this.authorizationService.currentUserValue;
       console.log(this.currentUser); //userId
 
-      const token = JSON.parse(this.localstorageService.getLocalStorage('tokenStandardCan'));
-     
+      const token = JSON.parse(this.localStorageService.getLocalStorage('tokenStandardCan'));
+
       this.token = token;
       if (this.currentUser.userGroup == '3') {
         this.isAdmin = true;
@@ -88,15 +90,15 @@ export class HomeComponent implements OnInit {
         this.filter_wait_dp = true;
         this.isDP = true;
       }
-
-
+      let langCode = this.localStorageService.getLocalStorage('language');
+      this.translate.use(langCode);
       // alert(this.isAdmin);
 
     } else {
       this.authorizationService.Logout();
       location.reload(true);
     }
-    this.localstorageService.removeItem('datasource-local');
+    this.localStorageService.removeItem('datasource-local');
 
   }
 
@@ -316,7 +318,7 @@ export class HomeComponent implements OnInit {
         this.selectCarList = [];
         if (data.status == 'S') {
           this.alertService.success('success');
-          this.localstorageService.removeItem('datasource-local');
+          this.localStorageService.removeItem('datasource-local');
           this.getDashBoardTableList();
         } else {
           this.getDashBoardTableList();
@@ -365,7 +367,7 @@ export class HomeComponent implements OnInit {
         this.selectCarList = [];
         if (data.status == 'S') {
           this.alertService.success('success');
-          this.localstorageService.removeItem('datasource-local');
+          this.localStorageService.removeItem('datasource-local');
           this.getDashBoardTableList();
         } else {
           this.alertService.error(data.message);

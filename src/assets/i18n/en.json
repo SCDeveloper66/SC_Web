@@ -1,0 +1,46 @@
+{
+  "LayoutHeader": {
+    "MenuProfile": "Profile",
+    "MenuLogout": "Logout"
+  },
+  "LayoutSidebar": {
+    "ProgramGroupName": {
+      "Home": "Home",
+      "Employee": "Employee",
+      "Meetingroom": "Meeting Room",
+      "Car": "Car",
+      "ProjectPlan": "Project Plan",
+      "MainData": "Main Data",
+      "Report": "Report",
+      "Interface": "Interface",
+      "Setting": "Setting",
+      "ImportData": "Import Data",
+      "ActivityOutdoor": "Activity Outdoor",
+      "ApprovalForm": "Approval Form",
+      "Owner": "About User"
+    }
+  },
+  "Home": {
+    "WorkCalendar": "Work Calendar",
+    "WorkList": "Work List",
+    "Approve": "Approve",
+    "Cancel": "Cancel",
+    "WaitforAdmin": "Wait for Admin",
+    "WaitforDP": "Wait for DP",
+    "CancelOrRejected": "Cancel/Rejected",
+    "Reason": "Reason",
+    "Rejected": "Rejected",
+    "Select": "Select",
+    "Status": "Status",
+    "CreateDate": "Create Date",
+    "Type": "Type",
+    "List": "List",
+    "Requester": "Requester",
+    "Department": "Department",
+    "RequestDate": "Request Date",
+    "IntervalTime": "Interval Time",
+    "Approver": "Approver",
+    "ReasonForCancel": "Reason for cancellation",
+    "NoDataAvailableInTable": "No data available in table"
+  }
+}

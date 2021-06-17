@@ -1,0 +1,46 @@
+{
+  "LayoutHeader": {
+    "MenuProfile": "ข้อมูลส่วนตัว",
+    "MenuLogout": "ออกจากระบบ"
+  },
+  "LayoutSidebar": {
+    "ProgramGroupName": {
+      "Home": "หน้าหลัก",
+      "Employee": "พนักงาน",
+      "Meetingroom": "จองห้องประชุม",
+      "Car": "จองรถ",
+      "ProjectPlan": "โครงการอบรม",
+      "MainData": "ข้อมูลหลัก",
+      "Report": "รายงาน",
+      "Interface": "Interface",
+      "Setting": "ตั้งค่าการใช้งาน",
+      "ImportData": "นำเข้าข้อมูล",
+      "ActivityOutdoor": "กิจกรรมนอกสถานที่",
+      "ApprovalForm": "อนุมัติใบงาน",
+      "Owner": "เกี่ยวกับผู้ใช้งาน"
+    }
+  },
+  "Home": {
+    "WorkCalendar": "ปฏิทินปฏิบัติงาน",
+    "WorkList": "รายการปฏิบัติงาน",
+    "Approve": "อนุมัติ",
+    "Cancel": "ยกเลิก",
+    "WaitforAdmin": "กำลังรอผู้ดูแลอนุมัติ",
+    "WaitforDP": "กำลังรอหัวหน้าแผนกอนุมัติ",
+    "CancelOrRejected": "ยกเลิก/ปฏิเสธ",
+    "Reason": "เหตุผล",
+    "Rejected": "ปฏิเสธ",
+    "Select": "เลือก",
+    "Status": "สถานะ",
+    "CreateDate": "วันที่สร้างรายการ",
+    "Type": "ประเภท",
+    "List": "รายการ",
+    "Requester": "ผู้ร้องขอ",
+    "Department": "แผนก",
+    "RequestDate": "วันที่ขอ",
+    "IntervalTime": "ช่วงเวลา",
+    "Approver": "ผู้อนุมัติ",
+    "ReasonForCancel": "เหตุผลที่ยกเลิก",
+    "NoDataAvailableInTable": "ไม่พบข้อมูล"
+  }
+}
