@@ -36,6 +36,8 @@ export class NewsComponent implements OnInit {
   dataVdoUrl;
   dataUrl;
   fileName;
+  importFiles: any[] = [];
+  fileVideoName;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -77,7 +79,7 @@ export class NewsComponent implements OnInit {
     this.newsTypes = [
       { value: '1', label: 'ข่าวสาร' },
       { value: '2', label: 'กิจกรรม' },
-      { value: '3', label: 'vdo' }
+      { value: '3', label: 'Video' }
     ];
     this.getNewsList();
   }
@@ -176,11 +178,15 @@ export class NewsComponent implements OnInit {
     if (this.getFormValidationErrors()) {
       this.spinner.show();
       this.displayModal = false;
+      debugger;
       if (this.itemFormGroup.controls['id'].value == '0') {
-       
         this.itemFormGroup.controls['id'].setValue('');
         this.itemFormGroup.controls['method'].setValue('insert');
-        this.itemFormGroup.controls['img'].setValue(this.fileBase64);
+        if (this.displayVdo == true && this.fileVideoName != null) {
+          this.itemFormGroup.controls['img'].setValue(this.fileVideoName);
+        } else {
+          this.itemFormGroup.controls['img'].setValue(this.fileBase64);
+        }
         this.itemFormGroup.controls['user_id'].setValue(this.token);
         this.mainDataService.ApiNews(this.itemFormGroup.getRawValue()).subscribe(
           (data) => {
@@ -199,14 +205,17 @@ export class NewsComponent implements OnInit {
           }
         );
       } else {
-
         var urlVdo = this.itemFormGroup.controls['urlVdo'].value;
         this.itemFormGroup.controls['method'].setValue('update');
         this.itemFormGroup.controls['url'].setValue(this.dataUrl);
-        if (urlVdo == null || urlVdo == '')
+        if (urlVdo == null || urlVdo == '') {
           this.itemFormGroup.controls['urlVdo'].setValue(this.dataVdoUrl);
-
-        this.itemFormGroup.controls['img'].setValue(this.fileBase64);
+        }
+        if (this.displayVdo == true && this.fileVideoName != null) {
+          this.itemFormGroup.controls['img'].setValue(this.fileVideoName);
+        } else {
+          this.itemFormGroup.controls['img'].setValue(this.fileBase64);
+        }
         this.itemFormGroup.controls['user_id'].setValue(this.token);
         this.mainDataService.ApiNews(this.itemFormGroup.getRawValue()).subscribe(
           (data) => {
@@ -254,6 +263,7 @@ export class NewsComponent implements OnInit {
 
   showModalDialogCancelDelete() {
     this.itemId = '';
+    this.fileVideoName = null;
     this.modalConfirmDelete = false;
   }
 
@@ -306,6 +316,31 @@ export class NewsComponent implements OnInit {
       this.fileBase64 = myReader.result;
     };
     myReader.readAsDataURL(file);
+  }
+
+  upload($event) {
+    this.spinner.show();
+    const formData = new FormData();
+    for (let file of $event.target.files) {
+      formData.append(file.name, file);
+    }
+    this.mainDataService
+      .UploadFile(formData, '6', 'Video', this.currentUser.userId)
+      .subscribe(
+        (next) => {
+          debugger;
+          if (next.status == 'S') {
+            this.fileVideoName = next.value;
+            this.alertService.success('Upload Video Success');
+          } else {
+            this.alertService.error(next.message);
+          }
+          this.spinner.hide();
+        },
+        (err) => {
+          this.spinner.hide();
+          this.alertService.error(err);
+        });
   }
 
 }

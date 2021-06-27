@@ -15,6 +15,8 @@ import { EmployeeGradeForm } from './employee-grade.form';
 import { EmployeeBehaviorForm } from './employee-behavior.form';
 import { AuthorizationService } from 'src/app/services/authorization/authorization.service';
 import { BookingcarService } from 'src/app/services/bookingcar/bookingcar.service';
+import { UserGroupForm } from '../../setting/user-role/user-group.form';
+import { UserRoleService } from 'src/app/services/user-role/user-role.service';
 
 @Component({
   selector: 'app-employee-detail',
@@ -88,6 +90,10 @@ export class EmployeeDetailComponent implements OnInit {
   public modalConfirmDeleteBehavior = false;
   public behaviorDetailErrors = false;
 
+  //Role
+  userGroup;
+  userGroups: SelectItem[] = [];
+
   imageItem;
   fileBase64;
 
@@ -104,7 +110,8 @@ export class EmployeeDetailComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private bookingcarService: BookingcarService,
-    public datepipe: DatePipe
+    public datepipe: DatePipe,
+    private userRoleService: UserRoleService,
   ) {
     if (this.authorizationService.currentUserValue) {
       this.currentUser = this.authorizationService.currentUserValue;
@@ -225,6 +232,7 @@ export class EmployeeDetailComponent implements OnInit {
       this.getGradeTab();
       this.getCardTab();
       this.getNoteTab();
+      this.getRoleTab();
     } else {
       this.spinner.hide();
       this.router.navigate(['/pagenotfound']);
@@ -271,7 +279,9 @@ export class EmployeeDetailComponent implements OnInit {
     this.employeeService.ApiEmployee(this.itemFormGroup.getRawValue()).subscribe(
       (data) => {
         if (data) {
+          debugger;
           this.profileTab = data[0];
+          this.userGroup = data[0].emp_group;
           const itemFormImg = new EmployeeDetailForm();
           this.itemFormGroup = this.formBuilder.group(
             itemFormImg.employeeDetailFormBuilder
@@ -494,6 +504,28 @@ export class EmployeeDetailComponent implements OnInit {
 
   }
 
+  private getRoleTab() {
+    const userGroupForm = new UserGroupForm();
+    this.itemFormGroup = this.formBuilder.group(
+      userGroupForm.UserGroupFormBuilder
+    );
+    this.itemFormGroup.controls['method'].setValue('get_usergroup');
+    this.itemFormGroup.controls['user_id'].setValue(this.token);
+    this.userRoleService.ApiUserRole(this.itemFormGroup.getRawValue()).subscribe(
+      (data) => {
+        this.userGroups = [];
+        if (data) {
+          data.UserGroupList.forEach(m => {
+            this.userGroups.push({ value: m.id.toString(), label: m.name });
+          });
+        }
+        this.spinner.hide();
+      }, (err) => {
+        this.alertService.error(err);
+        this.spinner.hide();
+      });
+  }
+
   saveNoteData() {
     this.spinner.show();
     const itemForm = new EmployeeDetailForm();
@@ -516,6 +548,10 @@ export class EmployeeDetailComponent implements OnInit {
         this.spinner.hide();
         this.alertService.error(err);
       });
+  }
+
+  saveRoleData() {
+
   }
 
   private getCardTab() {
@@ -976,7 +1012,7 @@ export class EmployeeDetailComponent implements OnInit {
 
   saveItemBehavior() {
     console.log(this.behavioritemFormGroup.value);
-    
+
     if (this.getBehaviorFormValidationErrors()) {
       // console.log(this.behavioritemFormGroup.getRawValue());
       // return;

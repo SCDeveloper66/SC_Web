@@ -183,22 +183,30 @@
     </div>
     <div class="modal-body">
       <!-- *ngIf="displayVdo == false" -->
-      <label>แนบไฟล์รูป</label>
-      <input class="form-control" type="file" id="psdFile" name="psdFile" accept="image/x-png,image/gif,image/jpeg"
-        [(ngModel)]="psdFile" [ngModelOptions]="{standalone: true}" (change)="changeListener($event)">
+      <label>แนบไฟล์</label>
+      <input *ngIf="displayVdo == false" class="form-control" type="file" id="psdFile" name="psdFile"
+        accept="image/x-png,image/gif,image/jpeg" [(ngModel)]="psdFile" [ngModelOptions]="{standalone: true}"
+        (change)="changeListener($event)">
+      <!-- <p-fileUpload #fileInput *ngIf="displayVdo == true" name="importFiles[]" maxFileSize="1000000000" accept="video/mp4,video/x-m4v,video/*" customUpload="true"
+        (uploadHandler)="upload(fileInput)" showUploadButton="true" showCancelButton="true">
+      </p-fileUpload> -->
+
+      <input *ngIf="displayVdo == true" class="form-control" type="file" id="psdFile" name="psdFile"
+        accept="video/mp4,video/x-m4v,video/*" [(ngModel)]="psdFile" [ngModelOptions]="{standalone: true}"
+        (change)="upload($event)">
       <div *ngIf="dataUrl">
         <div class="p-md-12 ui-fluid">
           <a class="danger delete mr-1" (click)="deleteFile2(1)">
             <i class="fas fa-trash-alt"></i>
           </a>
-          <a class="primary mr-1" [href]="dataUrl" target="_blank">เปิดไฟล์รูป</a>
+          <a class="primary mr-1" [href]="dataUrl" target="_blank">เปิดไฟล์</a>
         </div>
       </div>
     </div>
 
 
     <div class="modal-body" *ngIf="displayVdo == true">
-      <label>VDO Url</label>
+      <label>Video Url</label>
       <input type="text" autocomplete="off"
         [ngClass]="{ 'is-invalid': f.urlVdo.errors && ( f.urlVdo.dirty ||  f.urlVdo.touched) }"
         class="form-control required" id="urlVdo" formControlName="urlVdo">
@@ -215,13 +223,13 @@
       </div>
     </div>
     <!-- <div class="modal-body" *ngIf="displayVdo == true && dataVdoUrl">
-       <label>Link Uploaded</label> 
+       <label>Link Uploaded</label>
       <a class="danger delete mr-1" (click)="deleteFile()">
         <i class="fas fa-trash-alt"></i>
       </a>
       <div class="p-md-10 ui-fluid">
         <a class="primary mr-1" [href]="dataVdoUrl" target="_blank">{{fileName}}</a>
-       
+
       </div>
     </div> -->
   </form>

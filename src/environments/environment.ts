@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // apiUrl: 'http://localhost:26442/',
-  apiUrl: 'https://jsoft-thailand.com/SCBackendApi/',
+  apiUrl: 'http://localhost:26442/',
+  // apiUrl: 'https://jsoft-thailand.com/SCBackendApi/',
   // apiUrl: 'http://app.cpw.ac.th/StandardCanApi/',
   // apiUrl: 'http://101.101.201.200/StandardCanapi/',
   // apiUrl: 'https://scsmartconnect.com/StandardCanApi/',

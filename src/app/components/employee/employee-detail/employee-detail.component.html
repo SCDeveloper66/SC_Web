@@ -66,6 +66,10 @@
                   <a class="nav-link" id="base-notetab" data-toggle="tab" aria-controls="notetab" href="#notetab"
                     role="tab" aria-selected="false">บันทึกโน๊ต</a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="base-roletab" data-toggle="tab" aria-controls="roletab" href="#roletab"
+                    role="tab" aria-selected="false">สิทธิ์การใช้งาน</a>
+                </li>
               </ul>
 
               <div class="tab-content ">
@@ -1046,6 +1050,32 @@
                           <textarea class="form-control" id="txtNote" rows="6" placeholder=""
                             [(ngModel)]="txtNote"></textarea>
                         </fieldset>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tab-pane" id="roletab" role="tabpanel" aria-labelledby="base-roletab">
+                  <div class="card">
+                    <div class="card-header">
+                      <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+                        <button type="button" class="btn btn-primary" (click)="saveRoleData()">
+                          <i class="ft-save"></i> บันทึก
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-content collapse show">
+                      <div class="card-body" style="padding-top: 0px;">
+                        <div class="col-md-10">
+                          <div class="form-group">
+                            <label>สิทธิ์การใช้งาน</label>
+                            <div class="p-md-10 ui-fluid">
+                              <p-dropdown [options]="userGroups" [showClear]="true" [filter]='true'
+                                [(ngModel)]="userGroup">
+                              </p-dropdown>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
