@@ -121,7 +121,9 @@ export class NewsComponent implements OnInit {
               topic: element.topic,
               detail: element.detail,
               url: element.url,
-              urlVdo: element.urlVdo
+              urlVdo: element.urlVdo,
+              vdoFile: element.vdoFile,
+              vdoFileUrl: element.vdoFileUrl
             });
           });
         }
@@ -132,9 +134,10 @@ export class NewsComponent implements OnInit {
       });
   }
 
-  showModalDialogDetail(id, newsTypeId, topic, detail, url, urlVdo) {
+  showModalDialogDetail(id, newsTypeId, topic, detail, url, urlVdo, fileVideoName, fileVideoUrl) {
     this.spinner.show();
     this.psdFile = '';
+    this.fileVideoName = fileVideoName;
     if (id == 'ADD') {
       this.itemId = null;
       this.displayUrl = false;
@@ -167,8 +170,7 @@ export class NewsComponent implements OnInit {
       } else {
         this.displayVdo = false;
       }
-
-      this.dataUrl = url;
+      this.dataUrl = newsTypeId == "3" ? fileVideoUrl : url;
       this.displayModal = true;
       this.spinner.hide();
     }

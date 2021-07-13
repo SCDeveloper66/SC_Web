@@ -10,6 +10,7 @@ export class EmployeeDetailForm {
     card_no: new FormControl(null, [Validators.required]),
     status: new FormControl(null, [Validators.required]),
     note: new FormControl(null),
+    userGroup: new FormControl(null),
     img: new FormControl(null),
     user_id: new FormControl(null),
     name: new FormControl(null)

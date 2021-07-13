@@ -281,7 +281,7 @@ export class EmployeeDetailComponent implements OnInit {
         if (data) {
           debugger;
           this.profileTab = data[0];
-          this.userGroup = data[0].emp_group;
+          this.userGroup = data[0].emp_group.toString();
           const itemFormImg = new EmployeeDetailForm();
           this.itemFormGroup = this.formBuilder.group(
             itemFormImg.employeeDetailFormBuilder
@@ -551,7 +551,28 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   saveRoleData() {
-
+    debugger;
+    this.spinner.show();
+    const itemForm = new EmployeeDetailForm();
+    this.itemFormGroup = this.formBuilder.group(
+      itemForm.employeeDetailFormBuilder
+    );
+    this.itemFormGroup.controls['method'].setValue('tab_role_update');
+    this.itemFormGroup.controls['emp_code'].setValue(this.empCode);
+    this.itemFormGroup.controls['userGroup'].setValue(this.userGroup);
+    this.itemFormGroup.controls['user_id'].setValue(this.token);
+    this.employeeService.ApiEmployee(this.itemFormGroup.getRawValue()).subscribe(
+      (data) => {
+        if (data.status == 'S') {
+          this.alertService.success('success');
+        } else {
+          this.alertService.error(data.message);
+        }
+        this.spinner.hide();
+      }, (err) => {
+        this.spinner.hide();
+        this.alertService.error(err);
+      });
   }
 
   private getCardTab() {

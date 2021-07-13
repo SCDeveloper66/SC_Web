@@ -748,7 +748,8 @@
                           <span class="d-md-block  "> <i class="ft-download"></i> Export</span>
                         </button>
                         <label>&nbsp;</label>
-                        <button class="btn btn-success" type="button" (click)="behaviorTabEdit('ADD', '', '', '', '','','')">
+                        <button class="btn btn-success" type="button"
+                          (click)="behaviorTabEdit('ADD', '', '', '', '','','')">
                           <span class="d-md-block  "> <i class="ft-plus"></i> เพิ่มรายการ</span>
                         </button>
                       </div>
@@ -1064,15 +1065,66 @@
                         </button>
                       </div>
                     </div>
-                    <div class="card-content collapse show">
-                      <div class="card-body" style="padding-top: 0px;">
-                        <div class="col-md-10">
-                          <div class="form-group">
-                            <label>สิทธิ์การใช้งาน</label>
-                            <div class="p-md-10 ui-fluid">
-                              <p-dropdown [options]="userGroups" [showClear]="true" [filter]='true'
-                                [(ngModel)]="userGroup">
-                              </p-dropdown>
+                    <div class="card-body" style="padding-top: 0px;">
+                      <div class="card-text">
+                        <div class="row">
+                          <div class="col-md-10">
+                            <div class="form-group">
+                              <label>สิทธิ์การใช้งาน</label>
+                              <div class="p-md-10 ui-fluid">
+                                <p-dropdown [options]="userGroups" [showClear]="true" [filter]='true'
+                                  [(ngModel)]="userGroup">
+                                </p-dropdown>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-10">
+                            <div class="form-group">
+                              <label>&nbsp;</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-10">
+                            <div class="form-group">
+                              <label>&nbsp;</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-10">
+                            <div class="form-group">
+                              <label>&nbsp;</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-10">
+                            <div class="form-group">
+                              <label>&nbsp;</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-10">
+                            <div class="form-group">
+                              <label>&nbsp;</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-10">
+                            <div class="form-group">
+                              <label>&nbsp;</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-10">
+                            <div class="form-group">
+                              <label>&nbsp;</label>
                             </div>
                           </div>
                         </div>
@@ -1115,7 +1167,7 @@
           id="detail_id" [filter]='true' formControlName="detail_id">
         </p-dropdown>
       </div>
-      <div *ngIf="behaviorDetailErrors"  style="color: #ff7588;font-size: 80%;">
+      <div *ngIf="behaviorDetailErrors" style="color: #ff7588;font-size: 80%;">
         <div>This field is required.</div>
       </div>
       <!-- <input type="text" autocomplete="off"
