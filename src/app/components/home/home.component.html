@@ -1,7 +1,7 @@
 <p-dialog [header]="'ยืนยันไม่อนุมัติ'" [(visible)]="modalConfirmReject" [position]="'top'" [modal]="true"
   [style]="{minWidth: '300px'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
   <div class="modal-body">
-    <label>{{ 'Home.Reason' | translate}}</label>
+    <label>{{ 'Reason' | translate}}</label>
     <textarea class="form-control" id="reasonReject" rows="6" placeholder="" [(ngModel)]="reasonReject"></textarea>
   </div>
   <p-footer>
@@ -9,7 +9,7 @@
       <button type="button" id="edit-contact-item" class="btn btn-warning edit-contact-item" data-dismiss="modal"
         (click)="saveCancelConfirm()">
         <i class="fa fa-paper-plane-o d-lg-none"></i>
-        <span class="d-lg-block">{{ 'Home.Rejected' | translate}}</span>
+        <span class="d-lg-block">{{ 'Rejected' | translate}}</span>
       </button>
     </fieldset>
   </p-footer>
@@ -28,7 +28,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-            <h4 class="card-title" id="basic-layout-form">{{ 'Home.WorkCalendar' | translate}}</h4>
+            <h4 class="card-title" id="basic-layout-form">{{ 'WorkCalendar' | translate}}</h4>
             <!-- <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a> -->
           </div>
           <div class="card-content collapse show">
@@ -49,7 +49,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-            <h4 class="card-title" id="basic-layout-form">{{ 'Home.WorkList' | translate}}</h4>
+            <h4 class="card-title" id="basic-layout-form">{{ 'WorkList' | translate}}</h4>
             <!-- <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a> -->
           </div>
           <div class="card-content collapse show">
@@ -58,26 +58,26 @@
                 <div class="col-sm-3 text-left">
                   <button type="button" class="btn btn-success" (click)="saveApprove()">
                     <i class="ft-check"></i>
-                    {{ 'Home.Approve' | translate}}
+                    {{ 'Approve' | translate}}
                   </button>
                   <label>&nbsp;</label>
                   <button type="button" class="btn btn-danger" (click)="saveCancel()">
                     <i class="ft-x"></i>
-                    {{ 'Home.Cancel' | translate}}
+                    {{ 'Cancel' | translate}}
                   </button>
 
                 </div>
                 <div class="col-sm-9 text-left">
-                  <p-checkbox style="margin-left:20px" label="{{ 'Home.WaitforAdmin' | translate}}"
+                  <p-checkbox style="margin-left:20px" label="{{ 'WaitforAdmin' | translate}}"
                     (onChange)="handleFilter($event,'2')" [value]="2" [(ngModel)]="filter_pending" binary="true">
                   </p-checkbox>
-                  <p-checkbox style="margin-left:20px" label="{{ 'Home.WaitforDP' | translate}}"
+                  <p-checkbox style="margin-left:20px" label="{{ 'WaitforDP' | translate}}"
                     (onChange)="handleFilter($event,'2')" [value]="2" [(ngModel)]="filter_wait_dp" binary="true">
                   </p-checkbox>
-                  <p-checkbox style="margin-left:20px" label="{{ 'Home.Approve' | translate}}"
+                  <p-checkbox style="margin-left:20px" label="{{ 'Approve' | translate}}"
                     (onChange)="handleFilter($event,'3')" [value]="3" [(ngModel)]="filter_approved" binary="true">
                   </p-checkbox>
-                  <p-checkbox style="margin-left:20px" label="{{ 'Home.CancelOrRejected' | translate}}"
+                  <p-checkbox style="margin-left:20px" label="{{ 'CancelOrRejected' | translate}}"
                     (onChange)="handleFilter($event,'4')" [value]="4" [(ngModel)]="filter_cancel" binary="true">
                   </p-checkbox>
                 </div>
@@ -93,48 +93,48 @@
                       <p-sortIcon [field]="'no'"></p-sortIcon>
                     </th> -->
                     <th class="text-center" [pSortableColumn]="'selection_sts'" pResizableColumn pReorderableColumn>
-                      {{ 'Home.Select' | translate}}
+                      {{ 'Select' | translate}}
                       <p-sortIcon [field]="'selection_sts'"></p-sortIcon>
                     </th>
                     <th class="text-center" [pSortableColumn]="'booking_status'" pResizableColumn pReorderableColumn>
-                      {{ 'Home.Status' | translate}}
+                      {{ 'Status' | translate}}
                       <p-sortIcon [field]="'booking_status'"></p-sortIcon>
                     </th>
                     <th class="text-center" [pSortableColumn]="'booking_create'" pResizableColumn pReorderableColumn>
-                      {{ 'Home.CreateDate' | translate}}
+                      {{ 'CreateDate' | translate}}
                       <p-sortIcon [field]="'booking_create'"></p-sortIcon>
                     </th>
                     <th class="text-center" [pSortableColumn]="'booking_type'" pResizableColumn pReorderableColumn>
-                      {{ 'Home.Type' | translate}}
+                      {{ 'Type' | translate}}
                       <p-sortIcon [field]="'booking_type'"></p-sortIcon>
                     </th>
                     <th class="text-center" [pSortableColumn]="'booking_name'" pResizableColumn pReorderableColumn>
-                      {{ 'Home.List' | translate}}
+                      {{ 'List' | translate}}
                       <p-sortIcon [field]="'booking_name'"></p-sortIcon>
                     </th>
                     <th class="text-center" [pSortableColumn]="'create_by'" pResizableColumn pReorderableColumn>
-                      {{ 'Home.Requester' | translate}}
+                      {{ 'Requestor' | translate}}
                       <p-sortIcon [field]="'create_by'"></p-sortIcon>
                     </th>
                     <th class="text-center" [pSortableColumn]="'department'" pResizableColumn pReorderableColumn>
-                      {{ 'Home.Department' | translate}}
+                      {{ 'Department' | translate}}
                       <p-sortIcon [field]="'department'"></p-sortIcon>
                     </th>
                     <th class="text-center" [pSortableColumn]="'booking_date'" pResizableColumn pReorderableColumn>
-                      {{ 'Home.RequestDate' | translate}}
+                      {{ 'RequestDate' | translate}}
                       <p-sortIcon [field]="'booking_date'"></p-sortIcon>
                     </th>
                     <th class="text-center" [pSortableColumn]="'booking_time'" pResizableColumn pReorderableColumn>
-                      {{ 'Home.IntervalTime' | translate}}
+                      {{ 'IntervalTime' | translate}}
                       <p-sortIcon [field]="'booking_time'"></p-sortIcon>
                     </th>
 
                     <th class="text-center" [pSortableColumn]="'approve_by'" pResizableColumn pReorderableColumn>
-                      {{ 'Home.Approver' | translate}}
+                      {{ 'Approver' | translate}}
                       <p-sortIcon [field]="'approve_by'"></p-sortIcon>
                     </th>
                     <th class="text-center" [pSortableColumn]="'reason'" pResizableColumn pReorderableColumn>
-                      {{ 'Home.ReasonForCancel' | translate}}
+                      {{ 'ReasonForCancel' | translate}}
                       <p-sortIcon [field]="'reason'"></p-sortIcon>
                     </th>
 
@@ -153,7 +153,7 @@
                     <col [style.width]="'150px'">
                     <col [style.width]="'150px'">
                     <col [style.width]="'180px'">
-                    <col [style.width]="'200px'">
+                    <col [style.width]="'250px'">
 
                   </colgroup>
                 </ng-template>
@@ -207,7 +207,7 @@
                   <tr>
                     <td [attr.colspan]="columns.length" class="text-center">
 
-                      {{ 'Home.NoDataAvailableInTable' | translate}}
+                      {{ 'NoDataAvailableInTable' | translate}}
                     </td>
                   </tr>
                 </ng-template>

@@ -16,7 +16,8 @@ export class HeaderComponent implements OnInit {
   siteLocale: string;
   languageList = [
     { code: 'en', label: 'English', flag: 'us' },
-    { code: 'th', label: 'Thailand', flag: 'th' }
+    { code: 'th', label: 'ภาษาไทย', flag: 'th' },
+    { code: 'my', label: 'မြန်မာဘာသာ', flag: 'mm' }
   ];
 
   constructor(

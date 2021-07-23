@@ -42,7 +42,7 @@ import { CalendarMeetingComponent } from './components/calendar-meeting/calendar
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { ApprovalService } from './services/approval/approval.service';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslationsCustom } from './services/setting/translations.service';
 
 @NgModule({
   declarations: [
@@ -81,7 +81,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
+        useClass: TranslationsCustom,
         deps: [HttpClient]
       }
     }),
@@ -108,6 +108,4 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 })
 export class AppModule { }
 
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
-}
+

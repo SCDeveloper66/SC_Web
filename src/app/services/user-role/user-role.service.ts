@@ -20,4 +20,8 @@ export class UserRoleService {
     return this.http.post<any>(this.baseUrl + 'api/userRole', body);
   }
 
+  ApiLanguage(body: any) {
+    return this.http.post<any>(this.baseUrl + 'api/languageSetting', body);
+  }
+
 }

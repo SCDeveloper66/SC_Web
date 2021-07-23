@@ -6,20 +6,22 @@
       <li class=" nav-item">
         <a [routerLink]="['/home']">
           <i class="ft-home"></i>
-          <span class="menu-title" data-i18n="">หน้าหลัก</span>
+          <span class="menu-title">
+            {{ 'ProgramGroupHome' | translate}}
+          </span>
         </a>
       </li>
       <li class=" nav-item has-sub" *ngFor="let prog of roleList | async | filterDistinctProgramGroup">
         <a href="#">
           <i [class]="prog.icon"></i>
-          <span class="menu-title" data-i18n="">
-            {{ prog.programGroupName }}
+          <span class="menu-title">
+            {{ prog.programGroupName | translate }}
           </span>
         </a>
         <ul class="menu-content">
           <li *ngFor="let prog of roleList | async | filterProgramGroup: prog.programGroupId">
             <a class="menu-item" [routerLink]="[prog.url]">
-              {{ prog.programName }}
+              {{ prog.programName | translate }}
             </a>
           </li>
         </ul>
@@ -31,13 +33,13 @@
       <li class=" nav-item">
         <a [routerLink]="['/home']">
           <i class="ft-home"></i>
-          <span class="menu-title" data-i18n="">หน้าหลัก</span>
+          <span class="menu-title" >หน้าหลัก</span>
         </a>
       </li>
       <li class=" nav-item has-sub">
         <a href="#">
           <i class="ft-user"></i>
-          <span class="menu-title" data-i18n="">พนักงาน</span>
+          <span class="menu-title" >พนักงาน</span>
         </a>
         <ul class="menu-content">
           <li><a class="menu-item" [routerLink]="['/employee/employee']">ข้อมูลพนักงาน</a>
@@ -47,7 +49,7 @@
       <li class=" nav-item has-sub">
         <a href="#">
           <i class="ft-check-circle"></i>
-          <span class="menu-title" data-i18n="">จองห้องประชุม</span>
+          <span class="menu-title" >จองห้องประชุม</span>
         </a>
         <ul class="menu-content">
           <li><a class="menu-item" [routerLink]="['/meetingroom/bookingroom']">จองห้องประชุม</a>
@@ -73,7 +75,7 @@
       <li class=" nav-item has-sub">
         <a href="#">
           <i class="ft-check-circle"></i>
-          <span class="menu-title" data-i18n="">จองรถ</span>
+          <span class="menu-title" >จองรถ</span>
         </a>
         <ul class="menu-content">
           <li><a class="menu-item" [routerLink]="['/bookingcar/bookingcar-list']">จองรถ</a>
@@ -99,7 +101,7 @@
       <li class=" nav-item has-sub">
         <a href="#">
           <i class="ft-file-text"></i>
-          <span class="menu-title" data-i18n="">โครงการอบรม</span>
+          <span class="menu-title" >โครงการอบรม</span>
         </a>
 
         <ul class="menu-content">
@@ -138,7 +140,7 @@
       <li class=" nav-item has-sub">
         <a href="#">
           <i class="ft-grid"></i>
-          <span class="menu-title" data-i18n="">ข้อมูลหลัก</span>
+          <span class="menu-title" >ข้อมูลหลัก</span>
         </a>
         <ul class="menu-content">
           <li><a class="menu-item" [routerLink]="['/maindata/news']">ข่าวสารกิจกรรม</a>
@@ -181,7 +183,7 @@
       <li class=" nav-item has-sub" *ngIf="isAcc">
         <a href="#">
           <i class="ft-file-text"></i>
-          <span class="menu-title" data-i18n="">รายงาน</span>
+          <span class="menu-title" >รายงาน</span>
         </a>
         <ul class="menu-content">
           <li><a class="menu-item" [routerLink]="['/report/time-att-realtime']">ลงเวลา เข้า-ออก</a>
@@ -191,7 +193,7 @@
       <li class=" nav-item has-sub">
         <a href="#">
           <i class="ft-server"></i>
-          <span class="menu-title" data-i18n="">Interface</span>
+          <span class="menu-title" >Interface</span>
         </a>
         <ul class="menu-content">
           <li><a class="menu-item" href="#">ประวัตินำเข้าข้อมูล</a>
@@ -205,7 +207,7 @@
       <li class=" nav-item has-sub">
         <a href="#">
           <i class="ft-settings"></i>
-          <span class="menu-title" data-i18n="">ตั้งค่าการใช้งาน</span>
+          <span class="menu-title" >ตั้งค่าการใช้งาน</span>
         </a>
         <ul class="menu-content">
           <li><a class="menu-item" [routerLink]="['/setting/user-role']">สิทธิ์การใช้งาน</a>

@@ -11,10 +11,12 @@ import { ListboxModule } from 'primeng/listbox';
 import { UserRoleComponent } from './user-role/user-role.component';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { PickListModule } from 'primeng/picklist';
+import { LanguageComponent } from './language/language.component';
 
 @NgModule({
   declarations: [
-    UserRoleComponent
+    UserRoleComponent,
+    LanguageComponent
   ],
   imports: [
     CommonModule,

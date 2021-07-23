@@ -1,0 +1,206 @@
+<div class="content-header row">
+  <div class="content-header-left col-md-6 col-12 mb-2">
+    <h3 class="content-header-title mb-0">กำหนดการแปลภาษา</h3>
+    <div class="row breadcrumbs-top">
+      <div class="breadcrumb-wrapper col-12">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/home']">หน้าหลัก</a>
+          </li>
+          <li class="breadcrumb-item">กำหนดการแปลภาษา</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="content-header-right col-md-6 col-12">
+  </div>
+</div>
+
+<div class="content-body">
+  <section id="basic-form-layouts">
+    <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" id="basic-layout-form">Search</h4>
+          </div>
+          <div class="card-content collapse show">
+            <div class="card-body">
+              <div class="form-body">
+                <!-- <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>ประเภทรถ</label>
+                      <div class="p-md-10 ui-fluid">
+                        <p-dropdown [options]="carTypes" placeholder="-------- ทั้งหมด --------" [showClear]="true"
+                          [filter]='true' [(ngModel)]="carType" (onChange)="carTypeChange($event)">
+                        </p-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>ทะเบียนรถ</label>
+                      <div class="p-md-10 ui-fluid">
+                        <p-dropdown [options]="cars" placeholder="-------- ทั้งหมด --------" [showClear]="true"
+                          [filter]='true' [(ngModel)]="car">
+                        </p-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="col-md-12">
+              <div class="form-actions">
+                <button type="button" class="btn btn-primary mr-1" (click)="search(dt)">
+                  <i class="ft-search"></i>Search</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row match-height">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title" id="basic-layout-form">Search results</h4>
+            <div class="heading-elements mt-0">
+              <button type="button" class="btn btn-success" (click)="showModalDialogDetail('ADD', '', '', '', '')">
+                <span class="d-md-block d-none">
+                  <i class="ft-plus"></i>
+                  เพิ่มรายการ
+                </span>
+              </button>
+            </div>
+          </div>
+          <div class="card-content collapse show">
+            <div class="card-body">
+
+              <p-table #dt [columns]="cols" [value]="datasource" [paginator]="true" [rows]="30"
+                [rowsPerPageOptions]="[30,50,100]" dataKey="id" [resizableColumns]="false" [scrollable]="true"
+                [reorderableColumns]="false" stateStorage="local" stateKey="datasource-local">
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th class="text-center" [pSortableColumn]="'param'" pResizableColumn pReorderableColumn>
+                      ชื่อตัวแปร
+                      <p-sortIcon [field]="'param'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'en'" pResizableColumn pReorderableColumn>
+                      English
+                      <p-sortIcon [field]="'en'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'th'" pResizableColumn pReorderableColumn>
+                      ภาษาไทย
+                      <p-sortIcon [field]="'th'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'my'" pResizableColumn pReorderableColumn>
+                      မြန်မာဘာသာ
+                      <p-sortIcon [field]="'my'"></p-sortIcon>
+                    </th>
+                    <th class="text-center" [pSortableColumn]="'action'" pResizableColumn pReorderableColumn>
+                      Action
+                      <p-sortIcon [field]="'action'"></p-sortIcon>
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="colgroup" let-columns>
+                  <colgroup>
+                    <col [style.width]="'200px'">
+                    <col [style.width]="'200px'">
+                    <col [style.width]="'200px'">
+                    <col [style.width]="'200px'">
+                    <col [style.width]="'100px'">
+                  </colgroup>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr [pSelectableRow]="rowData">
+                    <td>
+                      {{ rowData['param'] }}
+                    </td>
+                    <td>
+                      {{ rowData['en'] }}
+                    </td>
+                    <td>
+                      {{ rowData['th'] }}
+                    </td>
+                    <td>
+                      {{ rowData['my'] }}
+                    </td>
+                    <td class="text-center">
+                      <a class="primary edit mr-1"
+                        (click)="showModalDialogDetail(rowData['id'], rowData['param'], rowData['en'], rowData['th'], rowData['my'])">
+                        <i class="fas fa-pencil-alt"></i>
+                      </a>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage" let-columns>
+                  <tr>
+                    <td [attr.colspan]="columns.length" class="text-center">
+                      No data available in table
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+<p-dialog header="Action" [(visible)]="displayModal" [position]="'top'" [modal]="true"
+  [style]="{width: '30vw',minWidth:'300px'}" [baseZIndex]="50000" [draggable]="false" [resizable]="false">
+  <form [formGroup]="langFormGroup" class="contact-input">
+    <div class="modal-body">
+      <label>ชื่อตัวแปร</label>
+      <input type="text" autocomplete="off" readonly="true" *ngIf="itemId != null"
+        [ngClass]="{ 'is-invalid': f.param.errors && ( f.param.dirty ||  f.param.touched) }"
+        class="form-control required" id="param" formControlName="param">
+      <input type="text" autocomplete="off" *ngIf="itemId == null"
+        [ngClass]="{ 'is-invalid': f.param.errors && ( f.param.dirty ||  f.param.touched) }"
+        class="form-control required" id="param" formControlName="param">
+    </div>
+    <div class="modal-body">
+      <label>English</label>
+      <input type="text" autocomplete="off" [ngClass]="{ 'is-invalid': f.en.errors && ( f.en.dirty ||  f.en.touched) }"
+        class="form-control required" id="en" formControlName="en">
+      <div *ngIf="f.en.errors" class="invalid-feedback">
+        <div *ngIf="f.en.errors.required">This field is required.</div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <label>ภาษาไทย</label>
+      <input type="text" autocomplete="off" [ngClass]="{ 'is-invalid': f.th.errors && ( f.th.dirty ||  f.th.touched) }"
+        class="form-control required" id="th" formControlName="th">
+      <div *ngIf="f.th.errors" class="invalid-feedback">
+        <div *ngIf="f.th.errors.required">This field is required.</div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <label>မြန်မာဘာသာ</label>
+      <input type="text" autocomplete="off" [ngClass]="{ 'is-invalid': f.my.errors && ( f.my.dirty ||  f.my.touched) }"
+        class="form-control required" id="my" formControlName="my">
+      <div *ngIf="f.my.errors" class="invalid-feedback">
+        <div *ngIf="f.my.errors.required">This field is required.</div>
+      </div>
+    </div>
+  </form>
+  <p-footer>
+    <fieldset class="form-group position-relative has-icon-left mb-0">
+      <button type="button" id="edit-contact-item" class="btn btn-info edit-contact-item" data-dismiss="modal"
+        (click)="saveItem()">
+        <i class="fa fa-paper-plane-o d-lg-none"></i>
+        <span class="d-none d-lg-block">บันทึก</span>
+      </button>
+    </fieldset>
+  </p-footer>
+</p-dialog>

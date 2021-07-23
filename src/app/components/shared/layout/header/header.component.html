@@ -37,6 +37,9 @@
               <a (click)="funcLanguage('th')" class="dropdown-item">
                 <i class="flag-icon flag-icon-th mr-2"></i> ภาษาไทย
               </a>
+              <a (click)="funcLanguage('my')" class="dropdown-item">
+                <i class="flag-icon flag-icon-mm mr-2"></i> မြန်မာဘာသာ
+              </a>
             </div>
           </li>
           <li class="dropdown dropdown-user nav-item">
@@ -49,10 +52,10 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right">
               <a class="dropdown-item" (click)="profile()">
-                <i class="ft-user"></i> {{ 'LayoutHeader.MenuProfile' | translate}}
+                <i class="ft-user"></i> {{ 'MenuProfile' | translate}}
               </a>
               <a class="dropdown-item" (click)="logout()">
-                <i class="ft-power"></i> {{ 'LayoutHeader.MenuLogout' | translate}}
+                <i class="ft-power"></i> {{ 'MenuLogout' | translate}}
               </a>
             </div>
           </li>
