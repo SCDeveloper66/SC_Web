@@ -11,7 +11,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { FileUploadModule } from 'primeng/fileupload';
 import { StepsModule } from 'primeng/steps';
 import { InputSwitchModule } from 'primeng/inputswitch';
-
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -29,7 +29,8 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     CalendarModule,
     FileUploadModule,
     StepsModule,
-    InputSwitchModule
+    InputSwitchModule,
+    TranslateModule
   ],
 })
-export class EmployeeModule {}
+export class EmployeeModule { }
